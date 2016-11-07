@@ -14,6 +14,6 @@ axis.break.box(axis = 1, breakpos, brw = 0.02)
 \item{brw}{If only one axis is provided, then a single number corresponding to the width of the break as a fraction of the total width, otherwise a vector of two numbers c(x,y)}
 }
 \description{
-The x axis can be specified as either 1 or 3, the y axis as 2 or 4
+Based on \code{\link[plotrix]{axis.break}}. The x axis can be specified as either 1 or 3, the y axis as 2 or 4
 }
 
