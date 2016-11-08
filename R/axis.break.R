@@ -87,3 +87,86 @@ axis.break.box <- function (axis = 1, breakpos, brw = 0.02)
   rect(xbegin, ybegin, xend, yend, border = 'black', lty = 1)
   par(xpd = FALSE)
 }
+
+expand_args <- function(...){
+  dots <- list(...)
+  max_length <- max(sapply(dots, length))
+  lapply(dots, rep, length.out = max_length)
+}
+
+#' Put a box around a plot, leaving gaps for axis breaks on the x and / or y axes
+#'
+#' Based on \code{\link[plotrix]{axis.break}}.
+#' @param axis Either a number (1-4) or a vector of numbers c(1,2,...) choosing the axes to break
+#' @param breakpos If only one axis is provided, then a single number corresponding to the point at which to break the axis, otherwise a vector of numbers c(...)
+#' @param brw If only one axis is provided, then a single number corresponding to the width of the break as a fraction of the total width, otherwise a vector of two numbers c(...)
+#' @export
+#' @seealso \code{\link{axis.break.box}}
+axis.break.slash <- function (axis = 1, breakpos, brw = 0.02)
+{
+  if(length(axis)>1 || length(breakpos)>1) {
+    args=expand_args(axis=axis,breakpos=breakpos,brw=brw)
+    for(i in 1:length(args$axis))
+      axis.break.slash(axis=args$axis[[i]],breakpos=args$breakpos[[i]],brw=args$brw[[i]])
+    return(invisible())
+  }
+  figxy <- par("usr")
+  xaxl <- par("xlog")
+  yaxl <- par("ylog")
+  xw <- (figxy[2] - figxy[1]) * brw
+  yw <- (figxy[4] - figxy[3]) * brw
+
+  if (xaxl && (axis == 1 || axis == 3))
+    breakpos <- log10(breakpos)
+  if (yaxl && (axis == 2 || axis == 4))
+    breakpos <- log10(breakpos)
+  switch(axis,
+         br <- c(breakpos - xw/2,
+                 figxy[3] - yw/2,
+                 breakpos + xw/2,
+                 figxy[3] + yw/2),
+         br <- c(figxy[1] - xw/2,
+                 breakpos - yw/2,
+                 figxy[1] + xw/2,
+                 breakpos + yw/2),
+         br <- c(breakpos - xw/2,
+                 figxy[4] - yw/2,
+                 breakpos + xw/2,
+                 figxy[4] + yw/2),
+         br <- c(figxy[2] - xw/2,
+                 breakpos - yw/2,
+                 figxy[2] + xw/2,
+                 breakpos + yw/2),
+         stop("Improper axis specification."))
+  old.xpd <- par("xpd")
+  par(xpd = TRUE)
+  if (xaxl)
+    br[c(1, 3)] <- 10^br[c(1, 3)]
+  if (yaxl)
+    br[c(2, 4)] <- 10^br[c(2, 4)]
+
+  #Remove bit of axis where break mark will go
+  rect(br[1], br[2], br[3], br[4], col = 'white', border = 'white')
+  if (axis == 1 || axis == 3) {
+    xbegin <- c(breakpos - xw, breakpos)
+    xend <- c(breakpos, breakpos + xw)
+    ybegin <- c(br[2], br[2])
+    yend <- c(br[4], br[4])
+    if (xaxl) {
+      xbegin <- 10^xbegin
+      xend <- 10^xend
+    }
+  }
+  else {
+    xbegin <- c(br[1], br[1])
+    xend <- c(br[3], br[3])
+    ybegin <- c(breakpos - yw, breakpos)
+    yend <- c(breakpos, breakpos + yw)
+    if (yaxl) {
+      ybegin <- 10^ybegin
+      yend <- 10^yend
+    }
+  }
+  segments(xbegin, ybegin, xend, yend, col = 'black', lty = 1)
+  par(xpd = FALSE)
+}
