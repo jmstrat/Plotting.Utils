@@ -111,7 +111,7 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
 #'
 #' This function is a workaround for an issue with \code{\link[plotrix]{rescale}}.
 #' Where all values for x are the same, we should still make sure they fall within the required range. We thus return the lower limit for all values.
-#' @keywords internal
+#' @export
 rescale.jms <- function (x, newrange)
 {
   if (missing(x) | missing(newrange)) {

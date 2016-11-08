@@ -10,5 +10,4 @@ rescale.jms(x, newrange)
 This function is a workaround for an issue with \code{\link[plotrix]{rescale}}.
 Where all values for x are the same, we should still make sure they fall within the required range. We thus return the lower limit for all values.
 }
-\keyword{internal}
 

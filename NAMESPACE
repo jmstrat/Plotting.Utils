@@ -3,3 +3,4 @@
 export(axis.break.box)
 export(axis.break.slash)
 export(color.scale.jms)
+export(rescale.jms)
