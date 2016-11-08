@@ -4,7 +4,7 @@
 \alias{axis.break.slash}
 \title{Put a box around a plot, leaving gaps for axis breaks on the x and / or y axes}
 \usage{
-axis.break.slash(axis = 1, breakpos, brw = 0.02)
+axis.break.slash(axis = 1, breakpos, brw = 0.02, brwx = NA, brwy = NA)
 }
 \arguments{
 \item{axis}{Either a number (1-4) or a vector of numbers c(1,2,...) choosing the axes to break}
@@ -12,6 +12,10 @@ axis.break.slash(axis = 1, breakpos, brw = 0.02)
 \item{breakpos}{If only one axis is provided, then a single number corresponding to the point at which to break the axis, otherwise a vector of numbers c(...)}
 
 \item{brw}{If only one axis is provided, then a single number corresponding to the width of the break as a fraction of the total width, otherwise a vector of two numbers c(...)}
+
+\item{brwx}{As brw, but specifically in the x direction (do not specify both brw and brwx/y)}
+
+\item{brwy}{As brw, but specifically in the y direction (do not specify both brw and brwx/y)}
 }
 \description{
 Based on \code{\link[plotrix]{axis.break}}.

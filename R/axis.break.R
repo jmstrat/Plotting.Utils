@@ -100,21 +100,24 @@ expand_args <- function(...){
 #' @param axis Either a number (1-4) or a vector of numbers c(1,2,...) choosing the axes to break
 #' @param breakpos If only one axis is provided, then a single number corresponding to the point at which to break the axis, otherwise a vector of numbers c(...)
 #' @param brw If only one axis is provided, then a single number corresponding to the width of the break as a fraction of the total width, otherwise a vector of two numbers c(...)
+#' @param brwx As brw, but specifically in the x direction (do not specify both brw and brwx/y)
+#' @param brwy As brw, but specifically in the y direction (do not specify both brw and brwx/y)
 #' @export
 #' @seealso \code{\link{axis.break.box}}
-axis.break.slash <- function (axis = 1, breakpos, brw = 0.02)
+axis.break.slash <- function (axis = 1, breakpos, brw = 0.02, brwx=NA, brwy=NA)
 {
+  if(all(is.na(c(brwx,brwy)))) brwx=brwy=brw
   if(length(axis)>1 || length(breakpos)>1) {
-    args=expand_args(axis=axis,breakpos=breakpos,brw=brw)
+    args=expand_args(axis=axis,breakpos=breakpos,brwx=brwx,brwy=brwy)
     for(i in 1:length(args$axis))
-      axis.break.slash(axis=args$axis[[i]],breakpos=args$breakpos[[i]],brw=args$brw[[i]])
+      axis.break.slash(axis=args$axis[[i]],breakpos=args$breakpos[[i]],brwx=args$brwx[[i]],brwy=args$brwy[[i]])
     return(invisible())
   }
   figxy <- par("usr")
   xaxl <- par("xlog")
   yaxl <- par("ylog")
-  xw <- (figxy[2] - figxy[1]) * brw
-  yw <- (figxy[4] - figxy[3]) * brw
+  xw <- (figxy[2] - figxy[1]) * brwx
+  yw <- (figxy[4] - figxy[3]) * brwy
 
   if (xaxl && (axis == 1 || axis == 3))
     breakpos <- log10(breakpos)
