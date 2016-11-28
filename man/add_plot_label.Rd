@@ -4,12 +4,14 @@
 \alias{add_plot_label}
 \title{Add a label to a plot}
 \usage{
-add_plot_label(xoffset = 0, yoffset = 0, label, ...)
+add_plot_label(xoffset = 0, yoffset = 0, align = "left", label, ...)
 }
 \arguments{
 \item{xoffset}{Offset in inches from the left limit of the plot}
 
 \item{yoffset}{Offset in inches from the top limit of the plot}
+
+\item{align}{Align to the left or right of the plot}
 
 \item{label}{The label text}
 
