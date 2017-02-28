@@ -16,4 +16,3 @@ axis.break.box(axis = 1, breakpos, brw = 0.02)
 \description{
 Based on \code{\link[plotrix]{axis.break}}. The x axis can be specified as either 1 or 3, the y axis as 2 or 4
 }
-

@@ -38,4 +38,3 @@ If the user wants to specify a range of values with xrange, it must at least inc
 
 The user may not want the color scheme to be continuous across some critical point, often zero. In this case, color scale can be called separately for the values below and above zero. I may get around to adding an argument to do this in one shot. Until then, see the second example for color2D.matplot and also the diverge.hcl and diverge.hsv functions in the colorspace package.
 }
-

@@ -18,4 +18,3 @@ CurlyBrace(start, end, width, ...)
 \description{
 Add a horizontal curly brace to a plot
 }
-

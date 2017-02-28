@@ -23,4 +23,3 @@ Based on \code{\link[plotrix]{axis.break}}.
 \seealso{
 \code{\link{axis.break.box}}
 }
-
