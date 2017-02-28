@@ -1,11 +1,11 @@
 Package: Plotting.Utils
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Miscellaneous plotting functions
 Version: 0.1
 Date: 2016-11-07
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Josh Stratford <51674722+jmstrat@users.noreply.github.com>
+Maintainer: Josh Stratford <51674722+jmstrat@users.noreply.github.com>
+Description: Miscellaneous plotting functions
+License: Don't sell it
 LazyData: TRUE
 RoxygenNote: 6.0.1
