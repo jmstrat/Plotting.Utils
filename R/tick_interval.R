@@ -15,9 +15,10 @@ tick_interval <- function(range,frac=FALSE) {
 #' Calculates tick locations to make pretty plots
 #' @param min The minimum axis limit
 #' @param max The maximum axis limit
+#' @param div Divide the calculated interval by this number (to generate minor ticks)
 #' @param frac Allow fractional intervals?
 #' @export
-pretty_ticks <- function(min,max,frac=FALSE) {
-  tickInterval<-tick_interval(max-min)
+pretty_ticks <- function(min,max,frac=FALSE, div=1) {
+  tickInterval<-tick_interval(max-min)/div
   ticksat=seq(signif(min,1)-tickInterval*10,signif(max,1)+tickInterval*10,tickInterval)
 }

@@ -4,7 +4,7 @@
 \alias{pretty_ticks}
 \title{Calculates tick locations to make pretty plots}
 \usage{
-pretty_ticks(min, max, frac = FALSE)
+pretty_ticks(min, max, frac = FALSE, div = 1)
 }
 \arguments{
 \item{min}{The minimum axis limit}
@@ -12,6 +12,8 @@ pretty_ticks(min, max, frac = FALSE)
 \item{max}{The maximum axis limit}
 
 \item{frac}{Allow fractional intervals?}
+
+\item{div}{Divide the calculated interval by this number (to generate minor ticks)}
 }
 \description{
 Calculates tick locations to make pretty plots
