@@ -17,8 +17,24 @@ tick_interval <- function(range,frac=FALSE) {
 #' @param max The maximum axis limit
 #' @param div Divide the calculated interval by this number (to generate minor ticks)
 #' @param frac Allow fractional intervals?
+#' @param ensureZero If 0 is within the range, ensure it has a tick mark
 #' @export
-pretty_ticks <- function(min,max,frac=FALSE, div=1) {
+pretty_ticks <- function(min,max,frac=FALSE, div=1, ensureZero=TRUE) {
   tickInterval<-tick_interval(max-min)/div
-  ticksat=seq(signif(min,1)-tickInterval*10,signif(max,1)+tickInterval*10,tickInterval)
+  tickStart=signif(min,1)
+  tickEnd=signif(max,1)
+  #Range is only to 1 sf, so extend it to make sure we cover everything
+  ticksat=seq(tickStart-tickInterval*10,tickEnd+tickInterval*10,tickInterval)
+  if(ensureZero && 0>=min && 0<=max) {
+    #If zero is in the range, we ensure that it has a tick
+    if(!0 %in% ticksat) {
+      #Zero currently isn't a tick position, find the closest point to zero
+      nearest=which.min(abs(ticksat))
+      #Get it's value (affects sign)
+      nearest=ticksat[[nearest[[1]]]]
+      #Subtract this from the ticks
+      ticksat=ticksat-nearest
+    }
+  }
+  ticksat
 }
