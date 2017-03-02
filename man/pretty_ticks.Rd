@@ -7,9 +7,7 @@
 pretty_ticks(min, max, frac = FALSE, div = 1, ensureZero = TRUE)
 }
 \arguments{
-\item{min}{The minimum axis limit}
-
-\item{max}{The maximum axis limit}
+\item{min, max}{The minimum / maximum axis limits}
 
 \item{frac}{Allow fractional intervals?}
 

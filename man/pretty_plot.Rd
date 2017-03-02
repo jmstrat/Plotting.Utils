@@ -8,19 +8,18 @@ pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
   ensureZero = TRUE)
 }
 \arguments{
-\item{xlim}{Numeric vectors of length 2, giving the x and y coordinates ranges.}
+\item{xlim, ylim}{Numeric vectors of length 2, giving the x and y coordinates ranges.}
 
-\item{ylim}{Numeric vectors of length 2, giving the x and y coordinates ranges.}
-
-\item{x_axis}{Side on which to draw the x axis}
-
-\item{y_axis}{Side on which to draw the y axis}
+\item{x_axis, y_axis}{Side on which to draw the x,y axes}
 
 \item{frac}{Allow fractional intervals?}
 
 \item{div}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y)}
 
 \item{ensureZero}{If 0 is within the range, ensure it has a tick mark}
+
+\item{xlab, ylab}{Titles for the x,y axes}
+
 }
 \description{
 Makes a new plot with \code{\link{new_plot}} and a bounding box and axesusing \code{\link{pretty_axes}}

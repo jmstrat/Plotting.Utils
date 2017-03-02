@@ -8,13 +8,9 @@ pretty_axes(min, max, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
   ensureZero = TRUE)
 }
 \arguments{
-\item{min}{vector of minimum axis limits c(x, y)}
+\item{min, max}{vector of minimum / maximum axis limits c(x, y)}
 
-\item{max}{vector of maximum axis limits c(x, y)}
-
-\item{x_axis}{Side on which to draw the x axis}
-
-\item{y_axis}{Side on which to draw the y axis}
+\item{x_axis, y_axis}{Side on which to draw the x,y axes}
 
 \item{frac}{Allow fractional intervals?}
 

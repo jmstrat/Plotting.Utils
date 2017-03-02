@@ -11,8 +11,9 @@ new_plot <- function(xlim,ylim) {
 #' Makes a new plot with pretty axes
 #'
 #' Makes a new plot with \code{\link{new_plot}} and a bounding box and axesusing \code{\link{pretty_axes}}
-#' @inheritParams new_plot
+#' @param x_axis,y_axis Side on which to draw the x,y axes
 #' @param xlab,ylab Titles for the x,y axes
+#' @param xlim,ylim Numeric vectors of length 2, giving the x and y coordinates ranges.
 #' @inheritParams pretty_axes
 #' @export
 pretty_plot <- function(xlim,ylim, x_axis=1, y_axis=2, frac=FALSE,div=1,ensureZero=TRUE) {
