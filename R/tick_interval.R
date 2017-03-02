@@ -78,16 +78,3 @@ pretty_axes <- function(min,max, x_axis=1, y_axis=2, frac=FALSE,div=1,ensureZero
     draw_axis(min[[2]],max[[2]],y_axis,frac,div[[2]],ensureZero)
   }
 }
-
-#' Makes a new plot with pretty axes
-#'
-#' Makes a new plot with \code{\link{new_plot}} and a bounding box and axesusing \code{\link{pretty_axes}}
-#' @inheritParams new_plot
-#' @inheritParams pretty_axes
-#' @export
-pretty_plot <- function(xlim,ylim, x_axis=1, y_axis=2, frac=FALSE,div=1,ensureZero=TRUE) {
-  new_plot(xlim,ylim)
-  if(xlim[[2]]<xlim[[1]]) xlim=rev(xlim)
-  if(ylim[[2]]<ylim[[1]]) ylim=rev(ylim)
-  pretty_axes(c(xlim[[1]],ylim[[1]]),c(xlim[[2]],ylim[[2]]),x_axis,y_axis,frac,div,ensureZero)
-}
