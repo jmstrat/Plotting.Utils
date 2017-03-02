@@ -45,33 +45,34 @@ pretty_ticks <- function(min,max,frac=FALSE, div=1, ensureZero=TRUE) {
 #' @param min,max vector of minimum / maximum axis limits c(x, y)
 #' @param div Factor by which the minor tick interval is smaller than the major tick interval c(x,y)
 #' @param x_axis,y_axis Side on which to draw the x,y axes
+#' @param ... Additional parameters are passed to the underlying function calls
 #' @inheritParams pretty_ticks
 #' @export
-pretty_axes <- function(min,max, x_axis=1, y_axis=2, frac=FALSE,div=1,ensureZero=TRUE) {
+pretty_axes <- function(min, max, x_axis=1, y_axis=2, frac=FALSE,div=1,ensureZero=TRUE,...) {
   #Draw the bounding box
   box()
 
-  draw_axis <- function(min,max, axisSide, frac,div,ensureZero) {
+  draw_axis <- function(min,max, axisSide, frac,div,ensureZero,...) {
     #Add some axes
     ticksat=pretty_ticks(min,max)
     Minorticksat=pretty_ticks(min,max,div=div)
     Minorticksat=Minorticksat[!(Minorticksat %in% ticksat)]
 
     #Add minor ticks
-    axis(side = axisSide, tcl = -.2, at=Minorticksat, labels = NA)
+    axis(side = axisSide, tcl = -.2, at=Minorticksat, labels = NA,...)
     #Add major ticks
-    axis(side = axisSide, tcl = -.4, at=ticksat, labels = NA)
+    axis(side = axisSide, tcl = -.4, at=ticksat, labels = NA,...)
     #Add labels (With reduced spacing from axis -- line=.4)
-    axis(side = axisSide, lwd = 0,tcl = -0.5, line = -.6, at=ticksat)
+    axis(side = axisSide, lwd = 0,tcl = -0.5, line = -.6, at=ticksat,...)
   }
 
   if(length(min)==1) min=c(min,min)
   if(length(max)==1) max=c(max,max)
   if(length(div)==1) div=c(div,div)
   if(!is.na(x_axis)) {
-    draw_axis(min[[1]],max[[1]],x_axis,frac,div[[1]],ensureZero)
+    draw_axis(min[[1]],max[[1]],x_axis,frac,div[[1]],ensureZero,...)
   }
   if(!is.na(y_axis)) {
-    draw_axis(min[[2]],max[[2]],y_axis,frac,div[[2]],ensureZero)
+    draw_axis(min[[2]],max[[2]],y_axis,frac,div[[2]],ensureZero,...)
   }
 }

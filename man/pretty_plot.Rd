@@ -5,7 +5,7 @@
 \title{Makes a new plot with pretty axes}
 \usage{
 pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
-  ensureZero = TRUE)
+  ensureZero = TRUE, xlab = NA, ylab = NA, ...)
 }
 \arguments{
 \item{xlim, ylim}{Numeric vectors of length 2, giving the x and y coordinates ranges.}
@@ -20,6 +20,7 @@ pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
 
 \item{xlab, ylab}{Titles for the x,y axes}
 
+\item{...}{Additional parameters are passed to the underlying function calls}
 }
 \description{
 Makes a new plot with \code{\link{new_plot}} and a bounding box and axesusing \code{\link{pretty_axes}}
