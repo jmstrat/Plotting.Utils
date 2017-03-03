@@ -16,24 +16,16 @@ tick_interval <- function(range,frac=FALSE) {
 #' @param min,max The minimum / maximum axis limits
 #' @param div Divide the calculated interval by this number (to generate minor ticks)
 #' @param frac Allow fractional intervals?
-#' @param ensureZero If 0 is within the range, ensure it has a tick mark
+#' @param flexible Allow min and max to be adjusted for prettier results?
 #' @export
-pretty_ticks <- function(min,max,frac=FALSE, div=1, ensureZero=TRUE) {
+pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE) {
   tickInterval<-tick_interval(max-min)/div
   tickStart=signif(min,1)
   tickEnd=signif(max,1)
   #Range is only to 1 sf, so extend it to make sure we cover everything
   ticksat=seq(tickStart-tickInterval*10,tickEnd+tickInterval*10,tickInterval)
-  if(ensureZero && 0>=min && 0<=max) {
-    #If zero is in the range, we ensure that it has a tick
-    if(!0 %in% ticksat) {
-      #Zero currently isn't a tick position, find the closest point to zero
-      nearest=which.min(abs(ticksat))
-      #Get it's value (affects sign)
-      nearest=ticksat[[nearest[[1]]]]
-      #Subtract this from the ticks
-      ticksat=ticksat-nearest
-    }
+  if(flexible) {
+    ticksat=round(ticksat/tickInterval)*tickInterval
   }
   ticksat
 }
@@ -48,14 +40,14 @@ pretty_ticks <- function(min,max,frac=FALSE, div=1, ensureZero=TRUE) {
 #' @param ... Additional parameters are passed to the underlying function calls
 #' @inheritParams pretty_ticks
 #' @export
-pretty_axes <- function(min, max, x_axis=1, y_axis=2, frac=FALSE,div=1,ensureZero=TRUE,...) {
+pretty_axes <- function(min, max, x_axis=1, y_axis=2, frac=FALSE,div=1,flexible=TRUE,...) {
   #Draw the bounding box
   box()
 
-  draw_axis <- function(min,max, axisSide, frac,div,ensureZero,...) {
+  draw_axis <- function(min,max, axisSide, frac,div,flexible,...) {
     #Add some axes
-    ticksat=pretty_ticks(min,max)
-    Minorticksat=pretty_ticks(min,max,div=div)
+    ticksat=pretty_ticks(min,max,frac,div,flexible)
+    Minorticksat=pretty_ticks(min,max,frac,div,flexible)
     Minorticksat=Minorticksat[!(Minorticksat %in% ticksat)]
 
     #Add minor ticks
@@ -70,9 +62,9 @@ pretty_axes <- function(min, max, x_axis=1, y_axis=2, frac=FALSE,div=1,ensureZer
   if(length(max)==1) max=c(max,max)
   if(length(div)==1) div=c(div,div)
   if(!is.na(x_axis)) {
-    draw_axis(min[[1]],max[[1]],x_axis,frac,div[[1]],ensureZero,...)
+    draw_axis(min[[1]],max[[1]],x_axis,frac,div[[1]],flexible,...)
   }
   if(!is.na(y_axis)) {
-    draw_axis(min[[2]],max[[2]],y_axis,frac,div[[2]],ensureZero,...)
+    draw_axis(min[[2]],max[[2]],y_axis,frac,div[[2]],flexible,...)
   }
 }

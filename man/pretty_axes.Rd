@@ -5,7 +5,7 @@
 \title{Draws a bounding box and pretty axes}
 \usage{
 pretty_axes(min, max, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
-  ensureZero = TRUE, ...)
+  flexible = TRUE, ...)
 }
 \arguments{
 \item{min, max}{vector of minimum / maximum axis limits c(x, y)}
@@ -16,7 +16,7 @@ pretty_axes(min, max, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
 
 \item{div}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y)}
 
-\item{ensureZero}{If 0 is within the range, ensure it has a tick mark}
+\item{flexible}{Allow min and max to be adjusted for prettier results?}
 
 \item{...}{Additional parameters are passed to the underlying function calls}
 }

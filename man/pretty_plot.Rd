@@ -5,7 +5,7 @@
 \title{Makes a new plot with pretty axes}
 \usage{
 pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
-  ensureZero = TRUE, xlab = NA, ylab = NA, ...)
+  flexible = TRUE, xlab = NA, ylab = NA, ...)
 }
 \arguments{
 \item{xlim, ylim}{Numeric vectors of length 2, giving the x and y coordinates ranges.}
@@ -16,7 +16,7 @@ pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
 
 \item{div}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y)}
 
-\item{ensureZero}{If 0 is within the range, ensure it has a tick mark}
+\item{flexible}{Allow min and max to be adjusted for prettier results?}
 
 \item{xlab, ylab}{Titles for the x,y axes}
 
