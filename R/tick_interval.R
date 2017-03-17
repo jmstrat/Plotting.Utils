@@ -46,7 +46,7 @@ pretty_axes <- function(min, max, x_axis=1, y_axis=2, frac=FALSE,div=1,flexible=
 
   draw_axis <- function(min,max, axisSide, frac,div,flexible,...) {
     #Add some axes
-    ticksat=pretty_ticks(min,max,frac,div,flexible)
+    ticksat=pretty_ticks(min,max,frac,div=1,flexible)
     Minorticksat=pretty_ticks(min,max,frac,div,flexible)
     Minorticksat=Minorticksat[!(Minorticksat %in% ticksat)]
 
