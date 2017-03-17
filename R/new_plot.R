@@ -4,7 +4,7 @@
 #' @export
 new_plot <- function(xlim,ylim) {
   plot.new()
-  plot.window(xlim=xlim,ylim=ylim)
+  plot.window(xlim=xlim,ylim=ylim,xaxs='i',yaxs='i')
 }
 
 
