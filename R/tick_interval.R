@@ -65,6 +65,6 @@ pretty_axes <- function(min, max, x_axis=1, y_axis=2, frac=FALSE,div=1,flexible=
     draw_axis(min[[1]],max[[1]],x_axis,frac,div[[1]],flexible,...)
   }
   if(!is.na(y_axis)) {
-    draw_axis(min[[2]],max[[2]],y_axis,frac,div[[2]],flexible,...)
+    draw_axis(min[[2]],max[[2]],y_axis,frac,div[[2]],flexible,las=1,...)
   }
 }
