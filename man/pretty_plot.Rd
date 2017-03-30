@@ -4,7 +4,7 @@
 \alias{pretty_plot}
 \title{Makes a new plot with pretty axes}
 \usage{
-pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 1,
+pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 2,
   flexible = TRUE, xlab = NA, ylab = NA, ...)
 }
 \arguments{

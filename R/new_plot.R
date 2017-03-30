@@ -16,7 +16,7 @@ new_plot <- function(xlim,ylim) {
 #' @param xlim,ylim Numeric vectors of length 2, giving the x and y coordinates ranges.
 #' @inheritParams pretty_axes
 #' @export
-pretty_plot <- function(xlim,ylim, x_axis=1, y_axis=2, frac=FALSE,div=1,flexible=TRUE, xlab=NA, ylab=NA,...) {
+pretty_plot <- function(xlim,ylim, x_axis=1, y_axis=2, frac=FALSE,div=2,flexible=TRUE, xlab=NA, ylab=NA,...) {
   new_plot(xlim,ylim)
   if(xlim[[2]]<xlim[[1]]) xlim=rev(xlim)
   if(ylim[[2]]<ylim[[1]]) ylim=rev(ylim)
