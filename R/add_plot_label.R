@@ -24,10 +24,10 @@ add_plot_label <- function(label, xoffset=0.05,yoffset=0.05,align='left',inside=
   ypos=grconvertY(plt_ndc[[4]]-yin, from = "ndc", to = "user")
   if(align=='left') {
     xpos=grconvertX(plt_ndc[[1]]+xin, from = "ndc", to = "user")
-    text(xpos,ypos,label,xpd=NA,adj=c(0,1))
+    text(xpos,ypos,label,xpd=NA,adj=c(0,1),...)
   } else if(align=='right') {
     xpos=grconvertX(plt_ndc[[2]]-xin, from = "ndc", to = "user")
-    text(xpos,ypos,label,xpd=NA,adj=c(1,1))
+    text(xpos,ypos,label,xpd=NA,adj=c(1,1),...)
   } else {
     stop('Align must be one of left / right')
   }
