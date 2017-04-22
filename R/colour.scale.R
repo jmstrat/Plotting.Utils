@@ -22,6 +22,7 @@
 #' @param color.spec The color specification to use in the transformation. Anything other than "rgb", "hsv" or "hcl" will almost certainly fail.
 #' @export
 color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alpha = 1, extremes = NA, na.color = NA, xrange = NULL, color.spec = "rgb") {
+  if(length(x[!is.na(x)])==0) return(rep_len(na.color,length(x)))
   naxs <- is.na(x)
   if (!is.na(extremes[1])) {
     colmat <- col2rgb(extremes)
@@ -38,8 +39,7 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
     xrange <- range(x, na.rm = TRUE)
     drop.extremes <- FALSE
   } else {
-    if (xrange[1] > min(x, na.rm = TRUE) || xrange[2] < max(x,
-                                                            na.rm = TRUE))
+    if (xrange[1] > min(x, na.rm = TRUE) || xrange[2] < max(x,na.rm = TRUE))
       stop("An explicit range for x must include the range of x values.")
     x <- c(xrange, x)
     drop.extremes = TRUE
@@ -51,14 +51,11 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
     xstart <- xrange[1]
     xinc <- diff(xrange)/(ncs1 - 1)
     for (seg in 1:(ncs1 - 1)) {
-      segindex <- which((x >= xstart) & (x <= (xstart +
-                                                 xinc)))
-      cs1s[segindex] <- rescale.jms(x[segindex], cs1[c(seg,
-                                                       seg + 1)])
+      segindex <- which((x >= xstart) & (x <= (xstart +xinc)))
+      cs1s[segindex] <- rescale.jms(x[segindex], cs1[c(seg,seg + 1)])
       xstart <- xstart + xinc
     }
-    if (min(cs1s, na.rm = TRUE) < 0 || max(cs1s, na.rm = TRUE) >
-        maxcs1)
+    if (min(cs1s, na.rm = TRUE) < 0 || max(cs1s, na.rm = TRUE) > maxcs1)
       cs1s <- rescale.jms(cs1s, c(0, maxcs1))
   } else cs1s <- rep(cs1, ncolors)
   ncs2 <- length(cs2)
@@ -67,14 +64,11 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
     xstart <- xrange[1]
     xinc <- diff(xrange)/(ncs2 - 1)
     for (seg in 1:(ncs2 - 1)) {
-      segindex <- which((x >= xstart) & (x <= (xstart +
-                                                 xinc)))
-      cs2s[segindex] <- rescale.jms(x[segindex], cs2[c(seg,
-                                                       seg + 1)])
+      segindex <- which((x >= xstart) & (x <= (xstart + xinc)))
+      cs2s[segindex] <- rescale.jms(x[segindex], cs2[c(seg, seg + 1)])
       xstart <- xstart + xinc
     }
-    if (min(cs2s, na.rm = TRUE) < 0 || max(cs2s, na.rm = TRUE) >
-        maxcs2)
+    if (min(cs2s, na.rm = TRUE) < 0 || max(cs2s, na.rm = TRUE) > maxcs2)
       cs2s <- rescale.jms(cs2s, c(0, maxcs2))
   } else cs2s <- rep(cs2, ncolors)
   ncs3 <- length(cs3)
@@ -83,14 +77,11 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
     xstart <- xrange[1]
     xinc <- diff(xrange)/(ncs3 - 1)
     for (seg in 1:(ncs3 - 1)) {
-      segindex <- which((x >= xstart) & (x <= (xstart +
-                                                 xinc)))
-      cs3s[segindex] <- rescale.jms(x[segindex], cs3[c(seg,
-                                                       seg + 1)])
+      segindex <- which((x >= xstart) & (x <= (xstart + xinc)))
+      cs3s[segindex] <- rescale.jms(x[segindex], cs3[c(seg,seg + 1)])
       xstart <- xstart + xinc
     }
-    if (min(cs3s, na.rm = TRUE) < 0 || max(cs3s, na.rm = TRUE) >
-        maxcs3)
+    if (min(cs3s, na.rm = TRUE) < 0 || max(cs3s, na.rm = TRUE) > maxcs3)
       cs3s <- rescale.jms(cs3s, c(0, maxcs3))
   } else cs3s <- rep(cs3, ncolors)
   if (drop.extremes) {
