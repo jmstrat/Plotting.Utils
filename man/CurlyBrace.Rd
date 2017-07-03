@@ -4,14 +4,16 @@
 \alias{CurlyBrace}
 \title{Add a horizontal curly brace to a plot}
 \usage{
-CurlyBrace(start, end, width, ...)
+CurlyBrace(start, end, width, height, ...)
 }
 \arguments{
 \item{start}{x coordinate of the start of the brace}
 
 \item{end}{x coordinate of the end of the brace}
 
-\item{width}{Width of the brace}
+\item{width}{Width of the brace in inches}
+
+\item{height}{Height of the brace in inches}
 
 \item{...}{Additional parameters passed to \code{\link{lines}}}
 }
