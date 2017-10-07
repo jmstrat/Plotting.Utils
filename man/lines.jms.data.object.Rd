@@ -8,7 +8,7 @@
   col = par("col"), ...)
 }
 \arguments{
-\item{data}{The object to plot}
+\item{x}{The object to plot}
 }
 \description{
 This function plots a data object

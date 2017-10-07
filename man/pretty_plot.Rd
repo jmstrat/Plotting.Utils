@@ -5,7 +5,7 @@
 \title{Makes a new plot with pretty axes}
 \usage{
 pretty_plot(xlim, ylim, x_axis = 1, y_axis = 2, frac = FALSE, div = 2,
-  flexible = TRUE, xlab = NA, ylab = NA, ...)
+  flexible = TRUE, xlab = NULL, ylab = NULL, ...)
 }
 \arguments{
 \item{xlim, ylim}{Numeric vectors of length 2, giving the x and y coordinates ranges.}

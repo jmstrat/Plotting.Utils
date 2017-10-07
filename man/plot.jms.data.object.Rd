@@ -4,11 +4,12 @@
 \alias{plot.jms.data.object}
 \title{Plot a data object}
 \usage{
-\method{plot}{jms.data.object}(data, offset = 1/sqrt(ncol(data) - 1),
-  xlim = NULL, ylim = NULL, xaxt = par("xaxt"), yaxt = par("yaxt"), ...)
+\method{plot}{jms.data.object}(x, offset = 1/sqrt(ncol(x) - 1), xlim = NULL,
+  ylim = NULL, xaxt = par("xaxt"), yaxt = par("yaxt"), .extend_y = c(0,
+  0), ...)
 }
 \arguments{
-\item{data}{The object to plot}
+\item{x}{The object to plot}
 }
 \description{
 This function plots a data object

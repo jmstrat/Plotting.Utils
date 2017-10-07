@@ -15,4 +15,3 @@ TRUE / FALSE
 \description{
 Check if an object is a pdf.data.object
 }
-\keyword{internal}
