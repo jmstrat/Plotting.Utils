@@ -28,7 +28,7 @@ create_data_type <- function(name,xlab,ylab,envir=parent.frame()) {
   isDataObjFun <- function(x) {
     return(inherits(x,dataObjName))
   }
-  assign(paste0('is.',dataObjName),asDataObjFun,envir=envir)
+  assign(paste0('is.',dataObjName),isDataObjFun,envir=envir)
 
   dataObjFun <- function(...) {
     return(asDataObjFun(jms.data.object(...)))
