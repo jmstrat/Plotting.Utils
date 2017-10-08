@@ -12,13 +12,15 @@
 #' @param name The name of the new data type
 #' @param xlab The x-axis label for the new data type
 #' @param ylab The y-axis label for the new data type
+#' @param inherits Name of any additional data types from which this should inherit
 #' @param envir The environment within which to define the new functions
 #' @export
-create_data_type <- function(name,xlab,ylab,envir=parent.frame()) {
+create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame()) {
   dataObjName=paste0(name,'.data.object')
+  inheritsNames=if(length(inherits)) paste0(inherits,'.data.object') else NULL
   asDataObjFun <- function(x) {
     x=as.jms.data.object(x)
-    class(x) <- c(dataObjName,class(x))
+    class(x) <- c(dataObjName,inheritsNames,class(x))
     attr(x,'y_type')<-ylab
     attr(x,'x_type')<-xlab
     x

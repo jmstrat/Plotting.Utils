@@ -13,6 +13,8 @@ create_data_type(name, xlab, ylab, inherits = c(), envir = parent.frame())
 
 \item{ylab}{The y-axis label for the new data type}
 
+\item{inherits}{Name of any additional data types from which this should inherit}
+
 \item{envir}{The environment within which to define the new functions}
 }
 \description{
