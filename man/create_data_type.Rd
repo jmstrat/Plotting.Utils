@@ -27,4 +27,10 @@ Creates the following functions:
 \item read.table.<name>
 }
 }
+\details{
+Intended usage is within a package's .onLoad function.
+If any function already exists within the environment at load time,
+the function <function>.super will be created instead. This allows
+the functions created here to be extended (simply call the super
+method within the new method)
 }

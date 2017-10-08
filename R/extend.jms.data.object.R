@@ -9,6 +9,13 @@
 #' \item read.table.<name>
 #' }
 #'
+#' @details
+#' Intended usage is within a package's .onLoad function.
+#' If any function already exists within the environment at load time,
+#' the function <function>.super will be created instead. This allows
+#' the functions created here to be extended (simply call the super
+#' method within the new method)
+#'
 #' @param name The name of the new data type
 #' @param xlab The x-axis label for the new data type
 #' @param ylab The y-axis label for the new data type
@@ -25,27 +32,36 @@ create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame()) {
     attr(x,'x_type')<-xlab
     x
   }
-  assign(paste0('as.',dataObjName),asDataObjFun,envir=envir)
+  asName=paste0('as.',dataObjName)
+  if(exists(asName,envir=envir)) asName=paste0(asName,'.super')
+  assign(asName,asDataObjFun,envir=envir)
 
   isDataObjFun <- function(x) {
     return(inherits(x,dataObjName))
   }
-  assign(paste0('is.',dataObjName),isDataObjFun,envir=envir)
+  isName=paste0('is.',dataObjName)
+  if(exists(isName,envir=envir)) isName=paste0(isName,'.super')
+  assign(isName,isDataObjFun,envir=envir)
 
   dataObjFun <- function(...) {
     return(asDataObjFun(jms.data.object(...)))
   }
+  if(exists(dataObjName,envir=envir)) dataObjName=paste0(dataObjName,'.super')
   assign(dataObjName,dataObjFun,envir=envir)
 
   readTableFun <- function(...) {
     return(asDataObjFun(read.table.jms(...)))
   }
-  assign(paste0('read.table.',name),readTableFun,envir=envir)
+  readName=paste0('read.table.',name)
+  if(exists(readName,envir=envir)) readName=paste0(readName,'.super')
+  assign(readName,readTableFun,envir=envir)
 
   subsetFun <- function(x,...) {
     r <- NextMethod("[")
     if(inherits(r,'jms.data.object')) return(asDataObjFun(r))
     return(r)
   }
-  assign(paste0('[.',dataObjName),subsetFun,envir=envir)
+  subsetName=paste0('[.',dataObjName)
+  if(exists(subsetName,envir=envir)) subsetName=paste0(subsetName,'.super')
+  assign(subsetName,subsetFun,envir=envir)
 }
