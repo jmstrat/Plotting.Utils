@@ -6,13 +6,13 @@
 #' \item as.<name>.data.object
 #' \item is.<name>.data.object
 #' \item [.<name>.data.object
-#' \item read.table.name
+#' \item read.table.<name>
 #' }
 #'
 #' @param name The name of the new data type
 #' @param xlab The x-axis label for the new data type
 #' @param ylab The y-axis label for the new data type
-#' @param envir
+#' @param envir The environment within which to define the new functions
 #' @export
 create_data_type <- function(name,xlab,ylab,envir=parent.frame()) {
   dataObjName=paste0(name,'.data.object')

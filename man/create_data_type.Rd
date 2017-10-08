@@ -4,7 +4,16 @@
 \alias{create_data_type}
 \title{Extend jms.data.object for a custom class}
 \usage{
-create_data_type(name, xlab, ylab, environment)
+create_data_type(name, xlab, ylab, inherits = c(), envir = parent.frame())
+}
+\arguments{
+\item{name}{The name of the new data type}
+
+\item{xlab}{The x-axis label for the new data type}
+
+\item{ylab}{The y-axis label for the new data type}
+
+\item{envir}{The environment within which to define the new functions}
 }
 \description{
 Creates the following functions:
@@ -13,6 +22,7 @@ Creates the following functions:
 \item as.<name>.data.object
 \item is.<name>.data.object
 \item [.<name>.data.object
-\item read.table.name
+\item read.table.<name>
+}
 }
 }
