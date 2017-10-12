@@ -6,7 +6,6 @@
 #' plot(data)
 #' @export
 plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,xaxt=par('xaxt'),yaxt=par('yaxt'),.extend_y=c(0,0),...) {
-  if(!is.data.frame(x)) stop("Data type not supported")
   x_col=attr(x,'x_column')
   y_cols=attr(x,'y_column')
   if(is.null(x_col)) {
@@ -14,20 +13,17 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
     x_col=1
   }
   if(is.null(y_cols)) {
-    warning('Data type unknown, assuming 2-last columns for y axis')
+    warning('Data type unknown, assuming 2:last columns for y axis')
     y_cols=2:ncol(data)
   }
   x_data=x[,x_col]
   y_df=x[,y_cols]
 
-  #Update y_cols now that x has been removed
-  y_cols=attr(y_df,'y_column')
-
   if(any(is.null(xlim))) xlim=range(x_data[is.finite(x_data)])
   y_max=max(y_df)
   if(is.data.frame(y_df))
-    y_range=c(min(y_df[x_data>xlim[[1]]&x_data<xlim[[2]],y_cols[[1]]]),
-              max(y_df[x_data>xlim[[1]]&x_data<xlim[[2]],y_cols[[length(y_cols)]]])+offset*y_max*(length(y_cols)-1))
+    y_range=c(min(y_df[x_data>xlim[[1]]&x_data<xlim[[2]],1]),
+              max(y_df[x_data>xlim[[1]]&x_data<xlim[[2]],ncol(y_df)])+offset*y_max*(ncol(y_df)-1))
   else
     y_range=range(y_df[x_data>xlim[[1]]&x_data<xlim[[2]]&is.finite(y_df)])
 
@@ -58,7 +54,6 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
 #' lines(data)
 #' @export
 lines.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),col=par('col'),...) {
-  if(!is.data.frame(x)) stop("Data type not supported")
   x_col=attr(x,'x_column')
   y_cols=attr(x,'y_column')
   if(is.null(x_col)) {
@@ -66,7 +61,7 @@ lines.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),col=par('col'),...)
     x_col=1
   }
   if(is.null(y_cols)) {
-    warning('Data type unknown, assuming 2-last columns for y axis')
+    warning('Data type unknown, assuming 2:last columns for y axis')
     y_cols=2:ncol(x)
   }
   x_data=x[,x_col]
