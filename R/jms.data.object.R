@@ -119,8 +119,6 @@ print.jms.data.object <- function (x, ..., digits = NULL, quote = FALSE, right =
     else
       new_y=numeric()
     attributes(r)[['y_column']]=new_y
-    # Subtract one from any column number greater than x if x doesn't exist anymore
-    #if(is.na(attributes(r)[['x_column']])) new_y=new_y[new_y>oldAtts[['x_column']]]-1
     # Restore the class if the dataset is still 2D
     if(inherits(r,'data.frame')) class(r) <- c("jms.data.object","data.frame")
   }
