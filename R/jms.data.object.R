@@ -41,26 +41,19 @@ as.jms.data.object.default <- function(x) {
 #' @export
 as.jms.data.object.data.frame <- function(x) {
   attr(x, "class") <- c("jms.data.object", "data.frame")
-  attr(x,'file_type')<-NULL
-  attr(x,'data_type')<-NULL
-  attr(x,'y_type')<-'Unknown'
-  attr(x,'x_type')<-'Unknown'
-  attr(x,'x_column')<-1
-  attr(x,'y_column')<-2
+  atts=names(attributes(x))
+  if(!'file_type'%in%atts) attr(x,'file_type')<-NULL
+  if(!'data_type'%in%atts) attr(x,'data_type')<-NULL
+  if(!'y_type'%in%atts) attr(x,'y_type')<-'Unknown'
+  if(!'x_type'%in%atts) attr(x,'x_type')<-'Unknown'
+  if(!'x_column'%in%atts) attr(x,'x_column')<-1
+  if(!'y_column'%in%atts) attr(x,'y_column')<-2
   return(x)
 }
 
 #' @export
 as.jms.data.object.matrix <- function(x) {
-  x=as.data.frame(x)
-  attr(x, "class") <- c("jms.data.object", "data.frame")
-  attr(x,'file_type')<-NULL
-  attr(x,'data_type')<-NULL
-  attr(x,'y_type')<-'Unknown'
-  attr(x,'x_type')<-'Unknown'
-  attr(x,'x_column')<-1
-  attr(x,'y_column')<-2
-  return(x)
+  as.jms.data.object(as.data.frame(x))
 }
 
 #' @export
