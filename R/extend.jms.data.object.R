@@ -57,8 +57,19 @@ create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame()) {
   assign(readName,readTableFun,envir=envir)
 
   subsetFun <- function(x,...) {
-    r <- NextMethod("[")
-    if(inherits(r,'jms.data.object')) return(asDataObjFun(r))
+    #Get the function call, and extract the class name from it (TODO: is there a better way???)
+    me=sub('^`\\[\\.(.*?)(\\.super)?`.*$','\\1',deparse(sys.call()))
+    #Save the current class
+    myclass=class(x)
+    i=which(myclass==me)
+    #Remove everything preceeding and including the class for which this function was called
+    if(length(i)<length(myclass)) class(x)<-myclass[i+1:length(myclass)]
+    #Rerun the subset function for the remaining classess
+    #(DO NOT USE UseMethod or NextMethod: the former doesn't return to this
+    #function, the latter won't work if the "super" version of this function was called)
+    r <- `[`(x,...)
+    #Restore the original class (unless the subset resulted in e.g. a numeric)
+    if(inherits(r,'jms.data.object')) class(r)<-myclass
     return(r)
   }
   subsetName=paste0('[.',dataObjName)
