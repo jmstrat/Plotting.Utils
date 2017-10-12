@@ -113,12 +113,11 @@ print.jms.data.object <- function (x, ..., digits = NULL, quote = FALSE, right =
   # Check which y columns we still have and get their new numbers
   if('y_column'%in%nOldAtts) {
     if(is.numeric(j))
-      new_y=which(sort(j)%in%oldAtts[['y_column']])
+      attributes(r)[['y_column']]=which(sort(j)%in%oldAtts[['y_column']])
     else if(is.logical(j))
-      new_y=which((1:ncol(x))[j]%in%oldAtts$y_column)
+      attributes(r)[['y_column']]=which((1:ncol(x))[j]%in%oldAtts$y_column)
     else
-      new_y=numeric()
-    attributes(r)[['y_column']]=new_y
+      attributes(r)[['y_column']]=integer()
     # Restore the class if the dataset is still 2D
     if(inherits(r,'data.frame')) class(r) <- c("jms.data.object","data.frame")
   }
