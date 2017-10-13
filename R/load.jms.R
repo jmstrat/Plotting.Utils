@@ -8,6 +8,7 @@
 #' @examples
 #' load.jms('/path/to/directory', load_function, ext='ext')
 #' load.jms('/path/to/file.ext', load_function)
+#' load.jms(c('/path/to/file.ext','/path/to/file2.ext'))
 #' @export
 load.jms <- function(path,func,...) {
   dat=c()
