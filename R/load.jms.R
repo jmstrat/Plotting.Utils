@@ -17,7 +17,7 @@ load.jms <- function(path,func,...) {
     else if(file.exists(p)) dat=c(dat,list(load.file(p,func,...)))
     else stop(p, ' not found')
   }
-  load.combine(as.list(dat))
+  combine.data.objects(as.list(dat))
 }
 
 #' Combine a list of data objects
@@ -25,9 +25,9 @@ load.jms <- function(path,func,...) {
 #' This function combines jms.data.objects
 #' @return A jms.data.object containing the data
 #' @examples
-#' load.combine(objects)
+#' combine.data.objects(objects)
 #' @export
-load.combine <- function(objects) {
+combine.data.objects <- function(objects) {
   if(is.jms.data.object(objects)) return(objects)
   if(!inherits(objects,'list')) stop('objects is not a list')
   if(length(objects)==1) return(objects[[1]])
