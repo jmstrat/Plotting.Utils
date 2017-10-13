@@ -73,7 +73,7 @@ lines.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),col=par('col'),...)
     return(NextMethod())
   }
 
-  y_max=max(y_df)
+  y_max=max(y_df,na.rm=T)
   col=expand_args(1:ncol(y_df),col)[[2]]
   offset_=offset
   offset=NULL
