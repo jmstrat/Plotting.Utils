@@ -19,7 +19,7 @@ load.directory <- function(dir,func, ext=NULL,pattern=NULL, sort=FALSE) {
   }
   sorter = if(sort) list.files.sorted else list.files
   file_list <- sorter(path=dir,full.names=TRUE,pattern=pattern)
-  data=lapply(file_list,func)
+  data=lapply(file_list,function(x) func(x,...))
 }
 
 #' list.files with sorting

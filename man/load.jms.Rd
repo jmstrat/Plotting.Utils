@@ -4,14 +4,20 @@
 \alias{load.jms}
 \title{Read data files}
 \usage{
-load.jms(path, func, ...)
+load.jms(path, func, ext = NULL, pattern = NULL, sort = FALSE, ...)
 }
 \arguments{
 \item{path}{The path to the file / directory}
 
 \item{func}{The function to read the file}
 
-\item{...}{Additional parameters are passed to \code{\link[Plotting.Utils]{load.directory}} or \code{\link[Plotting.Utils]{load.file}}}
+\item{ext}{The file extension to look for}
+
+\item{pattern}{The pattern to look for}
+
+\item{sort}{If TRUE then use a "natural" numerical sort (see \code{\link[Plotting.Utils]{list.files.sorted}}), else use the default alphabetical sort}
+
+\item{...}{Additional parameters are passed to func}
 }
 \value{
 A jms.data.object containing the data

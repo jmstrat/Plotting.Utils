@@ -3,14 +3,15 @@
 #' This function reads one or more data files in a directory
 #' @param path The path to the file / directory
 #' @param func The function to read the file
-#' @param ... Additional parameters are passed to \code{\link[Plotting.Utils]{load.directory}} or \code{\link[Plotting.Utils]{load.file}}
+#' @inheritParams load.directory
+#' @param ... Additional parameters are passed to func
 #' @return A jms.data.object containing the data
 #' @examples
 #' load.jms('/path/to/directory', load_function, ext='ext')
 #' load.jms('/path/to/file.ext', load_function)
 #' load.jms(c('/path/to/file.ext','/path/to/file2.ext'))
 #' @export
-load.jms <- function(path,func,...) {
+load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
   dat=c()
   for(p in path) {
     if(dir.exists(p)) dat=c(dat,load.directory(p,func,...))

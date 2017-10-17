@@ -9,5 +9,5 @@
 #' @keywords internal
 load.file <- function(path,func,...) {
   if(!file.exists(path)) stop(path,' not found')
-  func(path)
+  func(path,...)
 }
