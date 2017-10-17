@@ -6,16 +6,8 @@
 #' plot(data)
 #' @export
 plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,xaxt=par('xaxt'),yaxt=par('yaxt'),.extend_y=c(0,0),...) {
-  x_col=attr(x,'x_column')
-  y_cols=attr(x,'y_column')
-  if(is.null(x_col)) {
-    warning('Data type unknown, assuming 1st column for x axis')
-    x_col=1
-  }
-  if(is.null(y_cols)) {
-    warning('Data type unknown, assuming 2:last columns for y axis')
-    y_cols=2:ncol(data)
-  }
+  x_col=xcol(x)
+  y_cols=ycol(x)
   x_data=x[,x_col]
   y_df=x[,y_cols]
 
@@ -39,7 +31,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
     formals(plot.xy))
     )]
 
-  plot_args=append(list(xlim=xlim,ylim=ylim,x_axis=x_axis,y_axis=y_axis,xlab=attr(x,'x_type'),ylab=attr(x,'y_type')),plot_args)
+  plot_args=append(list(xlim=xlim,ylim=ylim,x_axis=x_axis,y_axis=y_axis,xlab=xlab(x),ylab=ylab(x)),plot_args)
   lines_args=append(list(x=x),lines_args)
   do.call(pretty_plot,plot_args)
   do.call(lines,lines_args)
@@ -53,16 +45,9 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
 #' lines(data)
 #' @export
 lines.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),col=par('col'),...) {
-  x_col=attr(x,'x_column')
-  y_cols=attr(x,'y_column')
-  if(is.null(x_col)) {
-    warning('Data type unknown, assuming 1st column for x axis')
-    x_col=1
-  }
-  if(is.null(y_cols)) {
-    warning('Data type unknown, assuming 2:last columns for y axis')
-    y_cols=2:ncol(x)
-  }
+  x_col=xcol(x)
+  y_cols=ycol(x)
+
   x_data=x[,x_col]
   y_df=x[,y_cols]
 

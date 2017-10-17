@@ -4,7 +4,7 @@
 \alias{range.jms.data.object}
 \title{Calculate Range}
 \usage{
-\method{range}{jms.data.object}(x, ..., na.rm = TRUE)
+\method{range}{jms.data.object}(x, ...)
 }
 \arguments{
 \item{x}{The data object}

@@ -36,25 +36,23 @@ combine.data.objects <- function(objects) {
   len_f=length(objects)
   x_1=NA
   for(f in 1:len_f) {
-    x_column=attr(objects[[f]],'x_column')
-    if(is.null(x_column)) x_column=1
+    x_column=xcol(objects[[f]])
     x=objects[[f]][,x_column]
     if(f==1) x_1=x
     if(!all(x==x_1)) stop("X axis is not the same across all files -- aborting")
-    y_column=attr(objects[[f]],'y_column')
-    if(is.null(y_column)) y_column=2
+    y_column=ycol(objects[[f]])
     columns[[f]]=objects[[f]][,y_column]
   }
   df=jms.data.object(x_1,columns)
   #Add default attributes
-  attr(df,'x_type')<-attr(objects[[1]],'x_type')
-  attr(df,'y_type')<-attr(objects[[1]],'y_type')
-  attr(df,'x_column')<-1
-  attr(df,'y_column')<-c(2:ncol(df))
+  xlab(df)<-xlab(objects[[1]])
+  ylab(df)<-ylab(objects[[1]])
+  xcol(df)<-1
+  ycol(df)<-c(2:ncol(df))
   attr(df,'file_type')<-attr(objects[[1]],'file_type')
   attr(df,'data_type')<-attr(objects[[1]],'data_type')
   #Rename columns
-  names(df) <- c(attr(df,'x_type'),paste0(attr(df,'y_type'),'_',c(1:len_f)))
+  names(df) <- c(xlab(df),paste0(ylab(df),'_',c(1:len_f)))
   #return data
   return(df)
 }

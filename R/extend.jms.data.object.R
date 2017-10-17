@@ -28,8 +28,8 @@ create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame()) {
   asDataObjFun <- function(x) {
     x=as.jms.data.object(x)
     class(x) <- c(dataObjName,inheritsNames,class(x))
-    attr(x,'y_type')<-ylab
-    attr(x,'x_type')<-xlab
+    ylab(x)<-ylab
+    xlab(x)<-xlab
     x
   }
   asName=paste0('as.',dataObjName)
