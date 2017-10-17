@@ -27,8 +27,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
   else
     y_range=range(y_df[x_data>xlim[[1]]&x_data<xlim[[2]]&is.finite(y_df)])
 
-  if(any(is.null(ylim))) ylim=(y_range+.extend_y)*1.05
-
+  if(any(is.null(ylim))) ylim=extendrange(r=(y_range+.extend_y),0.05)
   y_axis=if(yaxt=='n') NA else 2
   x_axis=if(xaxt=='n') NA else 1
 
