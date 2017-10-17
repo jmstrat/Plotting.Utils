@@ -53,6 +53,7 @@ combine.data.objects <- function(objects) {
   attr(df,'data_type')<-attr(objects[[1]],'data_type')
   #Rename columns
   names(df) <- c(xlab(df),paste0(ylab(df),'_',c(1:len_f)))
+  class(df)<-class(objects[[1]])
   #return data
   return(df)
 }
