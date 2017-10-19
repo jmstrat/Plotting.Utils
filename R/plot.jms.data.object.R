@@ -5,7 +5,7 @@
 #' @examples
 #' plot(data)
 #' @export
-plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,xaxt=par('xaxt'),yaxt=par('yaxt'),.extend_y=c(0,0),...) {
+plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,xlab=xlab_(x),ylab=ylab_(x),xaxt=par('xaxt'),yaxt=par('yaxt'),.extend_y=c(0,0),...) {
   x_col=xcol(x)
   y_cols=ycol(x)
   x_data=x[,x_col]
@@ -31,7 +31,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
     formals(plot.xy))
     )]
 
-  plot_args=append(list(xlim=xlim,ylim=ylim,x_axis=x_axis,y_axis=y_axis,xlab=xlab(x),ylab=ylab(x)),plot_args)
+  plot_args=append(list(xlim=xlim,ylim=ylim,x_axis=x_axis,y_axis=y_axis,xlab=xlab,ylab=ylab),plot_args)
   lines_args=append(list(x=x),lines_args)
   do.call(pretty_plot,plot_args)
   do.call(lines,lines_args)
@@ -58,11 +58,13 @@ lines.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),col=par('col'),...)
   }
 
   y_max=max(y_df,na.rm=T)
-  col=expand_args(1:ncol(y_df),col)[[2]]
+  col_all=expand_args(1:ncol(y_df),col)[[2]]
   offset_=offset
   offset=NULL
   for(i in 1:ncol(y_df)) {
     y=y_df[,i]+offset_*(i-1)*y_max
-    NextMethod(x=x_data,y=y,col=col[[i]])
+    x=data.frame(x=x_data,y=y)
+    col=col_all[[i]]
+    NextMethod()
   }
 }

@@ -53,3 +53,6 @@ ylab.jms.data.object <- function(x) {
   attr(x,'y_type')<-value
   x
 }
+
+xlab_<-function(...)xlab(...)
+ylab_<-function(...)ylab(...)

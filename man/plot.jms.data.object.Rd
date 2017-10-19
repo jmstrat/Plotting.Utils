@@ -5,8 +5,8 @@
 \title{Plot a data object}
 \usage{
 \method{plot}{jms.data.object}(x, offset = 1/sqrt(ncol(x) - 1), xlim = NULL,
-  ylim = NULL, xaxt = par("xaxt"), yaxt = par("yaxt"), .extend_y = c(0,
-  0), ...)
+  ylim = NULL, xlab = xlab_(x), ylab = ylab_(x), xaxt = par("xaxt"),
+  yaxt = par("yaxt"), .extend_y = c(0, 0), ...)
 }
 \arguments{
 \item{x}{The object to plot}
