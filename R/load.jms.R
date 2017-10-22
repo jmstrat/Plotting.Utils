@@ -14,7 +14,7 @@
 load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
   dat=c()
   for(p in path) {
-    if(dir.exists(p)) dat=c(dat,load.directory(p,func,...))
+    if(dir.exists(p)) dat=c(dat,load.directory(p,func,ext,pattern, sort,...))
     else if(file.exists(p)) dat=c(dat,list(load.file(p,func,...)))
     else stop(p, ' not found')
   }
