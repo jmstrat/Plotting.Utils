@@ -1,3 +1,4 @@
+#' @export
 expand_args <- function(...){
   dots <- list(...)
   max_length <- max(sapply(dots, length))
