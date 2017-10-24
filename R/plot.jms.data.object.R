@@ -13,11 +13,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
 
   if(any(is.null(xlim))) xlim=range(x_data[is.finite(x_data)])
   y_max=max(y_df)
-  if(is.data.frame(y_df))
-    y_range=c(min(y_df[x_data>xlim[[1]]&x_data<xlim[[2]],1]),
-              max(y_df[x_data>xlim[[1]]&x_data<xlim[[2]],ncol(y_df)])+offset*y_max*(ncol(y_df)-1))
-  else
-    y_range=range(y_df[x_data>xlim[[1]]&x_data<xlim[[2]]&is.finite(y_df)])
+  y_range=range(y_df,offset=offset)
 
   if(any(is.null(ylim))) ylim=extendrange(r=(y_range+.extend_y),0.05)
   y_axis=if(yaxt=='n') NA else 2
