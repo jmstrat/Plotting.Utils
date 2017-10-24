@@ -2,7 +2,7 @@
 % Please edit documentation in R/jms.data.object.R
 \name{is.jms.data.object}
 \alias{is.jms.data.object}
-\title{Check if an object is a pdf.data.object}
+\title{Check if an object is a jms.data.object}
 \usage{
 is.jms.data.object(x)
 }
@@ -13,5 +13,5 @@ is.jms.data.object(x)
 TRUE / FALSE
 }
 \description{
-Check if an object is a pdf.data.object
+Check if an object is a jms.data.object
 }

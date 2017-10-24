@@ -17,7 +17,7 @@ jms.data.object <- function(...) {
   return(as.jms.data.object(data.frame(...)))
 }
 
-#' Check if an object is a pdf.data.object
+#' Check if an object is a jms.data.object
 #'
 #' @param x The object to be tested
 #' @return TRUE / FALSE
