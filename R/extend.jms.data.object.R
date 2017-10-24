@@ -46,8 +46,9 @@ create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame()) {
   dataObjFun <- function(...) {
     return(asDataObjFun(jms.data.object(...)))
   }
-  if(exists(dataObjName,envir=envir)) dataObjName=paste0(dataObjName,'.super')
-  assign(dataObjName,dataObjFun,envir=envir)
+  dataObjFunName=dataObjName
+  if(exists(dataObjFunName,envir=envir)) dataObjFunName=paste0(dataObjFunName,'.super')
+  assign(dataObjFunName,dataObjFun,envir=envir)
 
   readTableFun <- function(...) {
     return(asDataObjFun(read.table.jms(...)))
