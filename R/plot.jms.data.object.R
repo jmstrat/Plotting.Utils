@@ -28,7 +28,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
     )]
 
   plot_args=append(list(xlim=xlim,ylim=ylim,x_axis=x_axis,y_axis=y_axis,xlab=xlab,ylab=ylab),plot_args)
-  lines_args=append(list(x=x),lines_args)
+  lines_args=append(list(x=x,offset=offset),lines_args)
   do.call(pretty_plot,plot_args)
   do.call(lines,lines_args)
 }
