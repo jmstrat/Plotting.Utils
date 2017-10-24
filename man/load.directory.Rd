@@ -4,7 +4,7 @@
 \alias{load.directory}
 \title{Read every file in a directory}
 \usage{
-load.directory(dir, func, ext = NULL, pattern = NULL, sort = FALSE)
+load.directory(dir, func, ext = NULL, pattern = NULL, sort = FALSE, ...)
 }
 \arguments{
 \item{dir}{The path to the directory}
