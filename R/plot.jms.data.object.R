@@ -5,7 +5,7 @@
 #' @examples
 #' plot(data)
 #' @export
-plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,xlab=xlab_(x),ylab=ylab_(x),xaxt=par('xaxt'),yaxt=par('yaxt'),.extend_y=c(0,0),...) {
+plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,xlab=xlab_(x),ylab=ylab_(x),xaxt=par('xaxt'),yaxt=par('yaxt'),.extend_y=c(0,0),y_axis=2,...) {
   x_col=xcol(x)
   y_cols=ycol(x)
   x_data=x[,x_col]
@@ -16,7 +16,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
   y_range=range(y_df,offset=offset)
 
   if(any(is.null(ylim))) ylim=extendrange(r=(y_range+.extend_y),0.05)
-  y_axis=if(yaxt=='n') NA else 2
+  y_axis=if(yaxt=='n') NA else y_axis
   x_axis=if(xaxt=='n') NA else 1
 
   args=list(...)
@@ -31,6 +31,12 @@ plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,
   lines_args=append(list(x=x,offset=offset),lines_args)
   do.call(pretty_plot,plot_args)
   do.call(lines,lines_args)
+  if(!all(is.na(y2col(x)))) {
+    par(new = TRUE)
+    ycol(x)<-y2col(x)
+    y2col(x)<-NA
+    plot.jms.data.object(x,offset=offset,xlab=NA,ylab=y2lab_(x),xaxt='n',yaxt=yaxt,y_axis=4,...)
+  }
 }
 
 #' Draw lines for a data object
