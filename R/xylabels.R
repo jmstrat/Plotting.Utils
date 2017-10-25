@@ -54,5 +54,32 @@ ylab.jms.data.object <- function(x) {
   x
 }
 
+#' @rdname xylabels.jms
+#' @export
+y2lab <- function(x) UseMethod("y2lab")
+#' @export
+y2lab.default <- function(x) {
+  stop("Unable to get y2 data for this class")
+}
+#' @export
+y2lab.jms.data.object <- function(x) {
+  y2lab=attr(x,'y2_type')
+  if(is.null(y2lab)) y2lab='Unknown'
+  y2lab
+}
+#' @rdname xylabels.jms
+#' @export
+`y2lab<-` <- function(x,value) UseMethod("y2lab<-")
+#' @export
+`y2lab<-.default` <- function(x,value) {
+  stop("Unable to assign y2 column for this class")
+}
+#' @export
+`y2lab<-.jms.data.object` <- function(x,value) {
+  attr(x,'y2_type')<-value
+  x
+}
+
 xlab_<-function(...)xlab(...)
 ylab_<-function(...)ylab(...)
+y2lab_<-function(...)y2lab(...)
