@@ -22,13 +22,14 @@
 #' @param inherits Name of any additional data types from which this should inherit
 #' @param envir The environment within which to define the new functions
 #' @export
-create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame()) {
+create_data_type <- function(name,xlab,ylab,inherits=c(),envir=parent.frame(),y2lab=NA) {
   dataObjName=paste0(name,'.data.object')
   inheritsNames=if(length(inherits)) paste0(inherits,'.data.object') else NULL
   asDataObjFun <- function(x) {
     x=as.jms.data.object(x)
     class(x) <- c(dataObjName,inheritsNames,class(x))
     ylab(x)<-ylab
+    y2lab(x)<-y2lab
     xlab(x)<-xlab
     x
   }
