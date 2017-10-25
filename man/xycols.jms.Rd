@@ -5,6 +5,8 @@
 \alias{xcol<-}
 \alias{ycol}
 \alias{ycol<-}
+\alias{y2col}
+\alias{y2col<-}
 \title{Get or set the x or y column(s) for a data object}
 \usage{
 xcol(x)
@@ -14,6 +16,10 @@ xcol(x) <- value
 ycol(x)
 
 ycol(x) <- value
+
+y2col(x)
+
+y2col(x) <- value
 }
 \arguments{
 \item{x}{The data object}

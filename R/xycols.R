@@ -62,3 +62,33 @@ ycol.jms.data.object <- function(x) {
   attr(x,'y_column')<-value
   x
 }
+
+#' @rdname xycols.jms
+#' @export
+y2col <- function(x) UseMethod("y2col")
+#' @export
+y2col.default <- function(x) {
+  stop("Unable to get y2 data for this class")
+}
+#' @export
+y2col.jms.data.object <- function(x) {
+  ycol=attr(x,'y2_column')
+  if(is.null(ycol)) {
+    if(ncol(x)<=1) stop('Cannot get y2 column')
+    warning('Data type unknown, assuming no y2 axis')
+    ycol=NA
+  }
+  ycol
+}
+#' @rdname xycols.jms
+#' @export
+`y2col<-` <- function(x,value) UseMethod("y2col<-")
+#' @export
+`y2col<-.default` <- function(x,value) {
+  stop("Unable to assign y2 column for this class")
+}
+#' @export
+`y2col<-.jms.data.object` <- function(x,value) {
+  attr(x,'y2_column')<-value
+  x
+}

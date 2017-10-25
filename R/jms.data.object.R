@@ -48,6 +48,7 @@ as.jms.data.object.data.frame <- function(x) {
   if(!'x_type'%in%atts) attr(x,'x_type')<-'Unknown'
   if(!'x_column'%in%atts) attr(x,'x_column')<-1
   if(!'y_column'%in%atts) attr(x,'y_column')<-2
+  if(!'y2_column'%in%atts) attr(x,'y_column')<-NA
   return(x)
 }
 
@@ -118,8 +119,17 @@ print.jms.data.object <- function (x, ..., digits = NULL, quote = FALSE, right =
       attributes(r)[['y_column']]=which((1:ncol(x))[j]%in%oldAtts$y_column)
     else
       attributes(r)[['y_column']]=integer()
-    # Restore the class if the dataset is still 2D
-    if(inherits(r,'data.frame')) class(r) <- c("jms.data.object","data.frame")
   }
+  # Check which y2 columns we still have and get their new numbers
+  if('y2_column'%in%nOldAtts) {
+    if(is.numeric(j))
+      attributes(r)[['y2_column']]=which(sort(j)%in%oldAtts[['y2_column']])
+    else if(is.logical(j))
+      attributes(r)[['y2_column']]=which((1:ncol(x))[j]%in%oldAtts$y2_column)
+    else
+      attributes(r)[['y2_column']]=integer()
+  }
+  # Restore the class if the dataset is still 2D
+  if(inherits(r,'data.frame')) class(r) <- c("jms.data.object","data.frame")
   return (r)
 }
