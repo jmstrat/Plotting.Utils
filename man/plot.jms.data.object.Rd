@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{jms.data.object}(x, offset = 1/sqrt(ncol(x) - 1), xlim = NULL,
   ylim = NULL, xlab = xlab_(x), ylab = ylab_(x), xaxt = par("xaxt"),
-  yaxt = par("yaxt"), .extend_y = c(0, 0), ...)
+  yaxt = par("yaxt"), .extend_y = c(0, 0), y_axis = 2, ...)
 }
 \arguments{
 \item{x}{The object to plot}

@@ -44,11 +44,12 @@ as.jms.data.object.data.frame <- function(x) {
   atts=names(attributes(x))
   if(!'file_type'%in%atts) attr(x,'file_type')<-NULL
   if(!'data_type'%in%atts) attr(x,'data_type')<-NULL
-  if(!'y_type'%in%atts) attr(x,'y_type')<-'Unknown'
-  if(!'x_type'%in%atts) attr(x,'x_type')<-'Unknown'
-  if(!'x_column'%in%atts) attr(x,'x_column')<-1
-  if(!'y_column'%in%atts) attr(x,'y_column')<-2
-  if(!'y2_column'%in%atts) attr(x,'y_column')<-NA
+  if(!'y_type'%in%atts) ylab(x)<-'Unknown'
+  if(!'y2_type'%in%atts) y2lab(x)<-NA
+  if(!'x_type'%in%atts) xlab(x)<-'Unknown'
+  if(!'x_column'%in%atts) xcol(x)<-1
+  if(!'y_column'%in%atts) ycol(x)<-2
+  if(!'y2_column'%in%atts) y2col(x)<-NA
   return(x)
 }
 
