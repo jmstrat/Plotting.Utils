@@ -5,68 +5,58 @@
 #' @examples
 #' plot(data)
 #' @export
-plot.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),xlim=NULL,ylim=NULL,xlab=xlab_(x),ylab=ylab_(x),xaxt=par('xaxt'),yaxt=par('yaxt'),.extend_y=c(0,0),y_axis=2,...) {
-  x_col=xcol(x)
-  y_cols=ycol(x)
-  x_data=x[,x_col]
-  y_df=x[,y_cols]
+plot.jms.data.object <- function(x,offset=1/sqrt(length(ycol(x))-1),xlim=NULL,ylim=NULL,y2lim=NULL,xlab=xlab_(x),ylab=ylab_(x),y2lab=y2lab_(x),axes=c(1,2),...) {
+  x=x+offset*seq(0,length(ycol(x))-1,1)*range(x)[[2]]
 
-  if(any(is.null(xlim))) xlim=range(x_data[is.finite(x_data)])
-  y_max=max(y_df)
-  y_range=range(y_df,offset=offset)
-
-  if(any(is.null(ylim))) ylim=extendrange(r=(y_range+.extend_y),0.05)
-  y_axis=if(yaxt=='n') NA else y_axis
-  x_axis=if(xaxt=='n') NA else 1
+  if(any(is.null(xlim))) xlim=range(x[,xcol(x)][is.finite(x[,xcol(x)])])
+  if(any(is.null(ylim))) ylim=extendrange(r=range(x),0.04)
+  if(any(is.null(y2lim)) && !all(is.na(y2col(x)))) y2lim=range(x[,y2col(x)])
 
   args=list(...)
-  plot_args=args[names(args) %in% names(c(formals(axis),formals(pretty_axes),formals(pretty_plot)))]
-  plot_args=plot_args[!names(plot_args) %in% c('col','lwd')]
-  lines_args=args[names(args) %in% names(c(
-    formals(getAnywhere(findMethod(lines,x))$objs[[1]]),
-    formals(plot.xy))
-    )]
-
-  plot_args=append(list(xlim=xlim,ylim=ylim,x_axis=x_axis,y_axis=y_axis,xlab=xlab,ylab=ylab),plot_args)
-  lines_args=append(list(x=x,offset=offset),lines_args)
+  plot_args=args[names(args) %in% names(c(formals(axis),formals(pretty_plot)))]
+  plot_args=plot_args[!names(plot_args) %in% c('col','lwd','lty')]
+  plot_args=append(list(xlim=xlim,ylim=ylim,y2lim=y2lim,xlab=xlab,ylab=ylab,y2lab=y2lab,axes=axes),plot_args)
   do.call(pretty_plot,plot_args)
+
+  lines_args=args[!names(args) %in% names(plot_args)]
+  lines_args=append(list(x=x),lines_args)
   do.call(lines,lines_args)
-  if(!all(is.na(y2col(x)))) {
-    par(new = TRUE)
-    ycol(x)<-y2col(x)
-    y2col(x)<-NA
-    plot.jms.data.object(x,offset=offset,xlab=NA,ylab=y2lab_(x),xaxt='n',yaxt=yaxt,y_axis=4,...)
-  }
 }
 
 #' Draw lines for a data object
 #'
 #' This function plots a data object
 #' @param x The object to plot
+#' @param y2 Include y2 data in plot?
+#' @inheritParams graphics::plot.xy
 #' @examples
-#' lines(data)
+#' plot.xy(data)
 #' @export
-lines.jms.data.object <- function(x,offset=1/sqrt(ncol(x)-1),col=par('col'),...) {
-  x_col=xcol(x)
+lines.jms.data.object <- function(x,col=par('col'),y2=TRUE,...) {
+  x_data=x[,xcol(x)]
   y_cols=ycol(x)
+  y_df=if(all(is.na(y_cols))) c() else x[,y_cols]
+  y2_cols=y2col(x)
+  y2_df=if(all(is.na(y2_cols))) c() else x[,y2_cols]
+  col_all=if(y2) expand_args(1:(length(y_cols)+length(y2_cols)),col)[[2]] else expand_args(1:length(y_cols),col)[[2]]
 
-  x_data=x[,x_col]
-  y_df=x[,y_cols]
-
-  if(!is.data.frame(y_df)) {
+  y2_=y2
+  y2=NULL
+  if(length(y_cols)<2) {
     x=data.frame(x=x_data,y=y_df)
-    offset<-NULL
-    return(NextMethod())
-  }
-
-  y_max=max(y_df,na.rm=T)
-  col_all=expand_args(1:ncol(y_df),col)[[2]]
-  offset_=offset
-  offset=NULL
-  for(i in 1:ncol(y_df)) {
-    y=y_df[,i]+offset_*(i-1)*y_max
-    x=data.frame(x=x_data,y=y)
-    col=col_all[[i]]
     NextMethod()
+  } else {
+    for(i in 1:length(y_cols)) {
+      x=data.frame(x=x_data,y=y_df[,i])
+      col=col_all[[i]]
+      NextMethod()
+    }
+  }
+  if(y2_ && !all(is.na(y2_cols))) {
+    for(i in 1:length(y2_cols)) {
+      x=data.frame(x=x_data,y=y_df[,i]*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
+      col=col_all[[i+length(y_cols)]]
+      NextMethod()
+    }
   }
 }
