@@ -10,7 +10,7 @@ plot.jms.data.object <- function(x,offset=1/sqrt(length(ycol(x))-1),xlim=NULL,yl
 
   if(any(is.null(xlim))) xlim=range(x[,xcol(x)][is.finite(x[,xcol(x)])])
   if(any(is.null(ylim))) ylim=extendrange(r=range(x),0.04)
-  if(any(is.null(y2lim)) && !all(is.na(y2col(x)))) y2lim=range(x[,y2col(x)])
+  if(any(is.null(y2lim)) && !all(is.na(y2col(x)))) y2lim=range(x[,y2col(x)],na.rm = T)
 
   args=list(...)
   plot_args=args[names(args) %in% names(c(formals(axis),formals(pretty_plot)))]
