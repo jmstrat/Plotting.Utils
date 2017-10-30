@@ -75,11 +75,11 @@ pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexi
     Minorticksat=Minorticksat[!(Minorticksat %in% ticksat)]
 
     #Add minor ticks
-    axis(side = axisSide, tcl = -.2, at=(Minorticksat+scale[[2]])*scale[[1]], labels = NA,...)
+    axis(side = axisSide, tcl = -.2, at=Minorticksat*scale[[1]]+scale[[2]], labels = NA,...)
     #Add major ticks
-    axis(side = axisSide, tcl = -.4, at=(ticksat+scale[[2]])*scale[[1]], labels = NA,...)
+    axis(side = axisSide, tcl = -.4, at=ticksat*scale[[1]]+scale[[2]], labels = NA,...)
     #Add labels (With reduced spacing from axis -- line=.4)
-    axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=(ticksat+scale[[2]])*scale[[1]],labels=ticksat,...)
+    axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ticksat*scale[[1]]+scale[[2]],labels=ticksat,...)
   }
   if(length(div)==1) div=c(div,div,div)
   if(length(div)==2) div=c(div[[1]],div[[2]],div[[2]])
@@ -109,9 +109,9 @@ pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexi
   }
   if(!is.null(ylab)) mtext(side = 2, ylab, line = labline[[2]],...)
   if(4%in%axes) {
-    y2_scale=yscale(ylim,y2lim)
+    plot_options$y2scale <- yscale(ylim,y2lim)
     #Draw x axis
-    draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=y2_scale,...)
+    draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=plot_options$y2scale,...)
   }
   if(!is.null(y2lab)) mtext(side = 4, y2lab, line = labline[[4]],...)
 }
@@ -125,6 +125,9 @@ yscale <- function(y1,y2) {
   ylim=range(y1)
   y2lim=range(y2)
   scale=(ylim[[2]]-ylim[[1]])/(y2lim[[2]]-y2lim[[1]])
-  offset=ylim[[1]]-y2lim[[1]]
+  offset=ylim[[1]]-y2lim[[1]]*scale
   return(c(scale=scale,offset=offset))
 }
+
+plot_options=new.env()
+
