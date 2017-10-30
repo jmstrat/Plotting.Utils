@@ -53,10 +53,16 @@ lines.jms.data.object <- function(x,col=par('col'),y2=TRUE,...) {
     }
   }
   if(y2_ && !all(is.na(y2_cols))) {
-    for(i in 1:length(y2_cols)) {
-      x=data.frame(x=x_data,y=y_df[,i]*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
-      col=col_all[[i+length(y_cols)]]
+    if(length(y2_cols)<2) {
+      x=data.frame(x=x_data,y=y2_df*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
+      col=col_all[[1+length(y_cols)]]
       NextMethod()
+    } else {
+      for(i in 1:length(y2_cols)) {
+        x=data.frame(x=x_data,y=y_df[,i]*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
+        col=col_all[[i+length(y_cols)]]
+        NextMethod()
+      }
     }
   }
 }
