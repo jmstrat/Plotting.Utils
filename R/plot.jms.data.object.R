@@ -32,36 +32,37 @@ plot.jms.data.object <- function(x,offset=1/sqrt(length(ycol(x))-1),xlim=NULL,yl
 #' @examples
 #' plot.xy(data)
 #' @export
-lines.jms.data.object <- function(x,col=par('col'),y2=TRUE,...) {
+lines.jms.data.object <- function(x,col=par('col'),type='l',y2=TRUE,...) {
   x_data=x[,xcol(x)]
   y_cols=ycol(x)
   y_df=if(all(is.na(y_cols))) c() else x[,y_cols]
   y2_cols=y2col(x)
   y2_df=if(all(is.na(y2_cols))) c() else x[,y2_cols]
   col_all=if(y2) expand_args(1:(length(y_cols)+length(y2_cols)),col)[[2]] else expand_args(1:length(y_cols),col)[[2]]
+  type_all=if(y2) expand_args(1:(length(y_cols)+length(y2_cols)),type)[[2]] else expand_args(1:length(y_cols),type)[[2]]
 
   y2_=y2
   y2=NULL
   if(length(y_cols)<2) {
     x=data.frame(x=x_data,y=y_df)
-    NextMethod()
+    NextMethod(type=type_all[[1]])
   } else {
     for(i in 1:length(y_cols)) {
       x=data.frame(x=x_data,y=y_df[,i])
       col=col_all[[i]]
-      NextMethod()
+      NextMethod(type=type_all[[i]])
     }
   }
   if(y2_ && !all(is.na(y2_cols))) {
     if(length(y2_cols)<2) {
       x=data.frame(x=x_data,y=y2_df*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
       col=col_all[[1+length(y_cols)]]
-      NextMethod()
+      NextMethod(type=type_all[[1+length(y_cols)]])
     } else {
       for(i in 1:length(y2_cols)) {
         x=data.frame(x=x_data,y=y_df[,i]*plot_options$y2scale[[1]]+plot_options$y2scale[[2]])
         col=col_all[[i+length(y_cols)]]
-        NextMethod()
+        NextMethod(type=type_all[[i+length(y_cols)]])
       }
     }
   }
