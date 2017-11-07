@@ -40,7 +40,8 @@ iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   graph<-dyAxis.jms(graph,'x',label=xlab,valueRange=xlim,ticks=1%in%axes)
   graph<-dyAxis.jms(graph,'y',label=ylab,valueRange=ylim,ticks=2%in%axes)
   graph <- dyBox(graph)
-  graph <- dygraphs::dyCrosshair(graph,direction = "vertical")
+  direction <- if(any(c(2,4)%in%axes)) "both" else "vertical"
+  graph <- dygraphs::dyCrosshair(graph,direction = direction)
   graph <- dygraphs::dyLegend(graph,show = "always", hideOnMouseOut = TRUE)
 
   #Fix for mysterious warning...
