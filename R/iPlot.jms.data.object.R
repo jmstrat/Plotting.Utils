@@ -26,9 +26,9 @@ iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   if(any(is.null(ylim))) ylim=extendrange(r=range(data),0.04)
 
   graph<-dygraphs::dygraph(data)
-  col_all=expand_args(2:(ncol(data)),col)[[2]]
-  lwd_all=expand_args(2:(ncol(data)),lwd)[[2]]
-  pch_all=expand_args(2:(ncol(data)),pch)[[2]]
+  col_all=if(is.null(col)) NULL else expand_args(2:(ncol(data)),col)[[2]]
+  lwd_all=if(is.null(lwd)) NULL else expand_args(2:(ncol(data)),lwd)[[2]]
+  pch_all=if(is.null(pch)) NULL else expand_args(2:(ncol(data)),pch)[[2]]
   for(i in 1:(ncol(data)-1)) {
     col=col_all[[i]]
     drawPoints <- if(!is.na(pch_all[[i]])) TRUE else NULL
