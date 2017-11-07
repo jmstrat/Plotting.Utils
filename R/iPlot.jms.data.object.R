@@ -14,8 +14,8 @@ iPlot.default <- function(...) {
 #' @inheritParams graphics::plot.xy
 #' @rdname iPlot
 #' @export
-iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),col=par('col'),lwd=1,pch=NA) {
-  data<-combine.data.objects(list(...))
+iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL) {
+  data<-combine.data.objects(unname(list(...)),interpolate=TRUE) #Need to interpolate to avoid gaps...
   dots <- substitute(list(...))[-1]
   argNames=c(sapply(dots, deparse))
   data<-data[,c(xcol(data),ycol(data))]
@@ -31,15 +31,17 @@ iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   pch_all=expand_args(2:(ncol(data)),pch)[[2]]
   for(i in 1:(ncol(data)-1)) {
     col=col_all[[i]]
-    drawPoints <- if(!is.na(pch_all[[i]])) TRUE else FALSE
+    drawPoints <- if(!is.na(pch_all[[i]])) TRUE else NULL
+    pointSize <- if(!is.na(pch_all[[i]])) 1 else 0
     strokeWidth <- lwd_all[[i]]
-    graph<-dygraphs::dySeries(graph,color=col,axis='y',drawPoints=drawPoints,strokeWidth=strokeWidth)
+    label<- if(!is.null(labels)) labels[[i]] else NULL
+    graph<-dygraphs::dySeries(graph,label=label,color=rgb(t(col2rgb(col)/255)),axis='y',drawPoints=drawPoints,pointSize=pointSize,strokeWidth=strokeWidth)
   }
   graph<-dyAxis.jms(graph,'x',label=xlab,valueRange=xlim,ticks=1%in%axes)
   graph<-dyAxis.jms(graph,'y',label=ylab,valueRange=ylim,ticks=2%in%axes)
-  graph <- dyBox(graph) %>%
-    dygraphs::dyCrosshair(direction = "vertical") %>%
-    dygraphs::dyLegend(show = "always", hideOnMouseOut = TRUE)
+  graph <- dyBox(graph)
+  graph <- dygraphs::dyCrosshair(graph,direction = "vertical")
+  graph <- dygraphs::dyLegend(graph,show = "always", hideOnMouseOut = TRUE)
 
   #Fix for mysterious warning...
   set.seed(1)
