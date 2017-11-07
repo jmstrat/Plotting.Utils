@@ -4,15 +4,26 @@
 \alias{lines.jms.data.object}
 \title{Draw lines for a data object}
 \usage{
-\method{lines}{jms.data.object}(x, offset = 1/sqrt(ncol(x) - 1),
-  col = par("col"), ...)
+\method{lines}{jms.data.object}(x, col = par("col"), type = "l",
+  y2 = TRUE, ...)
 }
 \arguments{
 \item{x}{The object to plot}
+
+\item{col}{color code or name, see \code{\link{colors}},
+    \code{\link{palette}}.  Here \code{NULL} means colour 0.}
+
+\item{type}{1 character code: see \code{\link{plot.default}}.
+    \code{NULL} is accepted as a synonym for \code{"p"}.}
+
+\item{y2}{Include y2 data in plot?}
+
+\item{...}{further \link{graphical parameters} such as \code{xpd},
+    \code{lend}, \code{ljoin} and \code{lmitre}.}
 }
 \description{
 This function plots a data object
 }
 \examples{
-lines(data)
+plot.xy(data)
 }

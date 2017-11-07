@@ -88,12 +88,6 @@ axis.break.box <- function (axis = 1, breakpos, brw = 0.02)
   par(xpd = FALSE)
 }
 
-expand_args <- function(...){
-  dots <- list(...)
-  max_length <- max(sapply(dots, length))
-  lapply(dots, rep, length.out = max_length)
-}
-
 #' Put a box around a plot, leaving gaps for axis breaks on the x and / or y axes
 #'
 #' Based on \code{\link[plotrix]{axis.break}}.
