@@ -14,12 +14,14 @@ iPlot.default <- function(...) {
 #' @inheritParams graphics::plot.xy
 #' @rdname iPlot
 #' @export
-iPlot.jms.data.object <- function(...,xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),col=par('col'),lwd=1,pch=NA) {
+iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),col=par('col'),lwd=1,pch=NA) {
   data<-combine.data.objects(list(...))
   dots <- substitute(list(...))[-1]
   argNames=c(sapply(dots, deparse))
   data<-data[,c(xcol(data),ycol(data))]
   if(length(argNames)==length(ycol(data))) names(data)[ycol(data)]<-argNames
+
+  if(length(ycol(data))>1) data=data+offset*seq(0,length(ycol(data))-1,1)*range(data)[[2]]
   if(any(is.null(xlim))) xlim=range(data[,xcol(data)][is.finite(data[,xcol(data)])])
   if(any(is.null(ylim))) ylim=extendrange(r=range(data),0.04)
 
@@ -38,5 +40,9 @@ iPlot.jms.data.object <- function(...,xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_
   graph <- dyBox(graph) %>%
     dygraphs::dyCrosshair(direction = "vertical") %>%
     dygraphs::dyLegend(show = "always", hideOnMouseOut = TRUE)
+
+  #Fix for mysterious warning...
+  set.seed(1)
+  #Return the graph (will plot at top level)
   graph
 }

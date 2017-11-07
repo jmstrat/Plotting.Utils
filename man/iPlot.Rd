@@ -2,20 +2,22 @@
 % Please edit documentation in R/iPlot.jms.data.object.R
 \name{iPlot}
 \alias{iPlot}
+\alias{iPlot.default}
 \alias{iPlot.jms.data.object}
 \title{Make an interactive plot for a data object}
 \usage{
-iPlot(x)
+iPlot(...)
 
-\method{iPlot}{jms.data.object}(data, xlim = NULL, ylim = NULL,
-  axes = c(1, 2), xlab = xlab_(data), ylab = ylab_(data),
-  col = par("col"), lwd = 1, pch = NA)
+\method{iPlot}{default}(...)
+
+\method{iPlot}{jms.data.object}(..., offset = 1/sqrt(length(ycol(data)) - 1),
+  xlim = NULL, ylim = NULL, axes = c(1, 2), xlab = xlab_(data),
+  ylab = ylab_(data), col = par("col"), lwd = 1, pch = NA)
 }
 \arguments{
-\item{x}{the \code{x} and \code{y} arguments provide the x and y
-    coordinates for the plot.  Any reasonable way of defining the
-    coordinates is acceptable.  See the function \code{\link{xy.coords}}
-    for details.  If supplied separately, they must be of the same length.}
+\item{...}{further \link{graphical parameters} as in \code{\link{par}}.
+    The relevant ones are \code{xaxs}, \code{yaxs} and \code{lab}.
+  }
 
 \item{xlim}{numeric vectors of length 2, giving the x and y
     coordinates ranges.}
