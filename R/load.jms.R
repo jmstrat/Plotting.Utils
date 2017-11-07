@@ -28,23 +28,40 @@ load.jms <- function(path,func,ext=NULL,pattern=NULL, sort=FALSE,...) {
 #' @examples
 #' combine.data.objects(objects)
 #' @export
-combine.data.objects <- function(objects) {
+combine.data.objects <- function(objects,interpolate=FALSE) {
   if(is.jms.data.object(objects)) return(objects)
   if(!inherits(objects,'list')) stop('objects is not a list')
   if(length(objects)==1) return(objects[[1]])
   #Now we have to read each object as a subsequent column for a data frame
-  columns=c()
   len_f=length(objects)
-  x_1=NA
+  #Build the x axis
+  x_all=NA
   for(f in 1:len_f) {
     x_column=xcol(objects[[f]])
     x=objects[[f]][,x_column]
-    if(f==1) x_1=x
-    if(!all(x==x_1)) stop("X axis is not the same across all files -- aborting")
-    y_column=ycol(objects[[f]])
-    columns[[f]]=objects[[f]][,y_column]
+    if(f==1)
+      x_all=x
+    else
+      x_all=union(x_all,x)
   }
-  df=jms.data.object(x_1,columns)
+  x_all=sort(x_all)
+  #Build the y columns
+  columns=c()
+  yNA=rep_len(NA,length(x_all))
+  for(f in 1:len_f) {
+    x_column=objects[[f]][,xcol(objects[[f]])]
+    whichY=x_all%in%x_column
+    for(i in ycol(objects[[f]])) {
+      y_column=yNA
+      y_column[whichY]=objects[[f]][,i]
+      if(interpolate) {
+        y_columnApprox=approxfun(x_all,y_column,yleft=NA,yright=NA)
+        y_column=y_columnApprox(x_all)
+      }
+      columns[[length(columns)+1]]=y_column
+    }
+  }
+  df=jms.data.object(x_all,columns)
   #Add default attributes
   xlab(df)<-xlab(objects[[1]])
   ylab(df)<-ylab(objects[[1]])
@@ -53,7 +70,7 @@ combine.data.objects <- function(objects) {
   attr(df,'file_type')<-attr(objects[[1]],'file_type')
   attr(df,'data_type')<-attr(objects[[1]],'data_type')
   #Rename columns
-  names(df) <- c(xlab(df),paste0(ylab(df),'_',c(1:len_f)))
+  names(df) <- c(xlab(df),paste0(ylab(df),'_',c(1:length(columns))))
   class(df)<-class(objects[[1]])
   #return data
   return(df)
