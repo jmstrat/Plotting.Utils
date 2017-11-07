@@ -4,13 +4,17 @@
 \alias{lines.jms.data.object}
 \title{Draw lines for a data object}
 \usage{
-\method{lines}{jms.data.object}(x, col = par("col"), y2 = TRUE, ...)
+\method{lines}{jms.data.object}(x, col = par("col"), type = "l",
+  y2 = TRUE, ...)
 }
 \arguments{
 \item{x}{The object to plot}
 
 \item{col}{color code or name, see \code{\link{colors}},
     \code{\link{palette}}.  Here \code{NULL} means colour 0.}
+
+\item{type}{1 character code: see \code{\link{plot.default}}.
+    \code{NULL} is accepted as a synonym for \code{"p"}.}
 
 \item{y2}{Include y2 data in plot?}
 
