@@ -14,31 +14,37 @@ iPlot.default <- function(...) {
 #' @inheritParams graphics::plot.xy
 #' @rdname iPlot
 #' @export
-iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL) {
+iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL) {
   data<-combine.data.objects(unname(list(...)),interpolate=TRUE) #Need to interpolate to avoid gaps...
   dots <- substitute(list(...))[-1]
   argNames=c(sapply(dots, deparse))
-  data<-data[,c(xcol(data),ycol(data))]
-  if(length(argNames)==length(ycol(data))) names(data)[ycol(data)]<-argNames
+  y1end=length(ycol(data))
+  allCols=c(xcol(data),ycol(data),y2col(data))
+  data<-data[,allCols[!is.na(allCols)]]
+  if(ncol(data) > 2 && length(argNames)==ncol(data)-1) names(data)[2:length(data)]<-argNames
 
   if(length(ycol(data))>1) data=data+offset*seq(0,length(ycol(data))-1,1)*range(data)[[2]]
   if(any(is.null(xlim))) xlim=range(data[,xcol(data)][is.finite(data[,xcol(data)])])
   if(any(is.null(ylim))) ylim=extendrange(r=range(data),0.04)
+  if(any(is.null(y2lim)) && !all(is.na(y2col(data)))) y2lim=range(data[,y2col(data)],na.rm = T)
 
   graph<-dygraphs::dygraph(data)
   col_all=if(is.null(col)) NULL else expand_args(2:(ncol(data)),col)[[2]]
   lwd_all=if(is.null(lwd)) NULL else expand_args(2:(ncol(data)),lwd)[[2]]
   pch_all=if(is.null(pch)) NULL else expand_args(2:(ncol(data)),pch)[[2]]
+
   for(i in 1:(ncol(data)-1)) {
     col=col_all[[i]]
     drawPoints <- if(!is.na(pch_all[[i]])) TRUE else NULL
     pointSize <- if(!is.na(pch_all[[i]])) 1 else 0
     strokeWidth <- lwd_all[[i]]
     label<- if(!is.null(labels)) labels[[i]] else NULL
-    graph<-dygraphs::dySeries(graph,label=label,color=rgb(t(col2rgb(col)/255)),axis='y',drawPoints=drawPoints,pointSize=pointSize,strokeWidth=strokeWidth)
+    axis<- if(i>y1end) 'y2' else 'y'
+    graph<-dygraphs::dySeries(graph,label=label,color=rgb(t(col2rgb(col)/255)),axis=axis,drawPoints=drawPoints,pointSize=pointSize,strokeWidth=strokeWidth)
   }
-  graph<-dyAxis.jms(graph,'x',label=xlab,valueRange=xlim,ticks=1%in%axes)
-  graph<-dyAxis.jms(graph,'y',label=ylab,valueRange=ylim,ticks=2%in%axes)
+  graph<-dyAxis.jms(graph,'x',label=as.character(xlab),valueRange=xlim,ticks=1%in%axes)
+  graph<-dyAxis.jms(graph,'y',label=as.character(ylab),valueRange=ylim,ticks=2%in%axes)
+  if(4%in%axes) graph<-dyAxis.jms(graph,'y2',label=as.character(y2lab),valueRange=y2lim,ticks=TRUE)
   graph <- dyBox(graph)
   direction <- if(any(c(2,4)%in%axes)) "both" else "vertical"
   graph <- dygraphs::dyCrosshair(graph,direction = direction)
