@@ -2,9 +2,10 @@
 #'
 #' @rdname iPlot
 #' @export
-iPlot <- function(x) UseMethod("iPlot")
+iPlot <- function(...) UseMethod("iPlot")
+#' @rdname iPlot
 #' @export
-iPlot.default <- function(x) {
+iPlot.default <- function(...) {
   stop("Unable to make an interactive plot for this class")
 }
 #' @inheritParams graphics::plot.window
@@ -13,8 +14,12 @@ iPlot.default <- function(x) {
 #' @inheritParams graphics::plot.xy
 #' @rdname iPlot
 #' @export
-iPlot.jms.data.object <- function(data,xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),col=par('col'),lwd=1,pch=NA) {
+iPlot.jms.data.object <- function(...,xlim=NULL,ylim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),col=par('col'),lwd=1,pch=NA) {
+  data<-combine.data.objects(list(...))
+  dots <- substitute(list(...))[-1]
+  argNames=c(sapply(dots, deparse))
   data<-data[,c(xcol(data),ycol(data))]
+  if(length(argNames)==length(ycol(data))) names(data)[ycol(data)]<-argNames
   if(any(is.null(xlim))) xlim=range(data[,xcol(data)][is.finite(data[,xcol(data)])])
   if(any(is.null(ylim))) ylim=extendrange(r=range(data),0.04)
 
