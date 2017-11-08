@@ -12,9 +12,11 @@ iPlot.default <- function(...) {
 #' @inheritParams graphics::plot.default
 #' @inheritParams graphics::par
 #' @inheritParams graphics::plot.xy
+#' @param group Group to associate this plot with.
+#' The x-axis zoom level of plots within a group is automatically synchronized.
 #' @rdname iPlot
 #' @export
-iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL) {
+iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL,group=NULL) {
   data<-combine.data.objects(unname(list(...)),interpolate=TRUE) #Need to interpolate to avoid gaps...
   dots <- substitute(list(...))[-1]
   argNames=c(sapply(dots, deparse))
@@ -28,7 +30,7 @@ iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   if(any(is.null(ylim))) ylim=extendrange(r=range(data),0.04)
   if(any(is.null(y2lim)) && !all(is.na(y2col(data)))) y2lim=range(data[,y2col(data)],na.rm = T)
 
-  graph<-dygraphs::dygraph(data)
+  graph<-dygraphs::dygraph(data,group=group)
   col_all=if(is.null(col)) NULL else expand_args(2:(ncol(data)),col)[[2]]
   lwd_all=if(is.null(lwd)) NULL else expand_args(2:(ncol(data)),lwd)[[2]]
   pch_all=if(is.null(pch)) NULL else expand_args(2:(ncol(data)),pch)[[2]]
