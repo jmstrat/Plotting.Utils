@@ -85,7 +85,7 @@ pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexi
   if(length(div)==2) div=c(div[[1]],div[[2]],div[[2]])
 
   if(is.null(labline)) {
-    labline=c(1.4,1.4,1.6,1.6)
+    labline=c(1.6,1.6,1.6,1.6)
     labline[!c(1,2,3,4)%in%axes]=labline[!c(1,2,3,4)%in%axes]-1.2
   }
 
@@ -97,23 +97,23 @@ pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexi
     #Draw x axis
     draw_axis(xlim[[1]],xlim[[2]],1,frac,div[[1]],flexible,...)
   }
-  if(!is.null(xlab)) mtext(side = 1, xlab, line = labline[[1]],...)
+  if(!is.null(xlab)) mtext(side = 1, as.expression(xlab), line = labline[[1]],...)
   if(3%in%axes) {
     #Draw x axis
     draw_axis(xlim[[1]],xlim[[2]],3,frac,div[[1]],flexible,...)
-    if(!is.null(xlab)) mtext(side = 3, xlab, line = labline[[3]],...)
+    if(!is.null(xlab)) mtext(side = 3, as.expression(xlab), line = labline[[3]],...)
   }
   if(2%in%axes) {
     #Draw y axis
     draw_axis(ylim[[1]],ylim[[2]],2,frac,div[[2]],flexible,...)
   }
-  if(!is.null(ylab)) mtext(side = 2, ylab, line = labline[[2]],...)
+  if(!is.null(ylab)) mtext(side = 2, as.expression(ylab), line = labline[[2]],...)
   if(4%in%axes) {
     plot_options$y2scale <- yscale(ylim,y2lim)
     #Draw x axis
     draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=plot_options$y2scale,...)
   }
-  if(!is.null(y2lab)) mtext(side = 4, y2lab, line = labline[[4]],...)
+  if(!is.null(y2lab)) mtext(side = 4, as.expression(y2lab), line = labline[[4]],...)
 }
 
 #' Calculate a scale factor to transform between vectors
