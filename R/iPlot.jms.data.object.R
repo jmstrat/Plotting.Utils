@@ -8,6 +8,7 @@ iplot <- function(...) UseMethod("iplot")
 iplot.default <- function(...) {
   stop("Unable to make an interactive plot for this class")
 }
+iplotArgBlacklist<-c('labels','group') #the plot() command will ignore these
 #' @inheritParams graphics::plot.window
 #' @inheritParams graphics::plot.default
 #' @inheritParams graphics::par
