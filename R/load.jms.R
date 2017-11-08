@@ -37,6 +37,7 @@ combine.data.objects <- function(objects,interpolate=FALSE) {
   #Build the x axis
   x_all=NA
   for(f in 1:len_f) {
+    if(is.null(objects[[f]])) next()
     x_column=xcol(objects[[f]])
     x=objects[[f]][,x_column]
     if(f==1)
@@ -49,6 +50,7 @@ combine.data.objects <- function(objects,interpolate=FALSE) {
   columns=c()
   yNA=rep_len(NA,length(x_all))
   for(f in 1:len_f) {
+    if(is.null(objects[[f]])) next()
     x_column=objects[[f]][,xcol(objects[[f]])]
     whichY=x_all%in%x_column
     for(i in ycol(objects[[f]])) {
