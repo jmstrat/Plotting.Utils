@@ -30,6 +30,10 @@ iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   if(any(is.null(ylim))) ylim=extendrange(r=range(data),0.04)
   if(any(is.null(y2lim)) && !all(is.na(y2col(data)))) y2lim=range(data[,y2col(data)],na.rm = T)
 
+  xrange=range(data[,1])
+  if(xlim[[2]]<xrange[[2]]) xlim[[2]]<-xrange[[2]]
+  if(xlim[[1]]<xrange[[1]]) xlim[[1]]<-xrange[[1]]
+
   graph<-dygraphs::dygraph(data,group=group)
   col_all=if(is.null(col)) NULL else expand_args(2:(ncol(data)),col)[[2]]
   lwd_all=if(is.null(lwd)) NULL else expand_args(2:(ncol(data)),lwd)[[2]]
