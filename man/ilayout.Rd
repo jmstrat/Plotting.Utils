@@ -3,12 +3,15 @@
 \name{ilayout}
 \alias{ilayout}
 \alias{ilayout.show}
+\alias{layout.all}
 \title{Specifying Complex Plot Arrangements for Interactive Plots}
 \usage{
 ilayout(mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1,
   nrow(mat)))
 
 ilayout.show(n)
+
+layout.all(...)
 }
 \arguments{
 \item{mat}{a matrix object specifying the location of the next
@@ -39,8 +42,10 @@ row-heights specified in the respective arguments.
 Figure \emph{i} is allocated a region composed from a subset of
 these rows and columns, based on the rows and columns in which \emph{i}
 occurs in \code{mat}. \cr
-\code{\link{ilayout.show}(n)} plots (part of) the current layout,
-namely the outlines of the next n figures.
+\code{ilayout.show}(n) plots (part of) the current layout,
+namely the outlines of the next n figures. \cr
+\code{ilayout.all} Sets up both the default plot device and the interactive
+plot device.
 }
 \section{Warnings}{
 

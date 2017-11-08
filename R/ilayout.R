@@ -6,8 +6,10 @@
 #' @details Figure \emph{i} is allocated a region composed from a subset of
 #' these rows and columns, based on the rows and columns in which \emph{i}
 #' occurs in \code{mat}. \cr
-#' \code{\link{ilayout.show}(n)} plots (part of) the current layout,
-#' namely the outlines of the next n figures.
+#' \code{ilayout.show}(n) plots (part of) the current layout,
+#' namely the outlines of the next n figures. \cr
+#' \code{ilayout.all} Sets up both the default plot device and the interactive
+#' plot device.
 #' @inherit graphics::layout
 #' @inheritParams graphics::layout
 #' @export
@@ -88,6 +90,13 @@ ilayout.show <- function(n) {
     combined_plot<-ilayout.addPlot(dygraphs::dyAnnotation(blank_plot, 0.5, i,cssClass = "plotnumber"))
   }
   combined_plot
+}
+
+#' @export
+#' @rdname ilayout
+layout.all <- function(...) {
+  layout(...)
+  ilayout(...)
 }
 
 ilayout.options = new.env()
