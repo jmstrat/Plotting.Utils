@@ -52,7 +52,7 @@ ilayout.addPlot <- function(graph) {
     ilayout.options$nextPlot=1
     ilayout.options$taglist[[2]]$children=list()
   }
-  graph$height='100%'
+  graph$height='98%'
   graph$width='100%'
   newdiv=shiny::div(class=paste0('plot',ilayout.options$nextPlot),graph)
   ilayout.options$taglist[[2]]$children[[ilayout.options$nextPlot]]<-newdiv
