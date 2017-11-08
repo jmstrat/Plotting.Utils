@@ -2,18 +2,16 @@
 % Please edit documentation in R/grid.layout.R
 \name{grid.layout}
 \alias{grid.layout}
-\alias{igrid.layout}
 \title{Layout plots in grid form}
 \usage{
-grid.layout(n, show = FALSE, layoutFunction = graphics::layout,
-  showFunction = graphics::layout.show)
-
-igrid.layout(n, show = FALSE)
+grid.layout(n, show = FALSE, device = "both")
 }
 \arguments{
 \item{n}{number of plots}
 
 \item{show}{Show the resultant layout using \code{\link{layout.show}}?}
+
+\item{device}{Which device to setup - one of 'base', 'interactive', or 'both'}
 }
 \description{
 Sets up a grid layout for plots. Currently up to 9 plots are supported.

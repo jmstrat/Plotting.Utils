@@ -3,9 +3,21 @@
 #' Sets up a grid layout for plots. Currently up to 9 plots are supported.
 #' @param n number of plots
 #' @param show Show the resultant layout using \code{\link{layout.show}}?
+#' @param device Which device to setup - one of 'base', 'interactive', or 'both'
 #' @export
 #' @rdname grid.layout
-grid.layout <- function(n, show=FALSE,layoutFunction=graphics::layout,showFunction=graphics::layout.show) {
+grid.layout <- function(n, show=FALSE,device='both') {
+  if(device == 'both'){
+    layoutFunction=layout.all
+    showFunction=layout.show
+  } else if(device == 'interactive') {
+    layoutFunction=ilayout
+    showFunction=ilayout.show
+  } else {
+    if(!device == 'base') warning('Unknown device, assuming base')
+    layoutFunction=graphics::layout
+    showFunction=graphics::layout.show
+  }
   if(n==1) {
     layoutFunction(1)
   } else if(n==2) {
@@ -29,7 +41,3 @@ grid.layout <- function(n, show=FALSE,layoutFunction=graphics::layout,showFuncti
   }
   if(show) showFunction(n)
 }
-
-#' @export
-#' @rdname grid.layout
-igrid.layout <- function(n,show=FALSE) grid.layout(n,show=show, layoutFunction=ilayout,showFunction=ilayout.show)
