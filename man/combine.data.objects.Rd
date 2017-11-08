@@ -4,7 +4,7 @@
 \alias{combine.data.objects}
 \title{Combine a list of data objects}
 \usage{
-combine.data.objects(objects)
+combine.data.objects(objects, interpolate = FALSE)
 }
 \value{
 A jms.data.object containing the data
