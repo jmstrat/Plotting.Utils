@@ -53,5 +53,5 @@ iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   #Fix for mysterious warning...
   set.seed(1)
   #Return the graph (will plot at top level)
-  graph
+  ilayout.addPlot(graph)
 }
