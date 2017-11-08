@@ -25,7 +25,7 @@ dyxlim <- function(dygraph,xlim) {
 #' @export
 dyAxis.jms <- function(graph,name,label,valueRange,ticks=TRUE,digits=2) {
   graph<- if(ticks)
-    dygraphs::dyAxis(graph,name,label=label,valueRange=valueRange, drawGrid = FALSE,axisLineWidth = 1,
+    dygraphs::dyAxis(graph,name,label=label,valueRange=valueRange, drawGrid = FALSE,axisLineWidth = 1,independentTicks=TRUE,
                    valueFormatter=paste0('function(d){return parseFloat(Math.round(d*100)/100).toFixed(',digits,')}'))
   else
     dygraphs::dyAxis(graph,name,label=label,valueRange=valueRange, drawGrid = FALSE,axisLineWidth = 1,
