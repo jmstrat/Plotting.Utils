@@ -85,7 +85,7 @@ pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexi
   if(length(div)==2) div=c(div[[1]],div[[2]],div[[2]])
 
   if(is.null(labline)) {
-    labline=c(1.6,1.6,1.6,1.6)
+    labline=c(1.7,1.3,1.6,1.6)
     labline[!c(1,2,3,4)%in%axes]=labline[!c(1,2,3,4)%in%axes]-1.2
   }
 
