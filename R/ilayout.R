@@ -1,4 +1,3 @@
-ilayout.options = new.env()
 #' Specifying Complex Plot Arrangements for Interactive Plots
 #'
 #' \code{ilayout} divides the device up into as many rows and columns
@@ -90,3 +89,6 @@ ilayout.show <- function(n) {
   }
   combined_plot
 }
+
+ilayout.options = new.env()
+ilayout(1)
