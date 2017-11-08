@@ -16,5 +16,5 @@ igrid.layout(n, show = FALSE)
 \item{show}{Show the resultant layout using \code{\link{layout.show}}?}
 }
 \description{
-Layout plots in grid form
+Sets up a grid layout for plots. Currently up to 9 plots are supported.
 }
