@@ -11,8 +11,9 @@ iPlot(...)
 \method{iPlot}{default}(...)
 
 \method{iPlot}{jms.data.object}(..., offset = 1/sqrt(length(ycol(data)) - 1),
-  xlim = NULL, ylim = NULL, axes = c(1, 2), xlab = xlab_(data),
-  ylab = ylab_(data), col = par("col"), lwd = 1, pch = NA)
+  xlim = NULL, ylim = NULL, y2lim = NULL, axes = c(1, 2),
+  xlab = xlab_(data), ylab = ylab_(data), y2lab = y2lab_(data),
+  col = par("col"), lwd = 1, pch = NA, labels = NULL)
 }
 \arguments{
 \item{...}{further \link{graphical parameters} as in \code{\link{par}}.
