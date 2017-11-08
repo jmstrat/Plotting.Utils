@@ -52,6 +52,7 @@ iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=N
   graph <- dygraphs::dyCrosshair(graph,direction = direction)
   graph <- dygraphs::dyLegend(graph,show = "always", hideOnMouseOut = TRUE)
 
+  graph$x$css <- '.dygraph-legend {background-color: transparent !important}'
   #Fix for mysterious warning...
   set.seed(1)
   #Return the graph (will plot at top level)
