@@ -2,10 +2,10 @@
 #'
 #' @rdname iPlot
 #' @export
-iPlot <- function(...) UseMethod("iPlot")
+iplot <- function(...) UseMethod("iplot")
 #' @rdname iPlot
 #' @export
-iPlot.default <- function(...) {
+iplot.default <- function(...) {
   stop("Unable to make an interactive plot for this class")
 }
 #' @inheritParams graphics::plot.window
@@ -16,7 +16,7 @@ iPlot.default <- function(...) {
 #' The x-axis zoom level of plots within a group is automatically synchronized.
 #' @rdname iPlot
 #' @export
-iPlot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL,group=NULL) {
+iplot.jms.data.object <- function(...,offset=1/sqrt(length(ycol(data))-1),xlim=NULL,ylim=NULL,y2lim=NULL,axes=c(1,2),xlab=xlab_(data),ylab=ylab_(data),y2lab=y2lab_(data),col=par('col'),lwd=1,pch=NA,labels=NULL,group=NULL) {
   data<-combine.data.objects(unname(list(...)),interpolate=TRUE) #Need to interpolate to avoid gaps...
   dots <- substitute(list(...))[-1]
   argNames=c(sapply(dots, deparse))
