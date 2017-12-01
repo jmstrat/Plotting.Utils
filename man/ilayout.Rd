@@ -2,12 +2,15 @@
 % Please edit documentation in R/ilayout.R
 \name{ilayout}
 \alias{ilayout}
+\alias{ilayout.addPlot}
 \alias{ilayout.show}
 \alias{layout.all}
 \title{Specifying Complex Plot Arrangements for Interactive Plots}
 \usage{
 ilayout(mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1,
   nrow(mat)))
+
+ilayout.addPlot(graph)
 
 ilayout.show(n)
 
@@ -28,6 +31,8 @@ layout.all(...)
 \item{heights}{a vector of values for the heights of rows on the device.
     Relative and absolute heights can be specified, see \code{widths} above.}
 
+\item{graph}{The \code{\link[dygraphs]{dygraph}} to add.}
+
 \item{n}{number of figures to plot.}
 }
 \value{
@@ -37,11 +42,14 @@ layout.all(...)
 \code{ilayout} divides the device up into as many rows and columns
 as there are in matrix \code{mat}, with the column-widths and the
 row-heights specified in the respective arguments.
+
+Add a plot to an interactive layout
 }
 \details{
 Figure \emph{i} is allocated a region composed from a subset of
 these rows and columns, based on the rows and columns in which \emph{i}
 occurs in \code{mat}. \cr
+\code{ilayout.addPlot} adds a plot to the current layout \cr
 \code{ilayout.show}(n) plots (part of) the current layout,
 namely the outlines of the next n figures. \cr
 \code{ilayout.all} Sets up both the default plot device and the interactive

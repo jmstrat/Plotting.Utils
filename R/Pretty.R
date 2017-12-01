@@ -129,5 +129,6 @@ yscale <- function(y1,y2) {
   return(c(scale=scale,offset=offset))
 }
 
+#Prepare environment to store scale settings for y2 axis
 plot_options=new.env()
 

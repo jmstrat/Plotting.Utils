@@ -6,6 +6,7 @@
 #' @details Figure \emph{i} is allocated a region composed from a subset of
 #' these rows and columns, based on the rows and columns in which \emph{i}
 #' occurs in \code{mat}. \cr
+#' \code{ilayout.addPlot} adds a plot to the current layout \cr
 #' \code{ilayout.show}(n) plots (part of) the current layout,
 #' namely the outlines of the next n figures. \cr
 #' \code{ilayout.all} Sets up both the default plot device and the interactive
@@ -48,7 +49,8 @@ ilayout <- function (mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1, n
 #' Add a plot to an interactive layout
 #'
 #' @param graph The \code{\link[dygraphs]{dygraph}} to add.
-#' @keywords internal
+#' @export
+#' @rdname ilayout
 ilayout.addPlot <- function(graph) {
   if(ilayout.options$nextPlot>ilayout.options$num.figures) {
     ilayout.options$nextPlot=1
@@ -99,5 +101,7 @@ layout.all <- function(...) {
   ilayout(...)
 }
 
+#Prepare layout environment
 ilayout.options = new.env()
+#Set default layout
 ilayout(1)
