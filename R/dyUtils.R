@@ -35,3 +35,13 @@ dyAxis.jms <- function(graph,name,label,valueRange,ticks=TRUE,digits=2) {
   if(name=='x') graph<-dyxlim(graph,valueRange)
   graph
 }
+
+#' Sets the visibility of a trace
+#' @export
+dyVisibility <- function (graph, trace=1, visibility = TRUE){
+  vis <- graph$x$attrs$visibility
+  if(!length(vis)) vis <- rep_len(TRUE, length(graph$x$data))
+  vis[trace]<-visibility
+  graph$x$attrs$visibility<-vis
+  graph
+}

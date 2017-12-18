@@ -3,6 +3,7 @@
 \name{ilayout}
 \alias{ilayout}
 \alias{ilayout.addPlot}
+\alias{ilayout.hideTraceFromPlot}
 \alias{ilayout.show}
 \alias{layout.all}
 \title{Specifying Complex Plot Arrangements for Interactive Plots}
@@ -11,6 +12,8 @@ ilayout(mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1,
   nrow(mat)))
 
 ilayout.addPlot(graph)
+
+ilayout.hideTraceFromPlot(trace, plot = 1, visibility = FALSE)
 
 ilayout.show(n)
 
@@ -32,6 +35,10 @@ layout.all(...)
     Relative and absolute heights can be specified, see \code{widths} above.}
 
 \item{graph}{The \code{\link[dygraphs]{dygraph}} to add.}
+
+\item{trace}{Trace # of plot}
+
+\item{plot}{\code{ilayout} plot number}
 
 \item{n}{number of figures to plot.}
 }

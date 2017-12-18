@@ -61,6 +61,15 @@ ilayout.addPlot <- function(graph) {
   ilayout.options$taglist
 }
 
+#' @param trace Trace # of plot
+#' @param plot \code{ilayout} plot number
+#' @export
+#' @rdname ilayout
+ilayout.hideTraceFromPlot <- function(trace, plot=1, visibility=FALSE) {
+  ilayout.options$taglist[[2]]$children[[plot]]$children[[1]]<-dyVisibility(ilayout.options$taglist[[2]]$children[[plot]]$children[[1]],trace,visibility)
+  ilayout.options$taglist
+}
+
 #' @export
 #' @rdname ilayout
 ilayout.show <- function(n) {
