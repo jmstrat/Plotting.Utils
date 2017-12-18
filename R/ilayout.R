@@ -23,9 +23,6 @@ ilayout <- function (mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1, n
   num.figures <- as.integer(max(mat))
   for (i in 1L:num.figures) if (match(i, mat, nomatch = 0L) == 0L)
     stop(gettextf("ilayout matrix must contain at least one reference\nto each of the values {1 ... %d}\n", num.figures), domain = NA)
-  dm <- dim(mat)
-  num.rows <- dm[1L]
-  num.cols <- dm[2L]
   gridcss=c()
   for(i in 1:num.figures) {
     locations=which(mat==i, arr.ind = TRUE)
@@ -36,11 +33,11 @@ ilayout <- function (mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1, n
                          locations[1,2]+length(unique(locations[,2])),
                          locations[1,1]+length(unique(locations[,1])))
   }
-  wrappercss=sprintf('.plotwrapper {display: grid;height: 100%%; width:100%%;grid-template-columns: %s;grid-template-rows: %s}',
+  wrappercss=sprintf('.plotwrapper {display: grid;height: 98%%; width:100%%;grid-template-columns: %s;grid-template-rows: %s}',
                      paste(widths,'fr',sep='', collapse=' '),paste(heights,'fr',sep='', collapse=' '))
-  ilayout.options$taglist<-htmltools::browsable(shiny::tagList(shiny::tags$style(
-    paste("html, body {height: 98%;}",wrappercss,paste(gridcss,collapse='\n'),sep='\n')
-  ),shiny::div(class='plotwrapper')))
+  ilayout.options$taglist<-htmltools::browsable(shiny::tagList(shiny::tags$head(shiny::tags$style(
+    paste("html, body {height: 100%;}",wrappercss,paste(gridcss,collapse='\n'),sep='\n')
+  )),shiny::div(class='plotwrapper')))
   ilayout.options$nextPlot=1
   ilayout.options$num.figures=num.figures
   invisible(num.figures)
@@ -58,7 +55,7 @@ ilayout.addPlot <- function(graph) {
   }
   graph$height='98%'
   graph$width='100%'
-  newdiv=shiny::div(class=paste0('plot',ilayout.options$nextPlot),graph)
+  newdiv=shiny::div(class=paste0('plot',ilayout.options$nextPlot),style="width: 100% ; height: 100%",graph)
   ilayout.options$taglist[[2]]$children[[ilayout.options$nextPlot]]<-newdiv
   ilayout.options$nextPlot=ilayout.options$nextPlot+1
   ilayout.options$taglist
