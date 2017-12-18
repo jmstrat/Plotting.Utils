@@ -105,13 +105,13 @@ pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexi
   }
   if(2%in%axes) {
     #Draw y axis
-    draw_axis(ylim[[1]],ylim[[2]],2,frac,div[[2]],flexible,...)
+    draw_axis(ylim[[1]],ylim[[2]],2,frac,div[[2]],flexible,las=1,...)
   }
   if(!is.null(ylab)) mtext(side = 2, as.expression(ylab), line = labline[[2]],...)
   if(4%in%axes) {
     plot_options$y2scale <- yscale(ylim,y2lim)
     #Draw x axis
-    draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=plot_options$y2scale,...)
+    draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=plot_options$y2scale,las=1,...)
   }
   if(!is.null(y2lab)) mtext(side = 4, as.expression(y2lab), line = labline[[4]],...)
 }
