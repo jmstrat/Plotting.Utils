@@ -40,8 +40,11 @@ tick_interval <- function(range,frac=FALSE) {
 #' @param frac Allow fractional intervals?
 #' @param flexible Allow min and max to be adjusted for prettier results?
 #' @export
-pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE) {
-  tickInterval<-tick_interval(max-min)/div
+pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE, forcedInterval=NA) {
+  if(is.na(forcedInterval))
+    tickInterval<-tick_interval(max-min,frac=frac)/div
+  else
+    tickInterval<-forcedInterval/div
   tickStart=signif(min,1)
   tickEnd=signif(max,1)
   #Range is only to 1 sf, so extend it to make sure we cover everything
