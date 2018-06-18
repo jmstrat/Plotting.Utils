@@ -67,22 +67,63 @@ pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE, forcedInterva
 #' @param ... Additional parameters are passed to the underlying function calls
 #' @inheritParams pretty_ticks
 #' @export
-pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexible=TRUE,xlab=NULL, ylab=NULL,y2lab=NULL,labline=NULL,...) {
+pretty_axes <- function(xlim=c(0,1),ylim=c(0,1), y2lim=NA, axes=c(1,2),
+                        drawBox=TRUE,frac=FALSE,div=1,flexible=TRUE,xlab=NULL,
+                        ylab=NULL,y2lab=NULL,line = -0.6, labline=NULL, invertX=FALSE, lowerTickLimit=c(NA,NA,NA), lowerLabelLimit=c(NA,NA,NA), upperTickLimit=c(NA,NA,NA), upperLabelLimit=c(NA,NA,NA), forcedInterval=NA, forcePrint=FALSE, ...) {
   #Draw the bounding box
-  box()
-
-  draw_axis <- function(min,max, axisSide, frac,div,flexible,line=-0.6,scale=c(1,0),...) {
+  if(drawBox) box()
+  forcePrint_=force(forcePrint)
+  draw_axis <- function(min, max,
+                        axisSide,
+                        frac, div, flexible,
+                        line=line,
+                        scale=c(1,0),
+                        invert=F,
+                        lowerTickLimit=NA, lowerLabelLimit=NA,
+                        upperTickLimit=NA, upperLabelLimit=NA,
+                        forcedInterval=NA,
+                        forcePrint=forcePrint_, ...) {
     #Add some axes
-    ticksat=pretty_ticks(min,max,frac,div=1,flexible)
+    ticksat=pretty_ticks(min,max,frac,div=1,flexible,forcedInterval)
     Minorticksat=pretty_ticks(min,max,frac,div,flexible)
     Minorticksat=Minorticksat[!(Minorticksat %in% ticksat)]
+
+    if(!is.na(upperTickLimit)) {
+      m = if(invert) -1 else 1
+      ticksat=ticksat[m*ticksat<=upperTickLimit]
+      Minorticksat=Minorticksat[m*Minorticksat<=upperTickLimit]
+    }
+    if(!is.na(lowerTickLimit)) {
+      m = if(invert) -1 else 1
+      ticksat=ticksat[m*ticksat>=lowerTickLimit]
+      Minorticksat=Minorticksat[m*Minorticksat>=lowerTickLimit]
+    }
 
     #Add minor ticks
     axis(side = axisSide, tcl = -.2, at=Minorticksat*scale[[1]]+scale[[2]], labels = NA,...)
     #Add major ticks
     axis(side = axisSide, tcl = -.4, at=ticksat*scale[[1]]+scale[[2]], labels = NA,...)
+
+    if(!is.na(upperLabelLimit)) {
+      m = if(invert) -1 else 1
+      ticksat=ticksat[m*ticksat<=upperLabelLimit]
+      Minorticksat=Minorticksat[m*Minorticksat<=upperLabelLimit]
+    }
+    if(!is.na(lowerLabelLimit)) {
+      m = if(invert) -1 else 1
+      ticksat=ticksat[m*ticksat>=lowerLabelLimit]
+      Minorticksat=Minorticksat[m*Minorticksat>=lowerLabelLimit]
+    }
+
     #Add labels (With reduced spacing from axis -- line=.4)
-    axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ticksat*scale[[1]]+scale[[2]],labels=ticksat,...)
+    mult = if(invert) -1 else 1
+    if(forcePrint) {
+      ta1=ticksat[c(T,F)]
+      ta2=ticksat[c(F,T)]
+      axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ta1*scale[[1]]+scale[[2]],labels=ta1*mult,...)
+      axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ta2*scale[[1]]+scale[[2]],labels=ta2*mult,...)
+    } else
+      axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ticksat*scale[[1]]+scale[[2]],labels=ticksat*mult,...)
   }
   if(length(div)==1) div=c(div,div,div)
   if(length(div)==2) div=c(div[[1]],div[[2]],div[[2]])
@@ -93,28 +134,35 @@ pretty_axes <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=1,flexi
   }
 
   if(length(labline)==1) labline=c(labline,labline,labline,labline)
-  if(length(labline)==2) labline=c(labline[[1]],labline[[1]],labline[[2]],labline[[2]])
-  if(length(labline)==3) labline=c(labline[[1]],labline[[1]],labline[[2]],labline[[3]])
+  if(length(labline)==2) labline=c(labline[[1]],labline[[2]],labline[[1]],labline[[2]])
+  if(length(labline)==3) labline=c(labline[[1]],labline[[2]],labline[[1]],labline[[3]])
+
+  if(length(line)==1) line=c(line,line,line,line)
+  if(length(line)==2) line=c(line[[1]],line[[2]],line[[1]],line[[2]])
+  if(length(line)==3) line=c(line[[1]],line[[2]],line[[1]],line[[3]])
+
+  if(length(forcedInterval)==1) forcedInterval=c(forcedInterval,NA,NA)
+  if(length(forcedInterval)==2) forcedInterval=c(forcedInterval[1:2],NA)
 
   if(1%in%axes) {
     #Draw x axis
-    draw_axis(xlim[[1]],xlim[[2]],1,frac,div[[1]],flexible,...)
+    draw_axis(xlim[[1]],xlim[[2]],1,frac,div[[1]],flexible, invert=invertX, lowerTickLimit=lowerTickLimit[[1]], lowerLabelLimit=lowerLabelLimit[[1]], upperTickLimit=upperTickLimit[[1]], upperLabelLimit=upperLabelLimit[[1]], line=line[[1]],forcedInterval=forcedInterval[[1]], ...)
   }
   if(!is.null(xlab)) mtext(side = 1, as.expression(xlab), line = labline[[1]],...)
   if(3%in%axes) {
     #Draw x axis
-    draw_axis(xlim[[1]],xlim[[2]],3,frac,div[[1]],flexible,...)
-    if(!is.null(xlab)) mtext(side = 3, as.expression(xlab), line = labline[[3]],...)
+    draw_axis(xlim[[1]],xlim[[2]],3,frac,div[[1]],flexible, invert=invertX, lowerTickLimit=lowerTickLimit[[1]], lowerLabelLimit=lowerLabelLimit[[1]], upperTickLimit=upperTickLimit[[1]], upperLabelLimit=upperLabelLimit[[1]], line=line[[3]],forcedInterval=forcedInterval[[1]], ...)
+    if(!is.null(xlab)) mtext(side = 3, as.expression(xlab), line = labline[[3]], ...)
   }
   if(2%in%axes) {
     #Draw y axis
-    draw_axis(ylim[[1]],ylim[[2]],2,frac,div[[2]],flexible,las=1,...)
+    draw_axis(ylim[[1]],ylim[[2]],2,frac,div[[2]],flexible,las=1, lowerTickLimit=lowerTickLimit[[2]], lowerLabelLimit=lowerLabelLimit[[2]], upperTickLimit=upperTickLimit[[2]], upperLabelLimit=upperLabelLimit[[2]],line=line[[2]],forcedInterval=forcedInterval[[2]],...)
   }
-  if(!is.null(ylab)) mtext(side = 2, as.expression(ylab), line = labline[[2]],...)
+  if(!is.null(ylab)) mtext(side = 2, as.expression(ylab), line = labline[[2]], ...)
+  if(!is.null(y2lim) && !any(is.na(y2lim))) plot_options$y2scale <- yscale(ylim,y2lim)
   if(4%in%axes) {
-    plot_options$y2scale <- yscale(ylim,y2lim)
     #Draw x axis
-    draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=plot_options$y2scale,las=1,...)
+    draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=plot_options$y2scale,las=1, lowerTickLimit=lowerTickLimit[[3]], lowerLabelLimit=lowerLabelLimit[[3]], upperTickLimit=upperTickLimit[[3]], upperLabelLimit=upperLabelLimit[[3]],line=line[[4]],forcedInterval=forcedInterval[[3]], ...)
   }
   if(!is.null(y2lab)) mtext(side = 4, as.expression(y2lab), line = labline[[4]],...)
 }
