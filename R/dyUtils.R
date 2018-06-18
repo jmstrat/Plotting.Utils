@@ -45,3 +45,16 @@ dyVisibility <- function (graph, trace=1, visibility = TRUE){
   graph$x$attrs$visibility<-vis
   graph
 }
+
+#' Create a blank plot
+#' @export
+dyBlankPlot <- function() {
+  blank_plot<- dygraphs::dygraph(data.frame(x=0.5,y=NA))
+  blank_plot<-dygraphs::dyOptions(blank_plot,drawXAxis=F,drawYAxis=F,drawGrid=F,pointSize=0,
+                                  plotter='function(p) {return}',strokeWidth=0)
+  blank_plot<-dygraphs::dyCallbacks(blank_plot,drawPointCallback='function(p) {return}',annotationMouseOverHandler='function(p) {return}')
+  blank_plot<-Plotting.Utils::dyxlim(blank_plot,c(0,1))
+  blank_plot<-dygraphs::dyAxis(blank_plot,'y',valueRange=c(0,1))
+  blank_plot<-dygraphs::dyLegend(blank_plot,show='never')
+  blank_plot
+}
