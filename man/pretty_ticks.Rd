@@ -4,7 +4,8 @@
 \alias{pretty_ticks}
 \title{Calculates tick locations to make pretty plots}
 \usage{
-pretty_ticks(min, max, frac = FALSE, div = 1, flexible = TRUE)
+pretty_ticks(min, max, frac = FALSE, div = 1, flexible = TRUE,
+  forcedInterval = NA)
 }
 \arguments{
 \item{min, max}{The minimum / maximum axis limits}

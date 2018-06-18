@@ -4,34 +4,23 @@
 \alias{pretty_plot}
 \title{Makes a new plot with pretty axes}
 \usage{
-pretty_plot(xlim, ylim, y2lim = NA, axes = c(1, 2), frac = FALSE,
-  div = 2, flexible = TRUE, xlab = NULL, ylab = NULL, y2lab = NULL,
-  labline = NULL, ...)
+pretty_plot(xlim, ylim, y2lim = NA, ...)
 }
 \arguments{
-\item{xlim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
-
-\item{ylim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
-
-\item{y2lim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
-
-\item{axes}{Which axes to draw c(1,2,3,4) -- 1 & 3 == x; 2=y; 4=y2}
-
-\item{frac}{Allow fractional intervals?}
-
-\item{div}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y,y2)}
-
-\item{flexible}{Allow min and max to be adjusted for prettier results?}
-
-\item{xlab}{Titles for the x,y,y2 axes}
-
-\item{ylab}{Titles for the x,y,y2 axes}
-
-\item{y2lab}{Titles for the x,y,y2 axes}
-
-\item{labline}{Which margin line to draw the labels on c(x,x2,y,y2)}
-
-\item{...}{Additional parameters are passed to the underlying function calls}
+\item{...}{Arguments passed on to \code{pretty_axes}
+\describe{
+  \item{xlim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
+  \item{ylim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
+  \item{y2lim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
+  \item{xlab}{Titles for the x,y,y2 axes}
+  \item{ylab}{Titles for the x,y,y2 axes}
+  \item{y2lab}{Titles for the x,y,y2 axes}
+  \item{axes}{Which axes to draw c(1,2,3,4) -- 1 & 3 == x; 2=y; 4=y2}
+  \item{div}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y,y2)}
+  \item{labline}{Which margin line to draw the labels on c(x,x2,y,y2)}
+  \item{frac}{Allow fractional intervals?}
+  \item{flexible}{Allow min and max to be adjusted for prettier results?}
+}}
 }
 \description{
 Makes a new plot with \code{\link{new_plot}} and a bounding box and axes using \code{\link{pretty_axes}}

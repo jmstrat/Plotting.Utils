@@ -4,9 +4,12 @@
 \alias{pretty_axes}
 \title{Draws a bounding box and pretty axes}
 \usage{
-pretty_axes(xlim, ylim, y2lim = NA, axes = c(1, 2), frac = FALSE,
-  div = 1, flexible = TRUE, xlab = NULL, ylab = NULL, y2lab = NULL,
-  labline = NULL, ...)
+pretty_axes(xlim = c(0, 1), ylim = c(0, 1), y2lim = NA, axes = c(1, 2),
+  drawBox = TRUE, frac = FALSE, div = 1, flexible = TRUE, xlab = NULL,
+  ylab = NULL, y2lab = NULL, line = -0.6, labline = NULL,
+  invertX = FALSE, lowerTickLimit = c(NA, NA, NA), lowerLabelLimit = c(NA,
+  NA, NA), upperTickLimit = c(NA, NA, NA), upperLabelLimit = c(NA, NA, NA),
+  forcedInterval = NA, forcePrint = FALSE, ...)
 }
 \arguments{
 \item{xlim, ylim, y2lim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
