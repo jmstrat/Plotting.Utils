@@ -10,13 +10,13 @@ new_plot <- function(xlim,ylim) {
 #' Makes a new plot with pretty axes
 #'
 #' Makes a new plot with \code{\link{new_plot}} and a bounding box and axes using \code{\link{pretty_axes}}
-#' @inheritParams pretty_axes
+#' @inheritDotParams pretty_axes
 #' @export
-pretty_plot <- function(xlim,ylim, y2lim=NA, axes=c(1,2), frac=FALSE,div=2,flexible=TRUE, xlab=NULL, ylab=NULL,y2lab=NULL,labline=NULL,...) {
+pretty_plot <- function(xlim,ylim, y2lim=NA,...) {
   new_plot(xlim,ylim)
   if(xlim[[2]]<xlim[[1]]) xlim=rev(xlim)
   if(ylim[[2]]<ylim[[1]]) ylim=rev(ylim)
-  pretty_axes(xlim,ylim, y2lim, axes, frac,div,flexible,xlab, ylab,y2lab,labline,...)
+  pretty_axes(xlim=xlim,ylim=ylim, y2lim=y2lim,...)
 }
 
 
