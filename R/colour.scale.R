@@ -21,7 +21,9 @@
 #' @param xrange	An explicit range to use in the transformation.
 #' @param color.spec The color specification to use in the transformation. Anything other than "rgb", "hsv" or "hcl" will almost certainly fail.
 #' @export
-color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alpha = 1, extremes = NA, na.color = NA, xrange = NULL, color.spec = "rgb") {
+color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alpha = 1, extremes = NA, na.color = NA, xrange = NULL, color.spec = "rgb", unsafe=FALSE) {
+  rescaler <- if(unsafe) rescale.jms.unsafe else rescale.jms
+
   if(length(x[!is.na(x)])==0) return(rep_len(na.color,length(x)))
   naxs <- is.na(x)
   if (!is.na(extremes[1])) {
@@ -52,11 +54,11 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
     xinc <- diff(xrange)/(ncs1 - 1)
     for (seg in 1:(ncs1 - 1)) {
       segindex <- which((x >= xstart) & (x <= (xstart +xinc)))
-      cs1s[segindex] <- rescale.jms(x[segindex], cs1[c(seg,seg + 1)])
+      cs1s[segindex] <- rescaler(x[segindex], cs1[c(seg,seg + 1)])
       xstart <- xstart + xinc
     }
     if (min(cs1s, na.rm = TRUE) < 0 || max(cs1s, na.rm = TRUE) > maxcs1)
-      cs1s <- rescale.jms(cs1s, c(0, maxcs1))
+      cs1s <- rescaler(cs1s, c(0, maxcs1))
   } else cs1s <- rep(cs1, ncolors)
   ncs2 <- length(cs2)
   if (ncs2 > 1) {
@@ -65,11 +67,11 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
     xinc <- diff(xrange)/(ncs2 - 1)
     for (seg in 1:(ncs2 - 1)) {
       segindex <- which((x >= xstart) & (x <= (xstart + xinc)))
-      cs2s[segindex] <- rescale.jms(x[segindex], cs2[c(seg, seg + 1)])
+      cs2s[segindex] <- rescaler(x[segindex], cs2[c(seg, seg + 1)])
       xstart <- xstart + xinc
     }
     if (min(cs2s, na.rm = TRUE) < 0 || max(cs2s, na.rm = TRUE) > maxcs2)
-      cs2s <- rescale.jms(cs2s, c(0, maxcs2))
+      cs2s <- rescaler(cs2s, c(0, maxcs2))
   } else cs2s <- rep(cs2, ncolors)
   ncs3 <- length(cs3)
   if (ncs3 > 1) {
@@ -78,11 +80,11 @@ color.scale.jms <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), alp
     xinc <- diff(xrange)/(ncs3 - 1)
     for (seg in 1:(ncs3 - 1)) {
       segindex <- which((x >= xstart) & (x <= (xstart + xinc)))
-      cs3s[segindex] <- rescale.jms(x[segindex], cs3[c(seg,seg + 1)])
+      cs3s[segindex] <- rescaler(x[segindex], cs3[c(seg,seg + 1)])
       xstart <- xstart + xinc
     }
     if (min(cs3s, na.rm = TRUE) < 0 || max(cs3s, na.rm = TRUE) > maxcs3)
-      cs3s <- rescale.jms(cs3s, c(0, maxcs3))
+      cs3s <- rescaler(cs3s, c(0, maxcs3))
   } else cs3s <- rep(cs3, ncolors)
   if (drop.extremes) {
     cs1s <- cs1s[-(1:2)]
@@ -124,4 +126,18 @@ rescale.jms <- function (x, newrange)
     warning("Only numeric objects can be rescaled")
     return(x)
   }
+}
+
+#' Rescale Data
+#'
+#' This function is a workaround for an issue with \code{\link[plotrix]{rescale}}.
+#' Where all values for x are the same, we should still make sure they fall within the required range. We thus return the lower limit for all values.
+#' @export
+rescale.jms.unsafe <- function (x, newrange)
+{
+  xrange <- range(x, na.rm = TRUE)
+  if (xrange[1] == xrange[2])
+    return(rep_len(newrange[[1]],length(x)))
+  mfac <- (newrange[2] - newrange[1])/(xrange[2] - xrange[1])
+  return(newrange[1] + (x - xrange[1]) * mfac)
 }
