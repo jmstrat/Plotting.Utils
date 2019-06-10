@@ -26,6 +26,7 @@ pretty_plot <- function(xlim,ylim, y2lim=NA,...) {
 #' @export
 tick_interval <- function(range,frac=FALSE) {
   if(length(range) != 1) stop("'range' must be of length 1")
+  range <- abs(range)
   nice=c(1,2,5,10)
   ti=10^floor(log10(range)) * nice[[which(range <= 10^floor(log10(range)) * nice)[[1]]]]/10
   if(!frac) {
@@ -41,6 +42,14 @@ tick_interval <- function(range,frac=FALSE) {
 #' @param flexible Allow min and max to be adjusted for prettier results?
 #' @export
 pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE, forcedInterval=NA) {
+  if(min == max || !is.finite(min) || !is.finite(max)) return()
+
+  if(min > max) {
+    temp <- min
+    min <- max
+    max <- temp
+  }
+
   if(is.na(forcedInterval))
     tickInterval<-tick_interval(max-min,frac=frac)/div
   else
