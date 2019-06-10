@@ -2,9 +2,9 @@
 #'
 #' @param xlim,ylim Numeric vectors of length 2, giving the x and y coordinates ranges.
 #' @export
-new_plot <- function(xlim,ylim) {
+new_plot <- function(xlim,ylim, asp=NA) {
   plot.new()
-  plot.window(xlim=xlim,ylim=ylim,xaxs='i',yaxs='i')
+  plot.window(xlim=xlim,ylim=ylim,xaxs='i',yaxs='i', asp=asp)
 }
 
 #' Makes a new plot with pretty axes
