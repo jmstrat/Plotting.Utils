@@ -16,7 +16,7 @@ nearest <- function(data, ..., as.list = F) {
   output = list()
   for(k in names(values)) {
     raw = as.data.frame(data[k])
-    indexes=sapply(as.list(values[[k]]), function(x) which(abs(raw-x)==min(abs(raw-x))))
+    indexes=sapply(as.list(values[[k]]), function(x) which(abs(raw-x)==min(abs(raw-x)))[[1]])
     output[[k]] = data[indexes,]
   }
   if(length(values) == 1) {
