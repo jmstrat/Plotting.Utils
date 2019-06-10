@@ -24,7 +24,7 @@ layout.all(...)
     \eqn{N} figures on the output device.  Each value in the matrix must
     be \code{0} or a positive integer.  If \eqn{N} is the largest
     positive integer in the matrix, then the integers
-    \eqn{\{1, \dots, N-1\}}{{1, \dots, N-1}} must also appear at least once in the matrix.}
+    \eqn{\{1, \dots, N-1\}}{{1, \\dots, N-1}} must also appear at least once in the matrix.}
 
 \item{widths}{a vector of values for the widths of columns on the
     device.  Relative widths are specified with numeric values.    Absolute
@@ -49,8 +49,6 @@ layout.all(...)
 \code{ilayout} divides the device up into as many rows and columns
 as there are in matrix \code{mat}, with the column-widths and the
 row-heights specified in the respective arguments.
-
-Add a plot to an interactive layout
 }
 \details{
 Figure \emph{i} is allocated a region composed from a subset of
@@ -70,14 +68,60 @@ plot device.
 
 }
 
+\examples{
+def.par <- par(no.readonly = TRUE) # save default, for resetting...
+
+## divide the device into two rows and two columns
+## allocate figure 1 all of row 1
+## allocate figure 2 the intersection of column 2 and row 2
+layout(matrix(c(1,1,0,2), 2, 2, byrow = TRUE))
+## show the regions that have been allocated to each plot
+layout.show(2)
+
+## divide device into two rows and two columns
+## allocate figure 1 and figure 2 as above
+## respect relations between widths and heights
+nf <- layout(matrix(c(1,1,0,2), 2, 2, byrow = TRUE), respect = TRUE)
+layout.show(nf)
+
+## create single figure which is 5cm square
+nf <- layout(matrix(1), widths = lcm(5), heights = lcm(5))
+layout.show(nf)
+
+
+##-- Create a scatterplot with marginal histograms -----
+
+x <- pmin(3, pmax(-3, stats::rnorm(50)))
+y <- pmin(3, pmax(-3, stats::rnorm(50)))
+xhist <- hist(x, breaks = seq(-3,3,0.5), plot = FALSE)
+yhist <- hist(y, breaks = seq(-3,3,0.5), plot = FALSE)
+top <- max(c(xhist$counts, yhist$counts))
+xrange <- c(-3, 3)
+yrange <- c(-3, 3)
+nf <- layout(matrix(c(2,0,1,3),2,2,byrow = TRUE), c(3,1), c(1,3), TRUE)
+layout.show(nf)
+
+par(mar = c(3,3,1,1))
+plot(x, y, xlim = xrange, ylim = yrange, xlab = "", ylab = "")
+par(mar = c(0,3,1,1))
+barplot(xhist$counts, axes = FALSE, ylim = c(0, top), space = 0)
+par(mar = c(3,0,1,1))
+barplot(yhist$counts, axes = FALSE, xlim = c(0, top), space = 0, horiz = TRUE)
+
+par(def.par)  #- reset to default
+}
 \references{
-Murrell, P. R. (1999) Layouts: A mechanism for arranging plots on a page.
+Murrell, P. R. (1999).
+  Layouts: A mechanism for arranging plots on a page.
   \emph{Journal of Computational and Graphical Statistics},
   \bold{8}, 121--134.
+  \ifelse{{text}{doi: 10.2307/1390924 (URL: https://doi.org/10.2307/1390924)}{\ifelse{{latex}{doi:\out{\\nobreakspace{}}\href{{https://doi.org/10.2307/1390924}{10.2307\out{\\slash{}}1390924}}}{doi: \href{{https://doi.org/10.2307/1390924}{10.2307/1390924}}}}}}.
 
   Chapter 5 of Paul Murrell's Ph.D. thesis.
 
-  Murrell, P. (2005) \emph{R Graphics}. Chapman & Hall/CRC Press.
+  Murrell, P. (2005).
+  \emph{R Graphics}.
+  Chapman & Hall/CRC Press.
 }
 \seealso{
 \code{\link{par}} with arguments \code{mfrow}, \code{mfcol}, or

@@ -18,6 +18,15 @@ pretty_plot(xlim, ylim, y2lim = NA, ...)
   \item{axes}{Which axes to draw c(1,2,3,4) -- 1 & 3 == x; 2=y; 4=y2}
   \item{div}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y,y2)}
   \item{labline}{Which margin line to draw the labels on c(x,x2,y,y2)}
+  \item{lowerTickLimit}{Limits beyond which not to draw ticks}
+  \item{upperTickLimit}{Limits beyond which not to draw ticks}
+  \item{lowerLabelLimit}{Limits beyond which not to draw labels}
+  \item{upperLabelLimit}{Limits beyond which not to draw labels}
+  \item{forcedInterval}{Override the calculated tick interval}
+  \item{forcePrint}{Attempt to print all labels even if they are closely spaced}
+  \item{ticklabels}{Print labels?}
+  \item{ticksOut}{Ticks point outwards?}
+  \item{centreTitlesToLabels}{Centre the axis title relative to the labels rather than the axis?}
   \item{frac}{Allow fractional intervals?}
   \item{flexible}{Allow min and max to be adjusted for prettier results?}
 }}

@@ -4,7 +4,7 @@
 \alias{new_plot}
 \title{Creates a blank plot with the specified limits}
 \usage{
-new_plot(xlim, ylim)
+new_plot(xlim, ylim, asp = NA)
 }
 \arguments{
 \item{xlim, ylim}{Numeric vectors of length 2, giving the x and y coordinates ranges.}

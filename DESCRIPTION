@@ -8,5 +8,5 @@ Maintainer: Josh Stratford <51674722+jmstrat@users.noreply.github.com>
 Description: Miscellaneous plotting functions
 License: Don't sell it
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 ByteCompile: yes

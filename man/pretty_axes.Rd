@@ -4,12 +4,14 @@
 \alias{pretty_axes}
 \title{Draws a bounding box and pretty axes}
 \usage{
-pretty_axes(xlim = c(0, 1), ylim = c(0, 1), y2lim = NA, axes = c(1, 2),
-  drawBox = TRUE, frac = FALSE, div = 1, flexible = TRUE, xlab = NULL,
-  ylab = NULL, y2lab = NULL, line = -0.6, labline = NULL,
-  invertX = FALSE, lowerTickLimit = c(NA, NA, NA), lowerLabelLimit = c(NA,
-  NA, NA), upperTickLimit = c(NA, NA, NA), upperLabelLimit = c(NA, NA, NA),
-  forcedInterval = NA, forcePrint = FALSE, ...)
+pretty_axes(xlim = c(0, 1), ylim = c(0, 1), y2lim = NA, axes = c(1,
+  2), drawBox = TRUE, frac = FALSE, div = 1, flexible = TRUE,
+  xlab = NULL, ylab = NULL, y2lab = NULL, line = -0.6,
+  labline = NULL, lowerTickLimit = c(NA, NA, NA),
+  lowerLabelLimit = c(NA, NA, NA), upperTickLimit = c(NA, NA, NA),
+  upperLabelLimit = c(NA, NA, NA), forcedInterval = NA,
+  forcePrint = FALSE, ticklabels = c(T, T, T), cex = par("cex"),
+  ticksOut = c(T, T, T), centreTitlesToLabels = c(F, F, F), ...)
 }
 \arguments{
 \item{xlim, ylim, y2lim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
@@ -25,6 +27,20 @@ pretty_axes(xlim = c(0, 1), ylim = c(0, 1), y2lim = NA, axes = c(1, 2),
 \item{xlab, ylab, y2lab}{Titles for the x,y,y2 axes}
 
 \item{labline}{Which margin line to draw the labels on c(x,x2,y,y2)}
+
+\item{lowerTickLimit, upperTickLimit}{Limits beyond which not to draw ticks}
+
+\item{lowerLabelLimit, upperLabelLimit}{Limits beyond which not to draw labels}
+
+\item{forcedInterval}{Override the calculated tick interval}
+
+\item{forcePrint}{Attempt to print all labels even if they are closely spaced}
+
+\item{ticklabels}{Print labels?}
+
+\item{ticksOut}{Ticks point outwards?}
+
+\item{centreTitlesToLabels}{Centre the axis title relative to the labels rather than the axis?}
 
 \item{...}{Additional parameters are passed to the underlying function calls}
 }

@@ -135,7 +135,7 @@ rescale.jms <- function (x, newrange)
 #' @export
 rescale.jms.unsafe <- function (x, newrange)
 {
-  xrange <- range(x, na.rm = TRUE)
+  xrange <- suppressWarnings(range(x, na.rm = TRUE))
   if (xrange[1] == xrange[2])
     return(rep_len(newrange[[1]],length(x)))
   mfac <- (newrange[2] - newrange[1])/(xrange[2] - xrange[1])
