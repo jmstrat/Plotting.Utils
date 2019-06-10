@@ -54,16 +54,23 @@ pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE, forcedInterva
     tickInterval<-tick_interval(max-min,frac=frac)/div
   else
     tickInterval<-forcedInterval/div
-  tickStart=signif(min,1)
-  tickEnd=signif(max,1)
-  #Range is only to 1 sf, so extend it to make sure we cover everything
-  ticksat=seq(tickStart-tickInterval*10,tickEnd+tickInterval*10,tickInterval)
+
+
   if(flexible) {
-    ticksat=round(ticksat/tickInterval)*tickInterval
+    min = floor(min / tickInterval) * tickInterval
+    max = ceiling(max / tickInterval) * tickInterval
   }
-  ticksat
+
+  seq(min,max,tickInterval)
 }
 
+
+expand_plot_args <- function(x) {
+  if(length(x)==1) x=c(x, x, x, x)
+  if(length(x)==2) x=c(x[[1]], x[[2]], x[[1]], x[[2]])
+  if(length(x)==3) x=c(x[[1]], x[[2]], x[[1]], x[[3]])
+  x
+}
 
 #' Draws a bounding box and pretty axes
 #'
@@ -73,107 +80,83 @@ pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE, forcedInterva
 #' @param axes Which axes to draw c(1,2,3,4) -- 1 & 3 == x; 2=y; 4=y2
 #' @param div Factor by which the minor tick interval is smaller than the major tick interval c(x,y,y2)
 #' @param labline Which margin line to draw the labels on c(x,x2,y,y2)
+#' @param lowerTickLimit,upperTickLimit Limits beyond which not to draw ticks
+#' @param lowerLabelLimit,upperLabelLimit Limits beyond which not to draw labels
+#' @param forcedInterval Override the calculated tick interval
+#' @param forcePrint Attempt to print all labels even if they are closely spaced
+#' @param ticklabels Print labels?
+#' @param ticksOut Ticks point outwards?
+#' @param centreTitlesToLabels Centre the axis title relative to the labels rather than the axis?
 #' @param ... Additional parameters are passed to the underlying function calls
 #' @inheritParams pretty_ticks
 #' @export
-pretty_axes <- function(xlim=c(0,1),ylim=c(0,1), y2lim=NA, axes=c(1,2),
-                        drawBox=TRUE,frac=FALSE,div=1,flexible=TRUE,xlab=NULL,
-                        ylab=NULL,y2lab=NULL,line = -0.6, labline=NULL, invertX=FALSE, lowerTickLimit=c(NA,NA,NA), lowerLabelLimit=c(NA,NA,NA), upperTickLimit=c(NA,NA,NA), upperLabelLimit=c(NA,NA,NA), forcedInterval=NA, forcePrint=FALSE, ...) {
+pretty_axes <- function(xlim=c(0,1), ylim=c(0,1), y2lim=NA, axes=c(1,2),
+                        drawBox=TRUE, frac=FALSE, div=1, flexible=TRUE, xlab=NULL,
+                        ylab=NULL, y2lab=NULL,line = -0.6, labline=NULL,
+                        lowerTickLimit=c(NA,NA,NA), lowerLabelLimit=c(NA,NA,NA),
+                        upperTickLimit=c(NA,NA,NA), upperLabelLimit=c(NA,NA,NA),
+                        forcedInterval=NA, forcePrint=FALSE, ticklabels=c(T,T,T),
+                        cex=par('cex'), ticksOut=c(T,T,T), centreTitlesToLabels=c(F,F,F), ...) {
   #Draw the bounding box
   if(drawBox) box()
-  forcePrint_=force(forcePrint)
-  draw_axis <- function(min, max,
-                        axisSide,
-                        frac, div, flexible,
-                        line=line,
-                        scale=c(1,0),
-                        invert=F,
-                        lowerTickLimit=NA, lowerLabelLimit=NA,
-                        upperTickLimit=NA, upperLabelLimit=NA,
-                        forcedInterval=NA,
-                        forcePrint=forcePrint_, ...) {
-    #Add some axes
-    ticksat=pretty_ticks(min,max,frac,div=1,flexible,forcedInterval)
-    Minorticksat=pretty_ticks(min,max,frac,div,flexible)
-    Minorticksat=Minorticksat[!(Minorticksat %in% ticksat)]
-
-    if(!is.na(upperTickLimit)) {
-      m = if(invert) -1 else 1
-      ticksat=ticksat[m*ticksat<=upperTickLimit]
-      Minorticksat=Minorticksat[m*Minorticksat<=upperTickLimit]
-    }
-    if(!is.na(lowerTickLimit)) {
-      m = if(invert) -1 else 1
-      ticksat=ticksat[m*ticksat>=lowerTickLimit]
-      Minorticksat=Minorticksat[m*Minorticksat>=lowerTickLimit]
-    }
-
-    #Add minor ticks
-    axis(side = axisSide, tcl = -.2, at=Minorticksat*scale[[1]]+scale[[2]], labels = NA,...)
-    #Add major ticks
-    axis(side = axisSide, tcl = -.4, at=ticksat*scale[[1]]+scale[[2]], labels = NA,...)
-
-    if(!is.na(upperLabelLimit)) {
-      m = if(invert) -1 else 1
-      ticksat=ticksat[m*ticksat<=upperLabelLimit]
-      Minorticksat=Minorticksat[m*Minorticksat<=upperLabelLimit]
-    }
-    if(!is.na(lowerLabelLimit)) {
-      m = if(invert) -1 else 1
-      ticksat=ticksat[m*ticksat>=lowerLabelLimit]
-      Minorticksat=Minorticksat[m*Minorticksat>=lowerLabelLimit]
-    }
-
-    #Add labels (With reduced spacing from axis -- line=.4)
-    mult = if(invert) -1 else 1
-    if(forcePrint) {
-      ta1=ticksat[c(T,F)]
-      ta2=ticksat[c(F,T)]
-      axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ta1*scale[[1]]+scale[[2]],labels=ta1*mult,...)
-      axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ta2*scale[[1]]+scale[[2]],labels=ta2*mult,...)
-    } else
-      axis(side = axisSide, lwd = 0,tcl = -0.5, line = line, at=ticksat*scale[[1]]+scale[[2]],labels=ticksat*mult,...)
-  }
-  if(length(div)==1) div=c(div,div,div)
-  if(length(div)==2) div=c(div[[1]],div[[2]],div[[2]])
 
   if(is.null(labline)) {
     labline=c(1.7,1.3,1.6,1.6)
     labline[!c(1,2,3,4)%in%axes]=labline[!c(1,2,3,4)%in%axes]-1.2
   }
 
-  if(length(labline)==1) labline=c(labline,labline,labline,labline)
-  if(length(labline)==2) labline=c(labline[[1]],labline[[2]],labline[[1]],labline[[2]])
-  if(length(labline)==3) labline=c(labline[[1]],labline[[2]],labline[[1]],labline[[3]])
+  div = expand_plot_args(div)
+  frac = expand_plot_args(frac)
+  forcedInterval = expand_plot_args(forcedInterval)
+  labline = expand_plot_args(labline)
+  line = expand_plot_args(line)
+  ticklabels = expand_plot_args(ticklabels)
+  ticksOut = expand_plot_args(ticksOut)
+  centreTitlesToLabels = expand_plot_args(centreTitlesToLabels)
+  lowerTickLimit = expand_plot_args(lowerTickLimit)
+  upperTickLimit = expand_plot_args(upperTickLimit)
+  lowerLabelLimit = expand_plot_args(lowerLabelLimit)
+  upperLabelLimit = expand_plot_args(upperLabelLimit)
+  cex = expand_plot_args(cex)
+  flexible = expand_plot_args(flexible)
+  forcePrint = expand_plot_args(forcePrint)
 
-  if(length(line)==1) line=c(line,line,line,line)
-  if(length(line)==2) line=c(line[[1]],line[[2]],line[[1]],line[[2]])
-  if(length(line)==3) line=c(line[[1]],line[[2]],line[[1]],line[[3]])
+  if(!is.null(y2lim) && !any(is.na(y2lim))) plot_options$y2scale <- rescale(ylim,y2lim)
 
-  if(length(forcedInterval)==1) forcedInterval=c(forcedInterval,NA,NA)
-  if(length(forcedInterval)==2) forcedInterval=c(forcedInterval[1:2],NA)
+  for(a in axes) {
+    scale = c(1,0)
+    if(a %in% c(1,3)) {
+      lim = xlim
+      lab = xlab
+      las=0
+    } else if(a == 2) {
+      lim = ylim
+      lab = ylab
+      las=1
+    } else if(a ==4) {
+      lim = y2lim
+      lab = y2lab
+      las=1
+      scale=plot_options$y2scale
+    } else {
+      stop('Unknown axis ', a)
+    }
 
-  if(1%in%axes) {
-    #Draw x axis
-    draw_axis(xlim[[1]],xlim[[2]],1,frac,div[[1]],flexible, invert=invertX, lowerTickLimit=lowerTickLimit[[1]], lowerLabelLimit=lowerLabelLimit[[1]], upperTickLimit=upperTickLimit[[1]], upperLabelLimit=upperLabelLimit[[1]], line=line[[1]],forcedInterval=forcedInterval[[1]], ...)
+    draw_axis(lim[[1]], lim[[2]], a, frac[[a]], div[[a]], flexible[[a]], scale=scale, las=las,
+              lab=lab, labline=labline[[a]], labcex=cex[[a]], centreTitlesToLabels=centreTitlesToLabels[[a]],
+              lowerTickLimit=lowerTickLimit[[a]], lowerLabelLimit=lowerLabelLimit[[a]],
+              upperTickLimit=upperTickLimit[[a]], upperLabelLimit=upperLabelLimit[[a]],
+              line=line[[a]], forcedInterval=forcedInterval[[a]], ticklabels=ticklabels[[a]],
+              ticksOut=ticksOut[[a]], forcePrint=forcePrint[[a]], ...)
   }
-  if(!is.null(xlab)) mtext(side = 1, as.expression(xlab), line = labline[[1]],...)
-  if(3%in%axes) {
-    #Draw x axis
-    draw_axis(xlim[[1]],xlim[[2]],3,frac,div[[1]],flexible, invert=invertX, lowerTickLimit=lowerTickLimit[[1]], lowerLabelLimit=lowerLabelLimit[[1]], upperTickLimit=upperTickLimit[[1]], upperLabelLimit=upperLabelLimit[[1]], line=line[[3]],forcedInterval=forcedInterval[[1]], ...)
-    if(!is.null(xlab)) mtext(side = 3, as.expression(xlab), line = labline[[3]], ...)
-  }
-  if(2%in%axes) {
-    #Draw y axis
-    draw_axis(ylim[[1]],ylim[[2]],2,frac,div[[2]],flexible,las=1, lowerTickLimit=lowerTickLimit[[2]], lowerLabelLimit=lowerLabelLimit[[2]], upperTickLimit=upperTickLimit[[2]], upperLabelLimit=upperLabelLimit[[2]],line=line[[2]],forcedInterval=forcedInterval[[2]],...)
-  }
-  if(!is.null(ylab)) mtext(side = 2, as.expression(ylab), line = labline[[2]], ...)
-  if(!is.null(y2lim) && !any(is.na(y2lim))) plot_options$y2scale <- yscale(ylim,y2lim)
-  if(4%in%axes) {
-    #Draw x axis
-    draw_axis(y2lim[[1]],y2lim[[2]],4,frac,div[[3]],flexible,scale=plot_options$y2scale,las=1, lowerTickLimit=lowerTickLimit[[3]], lowerLabelLimit=lowerLabelLimit[[3]], upperTickLimit=upperTickLimit[[3]], upperLabelLimit=upperLabelLimit[[3]],line=line[[4]],forcedInterval=forcedInterval[[3]], ...)
-  }
-  if(!is.null(y2lab)) mtext(side = 4, as.expression(y2lab), line = labline[[4]],...)
+
+  # Still draw the labels even if we're not drawing the axis
+  if(! 1 %in% axes && !is.null(xlab))
+    draw_axis_label(1, xlab, labline[[1]], cex[[1]], ...)
+
+  if(! 2 %in% axes && !is.null(ylab))
+    draw_axis_label(2, ylab, labline[[2]], cex[[2]], ...)
+
 }
 
 #' Calculate a scale factor to transform between vectors
@@ -181,7 +164,7 @@ pretty_axes <- function(xlim=c(0,1),ylim=c(0,1), y2lim=NA, axes=c(1,2),
 #' @param y1,y2 Numeric vectors
 #' @return c(scale,offset) to transform y2 into the same range as y1
 #' @export
-yscale <- function(y1,y2) {
+rescale <- function(y1,y2) {
   ylim=range(y1)
   y2lim=range(y2)
   scale=(ylim[[2]]-ylim[[1]])/(y2lim[[2]]-y2lim[[1]])
@@ -192,3 +175,9 @@ yscale <- function(y1,y2) {
 #Prepare environment to store scale settings for y2 axis
 plot_options=new.env()
 
+#' Rescales values onto the y2 axis
+#'
+#' @export
+rescaleOntoY2 <- function(y) {
+  y * plot_options$y2scale[[1]] + plot_options$y2scale[[2]]
+}
