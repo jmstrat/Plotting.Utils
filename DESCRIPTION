@@ -4,6 +4,8 @@ Title: Miscellaneous plotting functions
 Version: 1.0.0
 Author: Josh Stratford <51674722+jmstrat@users.noreply.github.com>
 Maintainer: Josh Stratford <51674722+jmstrat@users.noreply.github.com>
+URL: https://github.com/jmstrat/Plotting.Utils
+BugReports: https://github.com/jmstrat/Plotting.Utils/issues
 Description: Miscellaneous plotting functions
 License: GNU Affero General Public License v3.0 
 LazyData: TRUE
