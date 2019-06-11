@@ -11,7 +11,7 @@
 #' namely the outlines of the next n figures. \cr
 #' \code{ilayout.all} Sets up both the default plot device and the interactive
 #' plot device.
-#' @inherit graphics::layout
+#' @inherit graphics::layout details
 #' @inheritParams graphics::layout
 #' @export
 #' @rdname ilayout
