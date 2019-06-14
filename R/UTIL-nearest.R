@@ -11,18 +11,17 @@
 #' nearest(rock, area=c(6775, 4895, 9819, 4990))
 #'
 #' nearest(rock, area=c(6775, 4895, 9819, 4990), shape=0.31)
-nearest <- function(data, ..., as.list = F) {
-  values = list(...)
-  output = list()
-  for(k in names(values)) {
-    raw = as.data.frame(data[k])
-    indexes=sapply(as.list(values[[k]]), function(x) which(abs(raw-x)==min(abs(raw-x)))[[1]])
-    output[[k]] = data[indexes,]
+nearest <- function(data, ..., as.list=F) {
+  values <- list(...)
+  output <- list()
+  for (k in names(values)) {
+    raw <- as.data.frame(data[k])
+    indexes <- sapply(as.list(values[[k]]), function(x) which(abs(raw - x) == min(abs(raw - x)))[[1]])
+    output[[k]] <- data[indexes, ]
   }
-  if(length(values) == 1) {
+  if (length(values) == 1) {
     output[[1]]
   } else {
     output
   }
 }
-
