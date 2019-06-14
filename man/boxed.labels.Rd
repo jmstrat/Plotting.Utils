@@ -4,9 +4,9 @@
 \alias{boxed.labels}
 \title{Place labels in boxes}
 \usage{
-boxed.labels(x, y = NA, labels, bg = ifelse(match(par("bg"),
-  "transparent", 0), "white", par("bg")), border = TRUE, xpad = 1.2,
-  ypad = 1.2, srt = 0, cex = 1, adj = 0.5, xlog = FALSE,
+boxed.labels(x, y = NA, labels, border = TRUE, xpad = 1.2,
+  ypad = 1.2, bg = ifelse(match(par("bg"), "transparent", 0), "white",
+  par("bg")), srt = 0, cex = 1, adj = 0.5, xlog = FALSE,
   ylog = FALSE, ...)
 }
 \arguments{
@@ -14,11 +14,11 @@ boxed.labels(x, y = NA, labels, bg = ifelse(match(par("bg"),
 
 \item{labels}{Text strings}
 
-\item{bg}{The fill color of the rectangles on which the labels are displayed (see Details).}
-
 \item{border}{Whether to draw borders around the rectangles.}
 
 \item{xpad, ypad}{The proportion of the rectangles to the extent of the text within.}
+
+\item{bg}{The fill color of the rectangles on which the labels are displayed (see Details).}
 
 \item{cex}{Character expansion. See \code{\link{text}}.}
 
