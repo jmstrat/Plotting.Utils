@@ -15,31 +15,39 @@
 #' @inheritParams graphics::layout
 #' @export
 #' @rdname ilayout
-ilayout <- function (mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1, nrow(mat)))
-{
+ilayout <- function(mat, widths=rep.int(1, ncol(mat)), heights=rep.int(1, nrow(mat))) {
   storage.mode(mat) <- "integer"
   mat <- as.matrix(mat)
 
   num.figures <- as.integer(max(mat))
-  for (i in 1L:num.figures) if (match(i, mat, nomatch = 0L) == 0L)
-    stop(gettextf("ilayout matrix must contain at least one reference\nto each of the values {1 ... %d}\n", num.figures), domain = NA)
-  gridcss=c()
-  for(i in 1:num.figures) {
-    locations=which(mat==i, arr.ind = TRUE)
-    gridcss[[i]]=sprintf(".plot%s {grid-column: %s ;grid-row: %s ;grid-column-end: %s;grid-row-end: %s;}",
-                         i,
-                         locations[1,2],
-                         locations[1,1],
-                         locations[1,2]+length(unique(locations[,2])),
-                         locations[1,1]+length(unique(locations[,1])))
+  for (i in 1L:num.figures) {
+    if (match(i, mat, nomatch=0L) == 0L) {
+      stop(gettextf("ilayout matrix must contain at least one reference\nto each of the values {1 ... %d}\n", num.figures), domain=NA)
+    }
   }
-  wrappercss=sprintf('.plotwrapper {display: grid;height: 98%%; width:100%%;grid-template-columns: %s;grid-template-rows: %s}',
-                     paste(widths,'fr',sep='', collapse=' '),paste(heights,'fr',sep='', collapse=' '))
-  ilayout.options$taglist<-htmltools::browsable(shiny::tagList(shiny::tags$head(shiny::tags$style(
-    paste("html, body {height: 100%;}",wrappercss,paste(gridcss,collapse='\n'),sep='\n')
-  )),shiny::div(class='plotwrapper')))
-  ilayout.options$nextPlot=1
-  ilayout.options$num.figures=num.figures
+  gridcss <- c()
+  for (i in 1:num.figures) {
+    locations <- which(mat == i, arr.ind=TRUE)
+    gridcss[[i]] <- sprintf(
+      ".plot%s {grid-column: %s ; grid-row: %s ; grid-column-end: %s; grid-row-end: %s;}",
+      i,
+      locations[1, 2],
+      locations[1, 1],
+      locations[1, 2] + length(unique(locations[, 2])),
+      locations[1, 1] + length(unique(locations[, 1]))
+    )
+  }
+  wrappercss <- sprintf(
+    ".plotwrapper {display: grid; height: 98%%; width:100%%; grid-template-columns: %s; grid-template-rows: %s}",
+    paste(widths, "fr", sep="", collapse=" "), paste(heights, "fr", sep="", collapse=" ")
+  )
+  ilayout.options$taglist <- htmltools::browsable(shiny::tagList(shiny::tags$head(shiny::tags$style(
+    paste("html, body {height: 100%;}", wrappercss, paste(gridcss, collapse="
+"), sep="
+")
+  )), shiny::div(class="plotwrapper")))
+  ilayout.options$nextPlot <- 1
+  ilayout.options$num.figures <- num.figures
   invisible(num.figures)
 }
 
@@ -49,15 +57,15 @@ ilayout <- function (mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1, n
 #' @export
 #' @rdname ilayout
 ilayout.addPlot <- function(graph) {
-  if(ilayout.options$nextPlot>ilayout.options$num.figures) {
-    ilayout.options$nextPlot=1
-    ilayout.options$taglist[[2]]$children=list()
+  if (ilayout.options$nextPlot > ilayout.options$num.figures) {
+    ilayout.options$nextPlot <- 1
+    ilayout.options$taglist[[2]]$children <- list()
   }
-  graph$height='98%'
-  graph$width='100%'
-  newdiv=shiny::div(class=paste0('plot',ilayout.options$nextPlot),style="width: 100% ; height: 100%",graph)
-  ilayout.options$taglist[[2]]$children[[ilayout.options$nextPlot]]<-newdiv
-  ilayout.options$nextPlot=ilayout.options$nextPlot+1
+  graph$height <- "98%"
+  graph$width <- "100%"
+  newdiv <- shiny::div(class=paste0("plot", ilayout.options$nextPlot), style="width: 100% ; height: 100%", graph)
+  ilayout.options$taglist[[2]]$children[[ilayout.options$nextPlot]] <- newdiv
+  ilayout.options$nextPlot <- ilayout.options$nextPlot + 1
   ilayout.options$taglist
 }
 
@@ -66,16 +74,16 @@ ilayout.addPlot <- function(graph) {
 #' @export
 #' @rdname ilayout
 ilayout.hideTraceFromPlot <- function(trace, plot=1, visibility=FALSE) {
-  ilayout.options$taglist[[2]]$children[[plot]]$children[[1]]<-dyVisibility(ilayout.options$taglist[[2]]$children[[plot]]$children[[1]],trace,visibility)
+  ilayout.options$taglist[[2]]$children[[plot]]$children[[1]] <- dyVisibility(ilayout.options$taglist[[2]]$children[[plot]]$children[[1]], trace, visibility)
   ilayout.options$taglist
 }
 
 #' @export
 #' @rdname ilayout
 ilayout.show <- function(n) {
-  blank_plot<- dyBlankPlot()
-  blank_plot<-dyBox(blank_plot)
-  blank_plot$x$css = "
+  blank_plot <- dyBlankPlot()
+  blank_plot <- dyBox(blank_plot)
+  blank_plot$x$css <- "
   .plotnumber {
   overflow: visible !important;
   width: initial !important;
@@ -88,8 +96,8 @@ ilayout.show <- function(n) {
   align-items: center !important;
   background-color:rgba(0, 0, 0, 0) !important;
   }"
-  for(i in 1:n) {
-    combined_plot<-ilayout.addPlot(dygraphs::dyAnnotation(blank_plot, 0.5, i,cssClass = "plotnumber"))
+  for (i in 1:n) {
+    combined_plot <- ilayout.addPlot(dygraphs::dyAnnotation(blank_plot, 0.5, i, cssClass="plotnumber"))
   }
   combined_plot
 }
@@ -101,7 +109,7 @@ layout.all <- function(...) {
   ilayout(...)
 }
 
-#Prepare layout environment
-ilayout.options = new.env()
-#Set default layout
+# Prepare layout environment
+ilayout.options <- new.env()
+# Set default layout
 ilayout(1)
