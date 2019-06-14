@@ -2,9 +2,9 @@
 #'
 #' @param xlim,ylim Numeric vectors of length 2, giving the x and y coordinates ranges.
 #' @export
-new_plot <- function(xlim,ylim, asp=NA) {
+new_plot <- function(xlim, ylim, asp=NA) {
   plot.new()
-  plot.window(xlim=xlim,ylim=ylim,xaxs='i',yaxs='i', asp=asp)
+  plot.window(xlim=xlim, ylim=ylim, xaxs="i", yaxs="i", asp=asp)
 }
 
 #' Makes a new plot with pretty axes
@@ -12,11 +12,11 @@ new_plot <- function(xlim,ylim, asp=NA) {
 #' Makes a new plot with \code{\link{new_plot}} and a bounding box and axes using \code{\link{pretty_axes}}
 #' @inheritDotParams pretty_axes
 #' @export
-pretty_plot <- function(xlim,ylim, y2lim=NA,...) {
-  new_plot(xlim,ylim)
-  if(xlim[[2]]<xlim[[1]]) xlim=rev(xlim)
-  if(ylim[[2]]<ylim[[1]]) ylim=rev(ylim)
-  pretty_axes(xlim=xlim,ylim=ylim, y2lim=y2lim,...)
+pretty_plot <- function(xlim, ylim, y2lim=NA, ...) {
+  new_plot(xlim, ylim)
+  if (xlim[[2]] < xlim[[1]]) xlim <- rev(xlim)
+  if (ylim[[2]] < ylim[[1]]) ylim <- rev(ylim)
+  pretty_axes(xlim=xlim, ylim=ylim, y2lim=y2lim, ...)
 }
 
 
@@ -24,13 +24,13 @@ pretty_plot <- function(xlim,ylim, y2lim=NA,...) {
 #' @param range The axis range
 #' @param frac Allow fractional intervals?
 #' @export
-tick_interval <- function(range,frac=FALSE) {
-  if(length(range) != 1) stop("'range' must be of length 1")
+tick_interval <- function(range, frac=FALSE) {
+  if (length(range) != 1) stop("'range' must be of length 1")
   range <- abs(range)
-  nice=c(1,2,5,10)
-  ti=10^floor(log10(range)) * nice[[which(range <= 10^floor(log10(range)) * nice)[[1]]]]/10
-  if(!frac) {
-    ti=ceiling(ti)
+  nice <- c(1, 2, 5, 10)
+  ti <- 10^floor(log10(range)) * nice[[which(range <= 10^floor(log10(range)) * nice)[[1]]]] / 10
+  if (!frac) {
+    ti <- ceiling(ti)
   }
   ti
 }
@@ -41,34 +41,37 @@ tick_interval <- function(range,frac=FALSE) {
 #' @param frac Allow fractional intervals?
 #' @param flexible Allow min and max to be adjusted for prettier results?
 #' @export
-pretty_ticks <- function(min,max,frac=FALSE, div=1, flexible=TRUE, forcedInterval=NA) {
-  if(min == max || !is.finite(min) || !is.finite(max)) return()
+pretty_ticks <- function(min, max, frac=FALSE, div=1, flexible=TRUE, forcedInterval=NA) {
+  if (min == max || !is.finite(min) || !is.finite(max)) {
+    return()
+  }
 
-  if(min > max) {
+  if (min > max) {
     temp <- min
     min <- max
     max <- temp
   }
 
-  if(is.na(forcedInterval))
-    tickInterval<-tick_interval(max-min,frac=frac)/div
-  else
-    tickInterval<-forcedInterval/div
-
-
-  if(flexible) {
-    min = floor(min / tickInterval) * tickInterval
-    max = ceiling(max / tickInterval) * tickInterval
+  if (is.na(forcedInterval)) {
+    tickInterval <- tick_interval(max - min, frac=frac) / div
+  } else {
+    tickInterval <- forcedInterval / div
   }
 
-  seq(min,max,tickInterval)
+
+  if (flexible) {
+    min <- floor(min / tickInterval) * tickInterval
+    max <- ceiling(max / tickInterval) * tickInterval
+  }
+
+  seq(min, max, tickInterval)
 }
 
 
 expand_plot_args <- function(x) {
-  if(length(x)==1) x=c(x, x, x, x)
-  if(length(x)==2) x=c(x[[1]], x[[2]], x[[1]], x[[2]])
-  if(length(x)==3) x=c(x[[1]], x[[2]], x[[1]], x[[3]])
+  if (length(x) == 1) x <- c(x, x, x, x)
+  if (length(x) == 2) x <- c(x[[1]], x[[2]], x[[1]], x[[2]])
+  if (length(x) == 3) x <- c(x[[1]], x[[2]], x[[1]], x[[3]])
   x
 }
 
@@ -90,73 +93,76 @@ expand_plot_args <- function(x) {
 #' @param ... Additional parameters are passed to the underlying function calls
 #' @inheritParams pretty_ticks
 #' @export
-pretty_axes <- function(xlim=c(0,1), ylim=c(0,1), y2lim=NA, axes=c(1,2),
+pretty_axes <- function(xlim=c(0, 1), ylim=c(0, 1), y2lim=NA, axes=c(1, 2),
                         drawBox=TRUE, frac=FALSE, div=1, flexible=TRUE, xlab=NULL,
-                        ylab=NULL, y2lab=NULL,line = -0.6, labline=NULL,
-                        lowerTickLimit=c(NA,NA,NA), lowerLabelLimit=c(NA,NA,NA),
-                        upperTickLimit=c(NA,NA,NA), upperLabelLimit=c(NA,NA,NA),
-                        forcedInterval=NA, forcePrint=FALSE, ticklabels=c(T,T,T),
-                        cex=par('cex'), ticksOut=c(T,T,T), centreTitlesToLabels=c(F,F,F), ...) {
-  #Draw the bounding box
-  if(drawBox) box()
+                        ylab=NULL, y2lab=NULL, line=-0.6, labline=NULL,
+                        lowerTickLimit=c(NA, NA, NA), lowerLabelLimit=c(NA, NA, NA),
+                        upperTickLimit=c(NA, NA, NA), upperLabelLimit=c(NA, NA, NA),
+                        forcedInterval=NA, forcePrint=FALSE, ticklabels=c(T, T, T),
+                        cex=par("cex"), ticksOut=c(T, T, T), centreTitlesToLabels=c(F, F, F), ...) {
+  # Draw the bounding box
+  if (drawBox) box()
 
-  if(is.null(labline)) {
-    labline=c(1.7,1.3,1.6,1.6)
-    labline[!c(1,2,3,4)%in%axes]=labline[!c(1,2,3,4)%in%axes]-1.2
+  if (is.null(labline)) {
+    labline <- c(1.7, 1.3, 1.6, 1.6)
+    labline[!c(1, 2, 3, 4) %in% axes] <- labline[!c(1, 2, 3, 4) %in% axes] - 1.2
   }
 
-  div = expand_plot_args(div)
-  frac = expand_plot_args(frac)
-  forcedInterval = expand_plot_args(forcedInterval)
-  labline = expand_plot_args(labline)
-  line = expand_plot_args(line)
-  ticklabels = expand_plot_args(ticklabels)
-  ticksOut = expand_plot_args(ticksOut)
-  centreTitlesToLabels = expand_plot_args(centreTitlesToLabels)
-  lowerTickLimit = expand_plot_args(lowerTickLimit)
-  upperTickLimit = expand_plot_args(upperTickLimit)
-  lowerLabelLimit = expand_plot_args(lowerLabelLimit)
-  upperLabelLimit = expand_plot_args(upperLabelLimit)
-  cex = expand_plot_args(cex)
-  flexible = expand_plot_args(flexible)
-  forcePrint = expand_plot_args(forcePrint)
+  div <- expand_plot_args(div)
+  frac <- expand_plot_args(frac)
+  forcedInterval <- expand_plot_args(forcedInterval)
+  labline <- expand_plot_args(labline)
+  line <- expand_plot_args(line)
+  ticklabels <- expand_plot_args(ticklabels)
+  ticksOut <- expand_plot_args(ticksOut)
+  centreTitlesToLabels <- expand_plot_args(centreTitlesToLabels)
+  lowerTickLimit <- expand_plot_args(lowerTickLimit)
+  upperTickLimit <- expand_plot_args(upperTickLimit)
+  lowerLabelLimit <- expand_plot_args(lowerLabelLimit)
+  upperLabelLimit <- expand_plot_args(upperLabelLimit)
+  cex <- expand_plot_args(cex)
+  flexible <- expand_plot_args(flexible)
+  forcePrint <- expand_plot_args(forcePrint)
 
-  if(!is.null(y2lim) && !any(is.na(y2lim))) plot_options$y2scale <- rescale(ylim,y2lim)
+  if (!is.null(y2lim) && !any(is.na(y2lim))) plot_options$y2scale <- rescale(ylim, y2lim)
 
-  for(a in axes) {
-    scale = c(1,0)
-    if(a %in% c(1,3)) {
-      lim = xlim
-      lab = xlab
-      las=0
-    } else if(a == 2) {
-      lim = ylim
-      lab = ylab
-      las=1
-    } else if(a ==4) {
-      lim = y2lim
-      lab = y2lab
-      las=1
-      scale=plot_options$y2scale
+  for (a in axes) {
+    scale <- c(1, 0)
+    if (a %in% c(1, 3)) {
+      lim <- xlim
+      lab <- xlab
+      las <- 0
+    } else if (a == 2) {
+      lim <- ylim
+      lab <- ylab
+      las <- 1
+    } else if (a == 4) {
+      lim <- y2lim
+      lab <- y2lab
+      las <- 1
+      scale <- plot_options$y2scale
     } else {
-      stop('Unknown axis ', a)
+      stop("Unknown axis ", a)
     }
 
-    draw_axis(lim[[1]], lim[[2]], a, frac[[a]], div[[a]], flexible[[a]], scale=scale, las=las,
-              lab=lab, labline=labline[[a]], labcex=cex[[a]], centreTitlesToLabels=centreTitlesToLabels[[a]],
-              lowerTickLimit=lowerTickLimit[[a]], lowerLabelLimit=lowerLabelLimit[[a]],
-              upperTickLimit=upperTickLimit[[a]], upperLabelLimit=upperLabelLimit[[a]],
-              line=line[[a]], forcedInterval=forcedInterval[[a]], ticklabels=ticklabels[[a]],
-              ticksOut=ticksOut[[a]], forcePrint=forcePrint[[a]], ...)
+    draw_axis(lim[[1]], lim[[2]], a, frac[[a]], div[[a]], flexible[[a]],
+      scale=scale, las=las,
+      lab=lab, labline=labline[[a]], labcex=cex[[a]], centreTitlesToLabels=centreTitlesToLabels[[a]],
+      lowerTickLimit=lowerTickLimit[[a]], lowerLabelLimit=lowerLabelLimit[[a]],
+      upperTickLimit=upperTickLimit[[a]], upperLabelLimit=upperLabelLimit[[a]],
+      line=line[[a]], forcedInterval=forcedInterval[[a]], ticklabels=ticklabels[[a]],
+      ticksOut=ticksOut[[a]], forcePrint=forcePrint[[a]], ...
+    )
   }
 
   # Still draw the labels even if we're not drawing the axis
-  if(! 1 %in% axes && !is.null(xlab))
+  if (!1 %in% axes && !is.null(xlab)) {
     draw_axis_label(1, xlab, labline[[1]], cex[[1]], ...)
+  }
 
-  if(! 2 %in% axes && !is.null(ylab))
+  if (!2 %in% axes && !is.null(ylab)) {
     draw_axis_label(2, ylab, labline[[2]], cex[[2]], ...)
-
+  }
 }
 
 #' Calculate a scale factor to transform between vectors
@@ -164,16 +170,16 @@ pretty_axes <- function(xlim=c(0,1), ylim=c(0,1), y2lim=NA, axes=c(1,2),
 #' @param y1,y2 Numeric vectors
 #' @return c(scale,offset) to transform y2 into the same range as y1
 #' @export
-rescale <- function(y1,y2) {
-  ylim=range(y1)
-  y2lim=range(y2)
-  scale=(ylim[[2]]-ylim[[1]])/(y2lim[[2]]-y2lim[[1]])
-  offset=ylim[[1]]-y2lim[[1]]*scale
-  return(c(scale=scale,offset=offset))
+rescale <- function(y1, y2) {
+  ylim <- range(y1)
+  y2lim <- range(y2)
+  scale <- (ylim[[2]] - ylim[[1]]) / (y2lim[[2]] - y2lim[[1]])
+  offset <- ylim[[1]] - y2lim[[1]] * scale
+  return(c(scale=scale, offset=offset))
 }
 
-#Prepare environment to store scale settings for y2 axis
-plot_options=new.env()
+# Prepare environment to store scale settings for y2 axis
+plot_options <- new.env()
 
 #' Rescales values onto the y2 axis
 #'
