@@ -7,28 +7,30 @@
 #' @param label The label text
 #' @param ... Additional parameters passed to \code{\link{text}}
 #' @export
-add_plot_label <- function(label, xoffset=0.05,yoffset=0.05,align='left',inside=TRUE,...) {
-  xin=grconvertX(xoffset, from = "inches", to = "ndc")
-  yin=grconvertY(yoffset, from = "inches", to = "ndc")
+add_plot_label <- function(label, xoffset=0.05, yoffset=0.05, align="left", inside=TRUE, ...) {
+  xin <- grconvertX(xoffset, from="inches", to="ndc")
+  yin <- grconvertY(yoffset, from="inches", to="ndc")
 
-  if(length(inside)==1) inside=c(inside,inside)
+  if (length(inside) == 1) inside <- c(inside, inside)
 
-  if(inside[[1]]) xcord='npc' else xcord='nfc'
-  if(inside[[2]]) ycord='npc' else ycord='nfc'
+  if (inside[[1]]) xcord <- "npc" else xcord <- "nfc"
+  if (inside[[2]]) ycord <- "npc" else ycord <- "nfc"
 
-  plt_ndc=c(grconvertX(0,from=xcord,to='ndc'),
-            grconvertX(1,from=xcord,to='ndc'),
-            grconvertY(0,from=ycord,to='ndc'),
-            grconvertY(1,from=ycord,to='ndc'))
+  plt_ndc <- c(
+    grconvertX(0, from=xcord, to="ndc"),
+    grconvertX(1, from=xcord, to="ndc"),
+    grconvertY(0, from=ycord, to="ndc"),
+    grconvertY(1, from=ycord, to="ndc")
+  )
 
-  ypos=grconvertY(plt_ndc[[4]]-yin, from = "ndc", to = "user")
-  if(align=='left') {
-    xpos=grconvertX(plt_ndc[[1]]+xin, from = "ndc", to = "user")
-    text(xpos,ypos,label,xpd=NA,adj=c(0,1),...)
-  } else if(align=='right') {
-    xpos=grconvertX(plt_ndc[[2]]-xin, from = "ndc", to = "user")
-    text(xpos,ypos,label,xpd=NA,adj=c(1,1),...)
+  ypos <- grconvertY(plt_ndc[[4]] - yin, from="ndc", to="user")
+  if (align == "left") {
+    xpos <- grconvertX(plt_ndc[[1]] + xin, from="ndc", to="user")
+    text(xpos, ypos, label, xpd=NA, adj=c(0, 1), ...)
+  } else if (align == "right") {
+    xpos <- grconvertX(plt_ndc[[2]] - xin, from="ndc", to="user")
+    text(xpos, ypos, label, xpd=NA, adj=c(1, 1), ...)
   } else {
-    stop('Align must be one of left / right')
+    stop("Align must be one of left / right")
   }
 }
