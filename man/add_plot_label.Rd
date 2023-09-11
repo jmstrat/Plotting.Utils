@@ -4,8 +4,14 @@
 \alias{add_plot_label}
 \title{Add a label to a plot}
 \usage{
-add_plot_label(label, xoffset = 0.05, yoffset = 0.05, align = "left",
-  inside = TRUE, ...)
+add_plot_label(
+  label,
+  xoffset = 0.05,
+  yoffset = 0.05,
+  align = "left",
+  inside = TRUE,
+  ...
+)
 }
 \arguments{
 \item{label}{The label text}

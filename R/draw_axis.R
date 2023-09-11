@@ -9,6 +9,7 @@ draw_axis <- function(min, max,
                       upperTickLimit=NA, upperLabelLimit=NA,
                       forcedInterval=NA,
                       forcePrint=FALSE,
+                      tcl=0.4,
                       ticklabels=T, ticksOut=T, ...) {
   # Add some axes
   ticksat <- pretty_ticks(min, max, frac, div=1, flexible, forcedInterval)
@@ -28,12 +29,13 @@ draw_axis <- function(min, max,
     Minorticksat <- Minorticksat[Minorticksat >= lowerTickLimit]
   }
 
+  tcl <- abs(tcl)
   tclMult <- if (ticksOut) -1 else 1
 
   # Add minor ticks
-  axis(side=axisSide, tcl=tclMult * .2, at=Minorticksat * scale[[1]] + scale[[2]], labels=NA, ...)
+  axis(side=axisSide, tcl=tclMult * tcl / 2, at=Minorticksat * scale[[1]] + scale[[2]], labels=NA, ...)
   # Add major ticks
-  axis(side=axisSide, tcl=tclMult * .4, at=ticksat * scale[[1]] + scale[[2]], labels=NA, ...)
+  axis(side=axisSide, tcl=tclMult * tcl, at=ticksat * scale[[1]] + scale[[2]], labels=NA, ...)
 
   if (!is.na(upperLabelLimit)) {
     ticksat <- ticksat[ticksat <= upperLabelLimit]
@@ -50,10 +52,10 @@ draw_axis <- function(min, max,
   if (forcePrint) {
     ta1 <- ticksat[c(T, F)]
     ta2 <- ticksat[c(F, T)]
-    axis(side=axisSide, lwd=0, tcl=-0.5, line=line, at=ta1 * scale[[1]] + scale[[2]], labels=ta1, las=las, ...)
-    axis(side=axisSide, lwd=0, tcl=-0.5, line=line, at=ta2 * scale[[1]] + scale[[2]], labels=ta2, las=las, ...)
+    axis(side=axisSide, lwd=0, tcl=tclMult * tcl, line=line, at=ta1 * scale[[1]] + scale[[2]], labels=ta1, las=las, ...)
+    axis(side=axisSide, lwd=0, tcl=tclMult * tcl, line=line, at=ta2 * scale[[1]] + scale[[2]], labels=ta2, las=las, ...)
   } else {
-    axis(side=axisSide, lwd=0, tcl=-0.5, line=line, at=ticksat * scale[[1]] + scale[[2]], labels=ticksat, las=las, ...)
+    axis(side=axisSide, lwd=0, tcl=tclMult * tcl, line=line, at=ticksat * scale[[1]] + scale[[2]], labels=ticksat, las=las, ...)
   }
 
   if (!is.null(lab)) {

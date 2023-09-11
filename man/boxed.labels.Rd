@@ -4,10 +4,21 @@
 \alias{boxed.labels}
 \title{Place labels in boxes}
 \usage{
-boxed.labels(x, y = NA, labels, border = TRUE, xpad = 1.2,
-  ypad = 1.2, bg = ifelse(match(par("bg"), "transparent", 0), "white",
-  par("bg")), srt = 0, cex = 1, adj = 0.5, xlog = FALSE,
-  ylog = FALSE, ...)
+boxed.labels(
+  x,
+  y = NA,
+  labels,
+  border = TRUE,
+  xpad = 1.2,
+  ypad = 1.2,
+  bg = ifelse(match(par("bg"), "transparent", 0), "white", par("bg")),
+  srt = 0,
+  cex = 1,
+  adj = 0.5,
+  xlog = FALSE,
+  ylog = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x, y}{x and y position of the centers of the labels. x can be an \code{\link{xy.coords}} list.}

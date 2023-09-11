@@ -4,9 +4,18 @@
 \alias{color.scale.jms}
 \title{Colour Data}
 \usage{
-color.scale.jms(x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1),
-  alpha = 1, extremes = NA, na.color = NA, xrange = NULL,
-  color.spec = "rgb", unsafe = FALSE)
+color.scale.jms(
+  x,
+  cs1 = c(0, 1),
+  cs2 = c(0, 1),
+  cs3 = c(0, 1),
+  alpha = 1,
+  extremes = NA,
+  na.color = NA,
+  xrange = NULL,
+  color.spec = "rgb",
+  unsafe = FALSE
+)
 }
 \arguments{
 \item{x}{A numeric vector, matrix or data frame}

@@ -7,29 +7,24 @@
 pretty_plot(xlim, ylim, y2lim = NA, ...)
 }
 \arguments{
-\item{...}{Arguments passed on to \code{pretty_axes}
-\describe{
-  \item{xlim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
-  \item{ylim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
-  \item{y2lim}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
-  \item{xlab}{Titles for the x,y,y2 axes}
-  \item{ylab}{Titles for the x,y,y2 axes}
-  \item{y2lab}{Titles for the x,y,y2 axes}
-  \item{axes}{Which axes to draw c(1,2,3,4) -- 1 & 3 == x; 2=y; 4=y2}
-  \item{div}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y,y2)}
-  \item{labline}{Which margin line to draw the labels on c(x,x2,y,y2)}
-  \item{lowerTickLimit}{Limits beyond which not to draw ticks}
-  \item{upperTickLimit}{Limits beyond which not to draw ticks}
-  \item{lowerLabelLimit}{Limits beyond which not to draw labels}
-  \item{upperLabelLimit}{Limits beyond which not to draw labels}
-  \item{forcedInterval}{Override the calculated tick interval}
-  \item{forcePrint}{Attempt to print all labels even if they are closely spaced}
-  \item{ticklabels}{Print labels?}
-  \item{ticksOut}{Ticks point outwards?}
-  \item{centreTitlesToLabels}{Centre the axis title relative to the labels rather than the axis?}
-  \item{frac}{Allow fractional intervals?}
-  \item{flexible}{Allow min and max to be adjusted for prettier results?}
-}}
+\item{...}{
+  Arguments passed on to \code{\link[=pretty_axes]{pretty_axes}}
+  \describe{
+    \item{\code{xlim,ylim,y2lim}}{Numeric vectors of length 2, giving the x, y (and y2) coordinate ranges.}
+    \item{\code{xlab,ylab,y2lab}}{Titles for the x,y,y2 axes}
+    \item{\code{axes}}{Which axes to draw c(1,2,3,4) -- 1 & 3 == x; 2=y; 4=y2}
+    \item{\code{div}}{Factor by which the minor tick interval is smaller than the major tick interval c(x,y,y2)}
+    \item{\code{labline}}{Which margin line to draw the labels on c(x,x2,y,y2)}
+    \item{\code{lowerTickLimit,upperTickLimit}}{Limits beyond which not to draw ticks}
+    \item{\code{lowerLabelLimit,upperLabelLimit}}{Limits beyond which not to draw labels}
+    \item{\code{forcedInterval}}{Override the calculated tick interval}
+    \item{\code{forcePrint}}{Attempt to print all labels even if they are closely spaced}
+    \item{\code{ticklabels}}{Print labels?}
+    \item{\code{ticksOut}}{Ticks point outwards?}
+    \item{\code{centreTitlesToLabels}}{Centre the axis title relative to the labels rather than the axis?}
+    \item{\code{frac}}{Allow fractional intervals?}
+    \item{\code{flexible}}{Allow min and max to be adjusted for prettier results?}
+  }}
 }
 \description{
 Makes a new plot with \code{\link{new_plot}} and a bounding box and axes using \code{\link{pretty_axes}}

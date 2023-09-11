@@ -8,8 +8,7 @@
 \alias{layout.all}
 \title{Specifying Complex Plot Arrangements for Interactive Plots}
 \usage{
-ilayout(mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1,
-  nrow(mat)))
+ilayout(mat, widths = rep.int(1, ncol(mat)), heights = rep.int(1, nrow(mat)))
 
 ilayout.addPlot(graph)
 

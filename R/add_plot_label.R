@@ -33,4 +33,5 @@ add_plot_label <- function(label, xoffset=0.05, yoffset=0.05, align="left", insi
   } else {
     stop("Align must be one of left / right")
   }
+  return(invisible(list(x=xpos, y=ypos)))
 }

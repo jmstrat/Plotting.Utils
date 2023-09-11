@@ -4,8 +4,14 @@
 \alias{axis.break.slash}
 \title{Put a box around a plot, leaving gaps for axis breaks on the x and / or y axes}
 \usage{
-axis.break.slash(axis = 1, breakpos, brw = 0.02, brwx = NA,
-  brwy = NA)
+axis.break.slash(
+  axis = 1,
+  breakpos,
+  brw = 0.02,
+  brwx = NA,
+  brwy = NA,
+  xpd = TRUE
+)
 }
 \arguments{
 \item{axis}{Either a number (1-4) or a vector of numbers c(1,2,...) choosing the axes to break}

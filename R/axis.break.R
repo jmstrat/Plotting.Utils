@@ -102,7 +102,7 @@ axis.break.box <- function(axis=1, breakpos, brw=0.02) {
 #' @param brwy As brw, but specifically in the y direction (do not specify both brw and brwx/y)
 #' @export
 #' @seealso \code{\link{axis.break.box}}
-axis.break.slash <- function(axis=1, breakpos, brw=0.02, brwx=NA, brwy=NA) {
+axis.break.slash <- function(axis=1, breakpos, brw=0.02, brwx=NA, brwy=NA, xpd=TRUE) {
   if (all(is.na(c(brwx, brwy)))) brwx <- brwy <- brw
   if (length(axis) > 1 || length(breakpos) > 1) {
     args <- expand_args(axis=axis, breakpos=breakpos, brwx=brwx, brwy=brwy)
@@ -151,7 +151,7 @@ axis.break.slash <- function(axis=1, breakpos, brw=0.02, brwx=NA, brwy=NA) {
     stop("Improper axis specification.")
   )
   old.xpd <- par("xpd")
-  par(xpd=TRUE)
+  par(xpd=xpd)
   if (xaxl) {
     br[c(1, 3)] <- 10^br[c(1, 3)]
   }
@@ -182,5 +182,5 @@ axis.break.slash <- function(axis=1, breakpos, brw=0.02, brwx=NA, brwy=NA) {
     }
   }
   segments(xbegin, ybegin, xend, yend, col="black", lty=1)
-  par(xpd=FALSE)
+  par(xpd=old.xpd)
 }
