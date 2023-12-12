@@ -100,9 +100,9 @@ pretty_axes <- function(xlim=c(0, 1), ylim=c(0, 1), y2lim=NA, axes=c(1, 2),
                         upperTickLimit=c(NA, NA, NA), upperLabelLimit=c(NA, NA, NA),
                         forcedInterval=NA, forcePrint=FALSE, ticklabels=c(T, T, T),
                         cex=par("cex"), ticksOut=c(T, T, T), tcl=0.4,
-                        centreTitlesToLabels=c(F, F, F), ...) {
+                        centreTitlesToLabels=c(F, F, F), lwd=par('lwd'), ...) {
   # Draw the bounding box
-  if (drawBox) box()
+  if (drawBox) box(lwd=lwd)
 
   if (is.null(labline)) {
     labline <- c(1.7, 1.3, 1.6, 1.6)
@@ -152,7 +152,7 @@ pretty_axes <- function(xlim=c(0, 1), ylim=c(0, 1), y2lim=NA, axes=c(1, 2),
       lowerTickLimit=lowerTickLimit[[a]], lowerLabelLimit=lowerLabelLimit[[a]],
       upperTickLimit=upperTickLimit[[a]], upperLabelLimit=upperLabelLimit[[a]],
       line=line[[a]], forcedInterval=forcedInterval[[a]], ticklabels=ticklabels[[a]],
-      tcl=tcl, ticksOut=ticksOut[[a]], forcePrint=forcePrint[[a]], ...
+      tcl=tcl, ticksOut=ticksOut[[a]], forcePrint=forcePrint[[a]], lwd=lwd, ...
     )
   }
 

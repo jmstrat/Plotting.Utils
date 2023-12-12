@@ -10,7 +10,7 @@ draw_axis <- function(min, max,
                       forcedInterval=NA,
                       forcePrint=FALSE,
                       tcl=0.4,
-                      ticklabels=T, ticksOut=T, ...) {
+                      ticklabels=T, ticksOut=T, lwd=par('lwd'), ...) {
   # Add some axes
   ticksat <- pretty_ticks(min, max, frac, div=1, flexible, forcedInterval)
   if (is.null(ticksat)) {
@@ -33,9 +33,9 @@ draw_axis <- function(min, max,
   tclMult <- if (ticksOut) -1 else 1
 
   # Add minor ticks
-  axis(side=axisSide, tcl=tclMult * tcl / 2, at=Minorticksat * scale[[1]] + scale[[2]], labels=NA, ...)
+  axis(side=axisSide, tcl=tclMult * tcl / 2, at=Minorticksat * scale[[1]] + scale[[2]], labels=NA, lwd=lwd, ...)
   # Add major ticks
-  axis(side=axisSide, tcl=tclMult * tcl, at=ticksat * scale[[1]] + scale[[2]], labels=NA, ...)
+  axis(side=axisSide, tcl=tclMult * tcl, at=ticksat * scale[[1]] + scale[[2]], labels=NA, lwd=lwd, ...)
 
   if (!is.na(upperLabelLimit)) {
     ticksat <- ticksat[ticksat <= upperLabelLimit]
