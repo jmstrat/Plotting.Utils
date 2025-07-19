@@ -2,9 +2,9 @@
 #'
 #' @param xlim,ylim Numeric vectors of length 2, giving the x and y coordinates ranges.
 #' @export
-new_plot <- function(xlim, ylim, asp=NA) {
+new_plot <- function(xlim, ylim, asp=NA, log="") {
   plot.new()
-  plot.window(xlim=xlim, ylim=ylim, xaxs="i", yaxs="i", asp=asp)
+  plot.window(xlim=xlim, ylim=ylim, xaxs="i", yaxs="i", asp=asp, log=log)
 }
 
 #' Makes a new plot with pretty axes
@@ -12,8 +12,8 @@ new_plot <- function(xlim, ylim, asp=NA) {
 #' Makes a new plot with \code{\link{new_plot}} and a bounding box and axes using \code{\link{pretty_axes}}
 #' @inheritDotParams pretty_axes
 #' @export
-pretty_plot <- function(xlim, ylim, y2lim=NA, ...) {
-  new_plot(xlim, ylim)
+pretty_plot <- function(xlim, ylim, y2lim=NA, log="", ...) {
+  new_plot(xlim, ylim, log=log)
   if (xlim[[2]] < xlim[[1]]) xlim <- rev(xlim)
   if (ylim[[2]] < ylim[[1]]) ylim <- rev(ylim)
   pretty_axes(xlim=xlim, ylim=ylim, y2lim=y2lim, ...)
